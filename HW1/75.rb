@@ -1,5 +1,5 @@
 p "Дан целочисленный массив. Найти среднее арифметическое модулей его элементов."
-p "arr.map{|v| v.abs }.reduce(&:+) / arr.size"
+p "arr.map { |v| v.abs }.reduce(&:+) / arr.size"
 
 arr = [22, 44, 55, 66, -6, 5, 7, -2, 1, 8, -1, -100]
-p arr.map{|v| v.abs }.reduce(&:+) / arr.size
+p arr.map { |v| v.abs }.reduce(&:+) / arr.size

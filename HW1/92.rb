@@ -1,4 +1,4 @@
 p "Дан целочисленный массив и число К. Если существует элемент, больший К, то вывести true; в противном случае вывести false."
-p "arr.any?{|value| value > 3}"
+p "arr.any? { |value| value > 3 }"
 arr = [22, 44, 55, 66 , 6, 5, 7 ,2 , 1, 8]
-p arr.any?{|value| value > 3}
+p arr.any? { |value| value > 3 }

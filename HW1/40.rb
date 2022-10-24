@@ -1,5 +1,5 @@
 p "Дан целочисленный массив. Найти количество максимальных элементов."
-p "arr.select {|v| v == arr.max }.size"
+p "arr.select { |v| v == arr.max }.size"
 
 arr = [22, 44, 55, -100, 55, -6, 5, 7, -2, 1, 55, 8, -1, 44, -100, 55]
-p arr.select {|v| v == arr.max }.size
+p arr.select { |v| v == arr.max }.size

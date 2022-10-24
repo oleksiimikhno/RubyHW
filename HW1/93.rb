@@ -1,7 +1,7 @@
 p "Дан целочисленный массив и число К. Если все элементы массива меньше К, то вывести true; в противном случае вывести false."
-p "arr.all? {|value| value < k}"
+p "arr.all? { |value| value < k }"
 
 arr = [22, 44, 55, 66 , 6, 5, 7 ,2 , 1, 8, -1, -100]
 k = 100
 
-p arr.all? {|value| value < k}
+p arr.all? { |value| value < k }
