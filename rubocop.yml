@@ -3733,7 +3733,7 @@ Style/FormatStringToken:
   VersionAdded: '0.49'
   VersionChanged: '1.0'
   AllowedMethods: []
-  AllowedPatterns: []
+  AllowedPatterns: []3
   IgnoredMethods: [] # deprecated
 
 Style/FrozenStringLiteralComment:
