@@ -14,4 +14,3 @@ p arr.map { |v| v.to_f / 10 }
 p arr.map.with_index { |v, i| arr[i] <= ('a'..'z').to_a.size  ? ('a'..'z').to_a[i - 1] : nil }.compact
 p arr.map { |v| v == arr.max || v == arr.min ? [v == arr.min ? arr.max : arr.min] : v }.flatten
 p arr.take_while { |v| v > arr.min}
-p arr.sort.take(3)
