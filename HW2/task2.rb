@@ -1,26 +1,37 @@
-
 # Create new creation in Tamagotchi game
 class Pet
   def initialize(name = 'Unknown creation')
     @start = false
 
     @name = name
+    @sleep = false
     @health = health(rand(1..6))
-    puts "#{@name} burn."
 
-
-    
+    puts "#{@name} born."
 
     start_game
   end
 
   def start_game
     @start = true
-    @custom_methods = self.class.instance_methods(false)
+    custom_methods = self.class.instance_methods(false)
+    @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
 
-    @game_methods = @start ? @custom_methods.join(' ').split(' ').reject { |v| v == "start_game" } : @custom_methods
+    age
 
     action_message
+  end
+
+  def info
+    puts "
+    ________#{@name}________
+    HP: #{@health}
+    age: #{@age}
+    mood:
+    hunger:
+    sleep:
+    poopy:
+    "
   end
 
   def walk
@@ -29,25 +40,9 @@ class Pet
   end
 
   def sleep
+    @sleep = true
     puts "#{@name} sleep now..."
     time_pass
-  end
-
-  def info
-    puts "
-    ________#{@name}________
-    HP: #{@health}
-    age creation: #{@age}
-    ☻☹㋡
-    "
-  end
-
-  def minus
-    health(@health.size - 1)
-  end
-
-  def add
-    health(@health.size + 1)
   end
 
   private
@@ -58,23 +53,36 @@ class Pet
     # health(@health - 1)
     # puts @health
 
-    if dead?
-      puts 'Your creation is dead'
-    end
-    # puts info
+    return unless dead?
+
+    puts 'Your creation is dead'
+    exit
   end
 
   def health(value)
-    p value
+    @health_array = value.times
+
     @health = value.times.map { '♥' }.join(' ')
+  end
+
+  def health_damaged
+    puts 'Your pet was damaged, something is wrong?'
+    health(@health_array.size - 1)
   end
 
   def age(value = 0)
     @age = value
+    # half_age 0
+    # p half_age
+    # if half_age == 4
+    #   @age += 1
+    # end
+
+    @age
   end
 
   def dead?
-    @health.split(' ').to_a.size <= 0
+    @health_array.size <= 0
   end
 
   # User action
@@ -93,20 +101,24 @@ class Pet
 
     action_message
   end
-  
+
   def action_reducer(action)
-    case true
+    action = action.to_sym
+
+    case action
     when action_helper(action)
-      eval("self.#{action}")
+      self.send(action)
     else
-      puts "▼ Unknown command #{action.upcase}, please select current! ▼"
+      puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
+
     action_message
   end
 
   def action_helper(action)
-    @game_methods.join(' ').split(' ').include? action.downcase
+    @game_methods.detect { |i| i == action }
   end
 end
 
 pet = Pet.new
+pet.info
