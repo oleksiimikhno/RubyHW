@@ -1,12 +1,8 @@
 # Create new creation in Tamagotchi game
 class Pet
-  def initialize(name = 'Unknown creation')
+  def initialize(name = false)
     @start = false
-
-    @name = name
-    pet_veriables
-
-    puts "#{@name} born."
+    pet_veriables(name)
 
     start_game
   end
@@ -27,7 +23,7 @@ class Pet
     age: #{@age}
     mood:
     hunger:
-    sleep: #{sleep}
+    sleep: #{tired}
     poopy:
     "
   end
@@ -37,10 +33,11 @@ class Pet
     time_pass
   end
 
-  def to_bad
+  def to_bed
+    @sleep_need = false
+    @sleep_value = @sleep_value.positive?() ? @sleep_value - 4 : @sleep_value
     puts "#{@name} sleep now..."
     skip(3)
-    @sleep = false
   end
 
   def skip(value = 1)
@@ -52,40 +49,49 @@ class Pet
 
   private
 
-  def pet_veriables
-    @age = 0
-    @sleep = false
-    @health = health(rand(1..6))
-
+  def pet_veriables(name)
+    array_name = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
+    @name = name ? name : array_name.sample()
     @time = 0
+    @age = 0
+    @health = health(rand(1..6))
+    @sleep_value = 0
+
+    puts "#{@name} born."
   end
 
   # Pet methods
   def time_pass
     game_timer
-    # puts age(@age += 1)
+    # puts age(@age += 1)2
     # health(@health - 1)
     # puts @health
 
-    if @time >= 2 && @time <= 4
-      @sleep = true
-      sleep
-    end
 
-    return unless dead?
 
-    puts 'Your creation is dead'
+    if @sleep_need
+      tired
+    end 
+
+    return unless game_end?
+    # if @name == 'Monster'
+    #   puts "#{@name} eat you #{array_exit.sample}."
+    #   exit
+    # end
+
+    array_exit = ['dead', 'sleep forever', 'run away', 'return to Skytown']
+
+    puts "Your creation is #{array_exit.sample}."
     exit
   end
 
   def game_timer(value = 1)
     @time = @time < 12 ? @time += value : 0
-
     @age = @time == 12 ? @age += value : @age
-  end
 
-  def sleep?
-    @sleep ? 'sleepy' : 'no need sleep'
+    if @time == 10
+      @sleep_need = true
+    end
   end
 
   def health(value)
@@ -99,11 +105,13 @@ class Pet
     health(@health_array.size - 1)
   end
 
-  # def tired?
-    
-  # end
+  def tired
+    @sleep_value += 1
+    @sleep_value >= 6 ? health_damaged : (puts "#{@name} need some sleep")
+    @sleep_info ? 'sleepy' : 'no need sleep'
+  end
 
-  def dead?
+  def game_end?
     @health_array.size <= 0
   end
 
@@ -142,5 +150,5 @@ class Pet
   end
 end
 
-pet = Pet.new
+pet = Pet.new('Creation')
 pet.info
