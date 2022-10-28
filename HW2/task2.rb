@@ -8,7 +8,7 @@ class Pet
     @sleep = false
     @health = health(rand(1..6))
 
-    @summertime = 0
+    @time = 0
 
     puts "#{@name} born."
 
@@ -20,19 +20,18 @@ class Pet
     custom_methods = self.class.instance_methods(false)
     @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
 
-    age_increase
-
     action_message
   end
 
   def info
     puts "
     ________#{@name}________
+    time: #{@time}
     HP: #{@health}
     age: #{@age}
     mood:
     hunger:
-    sleep:
+    sleep: #{sleep}
     poopy:
     "
   end
@@ -42,25 +41,48 @@ class Pet
     time_pass
   end
 
-  def sleep
-    @sleep = true
+  def to_bad
+    @sleep = false
     puts "#{@name} sleep now..."
-    time_pass
+    skip(3)
+  end
+
+  def skip(value = 1)
+    puts 'You passed some time...'
+    value.times do
+      time_pass
+    end
   end
 
   private
 
   # Pet methods
   def time_pass
-    age_increase
+    game_timer
     # puts age(@age += 1)
     # health(@health - 1)
     # puts @health
+
+    if @time >= 2 && @time <= 4
+      # @sleep = true
+      sleep
+      puts 'Pet tired'
+    end
 
     return unless dead?
 
     puts 'Your creation is dead'
     exit
+  end
+
+  def game_timer(value = 1)
+    @time = @time < 12 ? @time += value : 0
+
+    @age = @time == 12 ? @age += value : @age
+  end
+
+  def sleep
+    @sleep ? 'sleepy' : 'no need sleep'
   end
 
   def health(value)
@@ -74,17 +96,15 @@ class Pet
     health(@health_array.size - 1)
   end
 
-  def age_increase(value = 1)
-    @summertime = @summertime < 4 ? @summertime += value : 0
-
-    @age = @summertime == 4 ? @age += value : @age
+  def tired?
+    
   end
 
   def dead?
     @health_array.size <= 0
   end
 
-  # User action
+  # Handler user action
   def action_message
     title = "\n--------- Please select method name to interact with #{@name}! ---------"
     subtitle = '________________________________________________________________________________'
@@ -92,10 +112,10 @@ class Pet
     puts "#{title}\n#{@game_methods.join("\n")}\n#{subtitle}
     "
 
-    user_action(gets.chomp)
+    action_user(gets.chomp)
   end
 
-  def user_action(action)
+  def action_user(action)
     !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
 
     action_message
