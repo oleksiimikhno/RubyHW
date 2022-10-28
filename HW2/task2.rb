@@ -19,8 +19,9 @@ class Pet
     puts "
     ________#{@name}________
     timelife: #{@time}
-    HP: #{@health}
     age: #{@age}
+    HP: #{@health}
+    feeling: 
     mood:
     hunger:
     sleep: #{tired}
@@ -29,7 +30,9 @@ class Pet
   end
 
   def walk
-    puts 'You and your pets walk outside'
+    
+
+    puts "You and #{@name} walk outside"
     time_pass
   end
 
@@ -37,10 +40,10 @@ class Pet
     @sleep_need = false
     @sleep_value = @sleep_value.positive?() ? @sleep_value - 4 : @sleep_value
     puts "#{@name} sleep now..."
-    skip(3)
+    skip_time(3)
   end
 
-  def skip(value = 1)
+  def skip_time(value = 1)
     value.times do
       puts 'You passed some time...'
       time_pass
@@ -50,8 +53,8 @@ class Pet
   private
 
   def pet_veriables(name)
-    array_name = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
-    @name = name ? name : array_name.sample()
+    rand_name = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
+    @name = name ? name : rand_name.sample()
     @time = 0
     @age = 0
     @health = health(rand(1..6))
@@ -79,15 +82,15 @@ class Pet
     #   exit
     # end
 
-    array_exit = ['dead', 'sleep forever', 'run away', 'return to Skytown']
+    rand_exit = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
-    puts "Your creation is #{array_exit.sample}."
+    puts "Your creation is #{rand_exit.sample}."
     exit
   end
 
   def game_timer(value = 1)
-    @time = @time < 12 ? @time += value : 0
-    @age = @time == 12 ? @age += value : @age
+    @time = @time < 12 ? inc_value(@time, value) : 0
+    @age = @time == 12 ? inc_value(@age, value) : @age
 
     if @time == 10
       @sleep_need = true
@@ -102,17 +105,30 @@ class Pet
 
   def health_damaged
     puts 'Your pet was damaged, something is wrong?'
-    health(@health_array.size - 1)
+    health(dec_value(@health_array.size))
   end
 
   def tired
-    @sleep_value += 1
+    @sleep_value = inc_value(@sleep_value)
+
     @sleep_value >= 6 ? health_damaged : (puts "#{@name} need some sleep")
     @sleep_info ? 'sleepy' : 'no need sleep'
   end
 
+  def feeling 
+
+  end
+
   def game_end?
     @health_array.size <= 0
+  end
+
+  def inc_value(value_name, num = 1)
+    value_name += num
+  end
+
+  def dec_value(value_name, num = 1)
+    value_name -= num
   end
 
   # Handler user action
