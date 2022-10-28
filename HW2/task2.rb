@@ -4,11 +4,7 @@ class Pet
     @start = false
 
     @name = name
-    @age = 0
-    @sleep = false
-    @health = health(rand(1..6))
-
-    @time = 0
+    pet_veriables
 
     puts "#{@name} born."
 
@@ -26,7 +22,7 @@ class Pet
   def info
     puts "
     ________#{@name}________
-    time: #{@time}
+    timelife: #{@time}
     HP: #{@health}
     age: #{@age}
     mood:
@@ -42,19 +38,27 @@ class Pet
   end
 
   def to_bad
-    @sleep = false
     puts "#{@name} sleep now..."
     skip(3)
+    @sleep = false
   end
 
   def skip(value = 1)
-    puts 'You passed some time...'
     value.times do
+      puts 'You passed some time...'
       time_pass
     end
   end
 
   private
+
+  def pet_veriables
+    @age = 0
+    @sleep = false
+    @health = health(rand(1..6))
+
+    @time = 0
+  end
 
   # Pet methods
   def time_pass
@@ -64,9 +68,8 @@ class Pet
     # puts @health
 
     if @time >= 2 && @time <= 4
-      # @sleep = true
+      @sleep = true
       sleep
-      puts 'Pet tired'
     end
 
     return unless dead?
@@ -81,7 +84,7 @@ class Pet
     @age = @time == 12 ? @age += value : @age
   end
 
-  def sleep
+  def sleep?
     @sleep ? 'sleepy' : 'no need sleep'
   end
 
@@ -96,9 +99,9 @@ class Pet
     health(@health_array.size - 1)
   end
 
-  def tired?
+  # def tired?
     
-  end
+  # end
 
   def dead?
     @health_array.size <= 0
