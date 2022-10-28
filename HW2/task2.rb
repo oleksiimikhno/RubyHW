@@ -4,8 +4,11 @@ class Pet
     @start = false
 
     @name = name
+    @age = 0
     @sleep = false
     @health = health(rand(1..6))
+
+    @summertime = 0
 
     puts "#{@name} born."
 
@@ -17,7 +20,7 @@ class Pet
     custom_methods = self.class.instance_methods(false)
     @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
 
-    age
+    age_increase
 
     action_message
   end
@@ -49,6 +52,7 @@ class Pet
 
   # Pet methods
   def time_pass
+    age_increase
     # puts age(@age += 1)
     # health(@health - 1)
     # puts @health
@@ -70,15 +74,10 @@ class Pet
     health(@health_array.size - 1)
   end
 
-  def age(value = 0)
-    @age = value
-    # half_age 0
-    # p half_age
-    # if half_age == 4
-    #   @age += 1
-    # end
+  def age_increase(value = 1)
+    @summertime = @summertime < 4 ? @summertime += value : 0
 
-    @age
+    @age = @summertime == 4 ? @age += value : @age
   end
 
   def dead?
