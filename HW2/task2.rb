@@ -23,7 +23,7 @@ class Pet
     HP: #{@health}
     feeling: #{@feeling_info}
     mood: #{@mood_info}
-    hunger: #{@hungry_value}
+    hungry: #{@hungry_info}
     sleep: #{@sleep_info}
     poopy:
     "
@@ -31,22 +31,23 @@ class Pet
 
   def walk
     events = ['sunny', 'rainy', 'cloudy', 'coldy']
-
     event = events.sample()
-
-    puts "You and #{@name} walk. Today #{event} in outside."
 
     case event
     when 'rainy' || 'coldy'
       @sick = [true, false].sample
       @feeling_value = dec_value(@feeling_value, 2)
+      if @sick
+        puts 'Pet feeling not good'
+      end
     when 'sunny'
       puts "#{@name} happyes todays."
       @feeling_value = inc_value(@feeling_value, 2)
     else
       puts 'Nothing happened, you returns to home.'
     end
-    
+
+    puts "You and #{@name} walk. Today #{event} in outside."
     game_time_pass
   end
 
@@ -67,13 +68,31 @@ class Pet
     @sleep_need = false
   end
 
+  def feed
+    @hungry_value = inc_value(@hungry_value, 2)
+    puts 'feeding...'
+    game_time_pass
+  end
+
   def cure
     if @sick
       @sick = false
-      health(inc_value(@health_array.size))
+      pet_health(inc_value(@health_array.size))
     else
       puts "#{@name} not need cures"
     end
+    game_time_pass
+  end
+
+  def play
+    if @sleep_need
+      puts "Your #{@name} feeling tired!"
+      return
+    end
+
+    @feeling_value = inc_value(@feeling_value, 2)
+
+    puts "#{@name} play with you and sooooo happy."
     game_time_pass
   end
 
@@ -91,7 +110,7 @@ class Pet
     @name = name ? name : names.sample()
     @time = 0
     @age = 0
-    @health = health(rand(1..6))
+    @health = pet_health(rand(1..6))
     @sick = false
     @sleep_value = 10
     @feeling_value = 10
@@ -103,21 +122,22 @@ class Pet
 
   def pet_state
     @feeling_info = @sick ? 'sick' : 'normal'
-    @mood_info = mood? ? 'happy' : 'upset'
+    @mood_info = pet_mood? ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
+    @hungry_info = pet_hungry? ? 'wanna eat' : 'full'
   end
 
-  # Pet methods
+###########Pet methods##############
+  def pet_hungry?
+    @hungry_value < 2
+  end
 
+  def pet_belly
+    @hungry_value = dec_value(@hungry_value)
+    pet_hungry? ? health_damaged : (puts "#{@name} need feeding")
+  end
 
-
-
-
-
-#########################
-
-
-  def health(value)
+  def pet_health(value)
     @health_array = value.times
 
     @health = value.times.map { '♥' }.join(' ')
@@ -125,7 +145,7 @@ class Pet
 
   def health_damaged
     puts 'Your pet was damaged, something is wrong?'
-    health(dec_value(@health_array.size))
+    pet_health(dec_value(@health_array.size))
   end
 
   def pet_sick
@@ -134,12 +154,13 @@ class Pet
   end
 
   def pet_tired
+    @feeling_value = dec_value(@feeling_value, 2)
     @sleep_value = dec_value(@sleep_value)
     @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
   end
 
-  def mood?
-    @state_property = [@sleep_value, @feeling_value]
+  def pet_mood?
+    @state_property = [@sleep_value, @feeling_value, @hungry_value]
     p @state_property
     @state_property.all? { |v| v > 5}
   end
@@ -155,6 +176,15 @@ class Pet
 
     if @sick
       pet_sick
+    end
+
+    if pet_hungry?
+      pet_belly
+    end
+
+    if @feeling_value.negative?
+      puts "#{@name} run away"
+      exit
     end
 
     return unless game_end?
