@@ -3,7 +3,6 @@ class Pet
   def initialize(name = false)
     @start = false
     pet_veriables(name)
-    start_game
   end
 
   def start_game
