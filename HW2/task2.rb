@@ -24,7 +24,7 @@ class Pet
     feeling: 
     mood: #{mood}
     hunger:
-    sleep: #{@sleep_info} #{@sleep_value}
+    sleep: #{@sleep_info}
     poopy:
     "
   end
@@ -38,13 +38,15 @@ class Pet
 
   def to_bed
     @sleep_need = false
+    sleep_max = 10
+    sleep_recovered = 4
 
-    if @sleep_value.negative?
+    if @sleep_value > sleep_max
       puts "Your #{@name} not wanna sleep!"
       return
     end
 
-    @sleep_value = @sleep_value.positive?() ? @sleep_value - 4 : @sleep_value
+    @sleep_value = @sleep_value < sleep_max ? @sleep_value + sleep_recovered : @sleep_value
     puts "#{@name} sleep now..."
     skip(3)
 
@@ -66,8 +68,7 @@ class Pet
     @time = 0
     @age = 0
     @health = health(rand(1..6))
-    @sleep_value = 1
-
+    @sleep_value = 10
 
     pet_state
     puts "#{@name} born."
@@ -81,9 +82,6 @@ class Pet
   def game_time_pass
     game_timer
     pet_state
-    # puts age(@age += 1)2
-    # health(@health - 1)
-    # puts @health
 
     if @sleep_need
       sleep_tired
@@ -101,17 +99,10 @@ class Pet
     exit
   end
 
-  def sleep_tired
-    @sleep_value = inc_value(@sleep_value)
-    @sleep_value >= 6 ? health_damaged : (puts "#{@name} need some sleep")
-  end
 
 
-  def mood
-    @state_property = [@sleep_value]
-     p "@state_property #{@state_property}"
-    @state_property.all? { |v| v > 5} ? 'happy' : 'upset'
-  end
+
+
 #########################
   def feeling 
 
@@ -128,6 +119,17 @@ class Pet
   def health_damaged
     puts 'Your pet was damaged, something is wrong?'
     health(dec_value(@health_array.size))
+  end
+
+  def sleep_tired
+    @sleep_value = dec_value(@sleep_value)
+    @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
+  end
+
+  def mood
+    @state_property = [@sleep_value]
+     p "@state_property #{@state_property}"
+    @state_property.all? { |v| v > 5} ? 'happy' : 'upset'
   end
 
   ## Engine methods ##
