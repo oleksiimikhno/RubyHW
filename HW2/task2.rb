@@ -25,7 +25,7 @@ class Pet
     mood: #{@mood_info}
     hungry: #{@hungry_info}
     sleep: #{@sleep_info}
-    poopy:
+    poopy: #{@poopy_info} #{@in_intestine}
     "
   end
 
@@ -69,7 +69,13 @@ class Pet
   end
 
   def feed
+    if pet_poppy?
+      puts "Need clear area :(. Mess, smell..."
+      return
+    end
+
     @hungry_value = inc_value(@hungry_value, 2)
+    @in_intestine = inc_value(@in_intestine, 2)
     puts 'feeding...'
     game_time_pass
   end
@@ -96,6 +102,16 @@ class Pet
     game_time_pass
   end
 
+  def clear 
+    if pet_poppy?
+      @in_intestine = 0
+    end
+
+    @feeling_value = inc_value(@feeling_value, 1)
+    puts "You clear our house, #{@name} happy now."
+    game_time_pass
+  end
+
   def skip(value = 1)
     value.times do
       puts 'You passed some time...'
@@ -115,6 +131,7 @@ class Pet
     @sleep_value = 10
     @feeling_value = 10
     @hungry_value = rand(1..10)
+    @in_intestine = 0
 
     pet_state
     puts "#{@name} born."
@@ -125,6 +142,7 @@ class Pet
     @mood_info = pet_mood? ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
     @hungry_info = pet_hungry? ? 'wanna eat' : 'full'
+    @poopy_info = pet_poppy? ? 'something smell' : 'everything fine'
   end
 
 ###########Pet methods##############
@@ -137,9 +155,12 @@ class Pet
     pet_hungry? ? health_damaged : (puts "#{@name} need feeding")
   end
 
+  def pet_poppy?
+    @in_intestine >= 6
+  end
+
   def pet_health(value)
     @health_array = value.times
-
     @health = value.times.map { '♥' }.join(' ')
   end
 
@@ -160,15 +181,21 @@ class Pet
   end
 
   def pet_mood?
-    @state_property = [@sleep_value, @feeling_value, @hungry_value]
-    p @state_property
-    @state_property.all? { |v| v > 5}
+    if pet_poppy?
+      return false
+    end
+
+    state_property = [@sleep_value, @feeling_value, @hungry_value]
+    p state_property
+    state_property.all? { |v| v > 5}
   end
 
   ## Engine methods ##
   def game_time_pass
     game_timer
     pet_state
+
+    @in_intestine = inc_value(@in_intestine)
 
     if @sleep_need
       pet_tired
@@ -180,6 +207,10 @@ class Pet
 
     if pet_hungry?
       pet_belly
+    end
+
+    if pet_poppy?
+      @sick = [true, false].sample
     end
 
     if @feeling_value.negative?
