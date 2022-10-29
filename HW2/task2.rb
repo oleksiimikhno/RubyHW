@@ -119,6 +119,11 @@ class Pet
     end
   end
 
+  def leave
+    puts 'You walk outside buy something stuff and never return...'
+    exit
+  end
+
   private
 
   def pet_veriables(name)
