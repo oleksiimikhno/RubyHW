@@ -28,21 +28,19 @@ class Pet
   end
 
   def help
-    # description_methods 
-    puts @game_methods.map { |v| help_description(v.to_s)}
+    # description_methods
+    puts @game_methods.map { |v| help_description(v.to_s) }
   end
 
   def walk
-    events = ['sunny', 'rainy', 'cloudy', 'coldy']
-    event = events.sample()
+    events = %w[sunny rainy cloudy coldy]
+    event = events.sample
 
     case event
     when 'rainy' || 'coldy'
       @sick = [true, false].sample
       @feeling_value = dec_value(@feeling_value, 2)
-      if @sick
-        puts 'Pet feeling not good'
-      end
+      puts 'Pet feeling not good' if @sick
     when 'sunny'
       puts "#{@name} happyes todays."
       @feeling_value = inc_value(@feeling_value, 2)
@@ -74,7 +72,7 @@ class Pet
 
   def feed
     if pet_poppy?
-      puts "Need clear area :(. Mess, smell..."
+      puts 'Need clear area :(. Mess, smell...'
       return
     end
 
@@ -117,10 +115,8 @@ class Pet
     game_time_pass
   end
 
-  def clear 
-    if pet_poppy?
-      @intestine_value = 0
-    end
+  def clear
+    @intestine_value = 0 if pet_poppy?
 
     @feeling_value = inc_value(@feeling_value, 1)
     puts "You clear our house, #{@name} happy now."
@@ -142,8 +138,8 @@ class Pet
   private
 
   def pet_veriables(name)
-    names = ['Dog', 'Dragon', 'Cat', 'Unicorn', 'Monkey']
-    @name = name ? name : names.sample()
+    names = %w[Dog Dragon Cat Unicorn Monkey]
+    @name = name || names.sample
     @time = 0
     @age = 0
     @health = @name == 'Cat' ? pet_health(9) : pet_health(rand(1..6))
@@ -204,12 +200,10 @@ class Pet
   end
 
   def pet_mood?
-    if pet_poppy?
-      return false
-    end
+    return false if pet_poppy?
 
     state_property = [@sleep_value, @feeling_value, @belly_value]
-    state_property.all? { |v| v > 5}
+    state_property.all? { |v| v > 5 }
   end
 
   def reborn?
@@ -221,21 +215,17 @@ class Pet
     game_timer
     pet_state
 
-    if reborn?
-      @belly_value = dec_value(@belly_value, 4)
-    else
-      @belly_value = dec_value(@belly_value)
-    end
+    @belly_value = if reborn?
+                     dec_value(@belly_value, 4)
+                   else
+                     dec_value(@belly_value)
+                   end
 
     @intestine_value = inc_value(@intestine_value)
 
-    if @sleep_need
-      pet_tired
-    end 
+    pet_tired if @sleep_need
 
-    if @sick
-      pet_sick
-    end
+    pet_sick if @sick
 
     if pet_hungry?
       if reborn? && @belly_value < 5
@@ -245,9 +235,7 @@ class Pet
       pet_belly
     end
 
-    if pet_poppy?
-      @sick = [true, false].sample
-    end
+    @sick = [true, false].sample if pet_poppy?
 
     if @feeling_value.negative?
       puts "#{@name} run away"
@@ -266,9 +254,7 @@ class Pet
     @time = @time < 12 ? inc_value(@time, value) : 0
     @age = @time == 12 ? inc_value(@age, value) : @age
 
-    if @time == 10
-      @sleep_need = true
-    end
+    @sleep_need = true if @time == 10
   end
 
   def game_end?
@@ -308,7 +294,7 @@ class Pet
     when 'leave'
       method + ' - game, its your chose'
     else
-      raise StandardError.new 'Some error with methods'
+      raise StandardError, 'Some error with methods'
     end
   end
 
@@ -334,7 +320,7 @@ class Pet
 
     case action
     when action_helper(action)
-      self.send(action)
+      send(action)
     else
       puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
