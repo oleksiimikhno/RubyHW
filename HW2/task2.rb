@@ -22,9 +22,9 @@ class Pet
     age: #{@age}
     HP: #{@health}
     feeling: 
-    mood:
+    mood: #{mood}
     hunger:
-    sleep: #{tired}
+    sleep: #{@sleep_info} #{@sleep_value}
     poopy:
     "
   end
@@ -33,20 +33,28 @@ class Pet
     
 
     puts "You and #{@name} walk outside"
-    time_pass
+    game_time_pass
   end
 
   def to_bed
     @sleep_need = false
+
+    if @sleep_value.negative?
+      puts "Your #{@name} not wanna sleep!"
+      return
+    end
+
     @sleep_value = @sleep_value.positive?() ? @sleep_value - 4 : @sleep_value
     puts "#{@name} sleep now..."
-    skip_time(3)
+    skip(3)
+
+    @sleep_need = false
   end
 
-  def skip_time(value = 1)
+  def skip(value = 1)
     value.times do
       puts 'You passed some time...'
-      time_pass
+      game_time_pass
     end
   end
 
@@ -58,22 +66,27 @@ class Pet
     @time = 0
     @age = 0
     @health = health(rand(1..6))
-    @sleep_value = 0
+    @sleep_value = 1
 
+
+    pet_state
     puts "#{@name} born."
   end
 
+  def pet_state
+    @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
+  end
+
   # Pet methods
-  def time_pass
+  def game_time_pass
     game_timer
+    pet_state
     # puts age(@age += 1)2
     # health(@health - 1)
     # puts @health
 
-
-
     if @sleep_need
-      tired
+      sleep_tired
     end 
 
     return unless game_end?
@@ -88,14 +101,23 @@ class Pet
     exit
   end
 
-  def game_timer(value = 1)
-    @time = @time < 12 ? inc_value(@time, value) : 0
-    @age = @time == 12 ? inc_value(@age, value) : @age
-
-    if @time == 10
-      @sleep_need = true
-    end
+  def sleep_tired
+    @sleep_value = inc_value(@sleep_value)
+    @sleep_value >= 6 ? health_damaged : (puts "#{@name} need some sleep")
   end
+
+
+  def mood
+    @state_property = [@sleep_value]
+     p "@state_property #{@state_property}"
+    @state_property.all? { |v| v > 5} ? 'happy' : 'upset'
+  end
+#########################
+  def feeling 
+
+  end
+
+
 
   def health(value)
     @health_array = value.times
@@ -108,15 +130,14 @@ class Pet
     health(dec_value(@health_array.size))
   end
 
-  def tired
-    @sleep_value = inc_value(@sleep_value)
+  ## Engine methods ##
+  def game_timer(value = 1)
+    @time = @time < 12 ? inc_value(@time, value) : 0
+    @age = @time == 12 ? inc_value(@age, value) : @age
 
-    @sleep_value >= 6 ? health_damaged : (puts "#{@name} need some sleep")
-    @sleep_info ? 'sleepy' : 'no need sleep'
-  end
-
-  def feeling 
-
+    if @time == 2
+      @sleep_need = true
+    end
   end
 
   def game_end?
