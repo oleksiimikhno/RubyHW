@@ -16,7 +16,7 @@ class Pet
 
   def info
     puts "
-    ________#{@name}________
+    -------- #{@name} --------
     timelife: #{@time}
     age: #{@age}
     HP: #{@health}
@@ -81,8 +81,8 @@ class Pet
       return
     end
 
-    @belly_value = inc_value(@belly_value, 2)
-    @intestine_value = inc_value(@intestine_value, 2)
+    @belly_value = inc_value(@belly_value, 3)
+    @intestine_value = inc_value(@intestine_value, 1)
     puts 'feeding...'
     game_time_pass
   end
@@ -149,7 +149,7 @@ class Pet
     @name = name ? name : names.sample()
     @time = 0
     @age = 0
-    @health = pet_health(rand(1..6))
+    @health = @name == 'Cat' ? pet_health(9) : pet_health(rand(1..6))
     @sick = false
     @sleep_value = 10
     @feeling_value = 10
