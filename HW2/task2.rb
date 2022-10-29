@@ -21,18 +21,32 @@ class Pet
     timelife: #{@time}
     age: #{@age}
     HP: #{@health}
-    feeling: 
-    mood: #{mood}
-    hunger:
+    feeling: #{@feeling_info}
+    mood: #{@mood_info}
+    hunger: #{@hungry_value}
     sleep: #{@sleep_info}
     poopy:
     "
   end
 
   def walk
-    
+    events = ['sunny', 'rainy', 'cloudy', 'coldy']
 
-    puts "You and #{@name} walk outside"
+    event = events.sample()
+
+    puts "You and #{@name} walk. Today #{event} in outside."
+
+    case event
+    when 'rainy' || 'coldy'
+      @sick = [true, false].sample
+      @feeling_value = dec_value(@feeling_value, 2)
+    when 'sunny'
+      puts "#{@name} happyes todays."
+      @feeling_value = inc_value(@feeling_value, 2)
+    else
+      puts 'Nothing happened, you returns to home.'
+    end
+    
     game_time_pass
   end
 
@@ -53,6 +67,16 @@ class Pet
     @sleep_need = false
   end
 
+  def cure
+    if @sick
+      @sick = false
+      health(inc_value(@health_array.size))
+    else
+      puts "#{@name} not need cures"
+    end
+    game_time_pass
+  end
+
   def skip(value = 1)
     value.times do
       puts 'You passed some time...'
@@ -63,51 +87,34 @@ class Pet
   private
 
   def pet_veriables(name)
-    rand_name = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
-    @name = name ? name : rand_name.sample()
+    names = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
+    @name = name ? name : names.sample()
     @time = 0
     @age = 0
     @health = health(rand(1..6))
+    @sick = false
     @sleep_value = 10
+    @feeling_value = 10
+    @hungry_value = rand(1..10)
 
     pet_state
     puts "#{@name} born."
   end
 
   def pet_state
+    @feeling_info = @sick ? 'sick' : 'normal'
+    @mood_info = mood? ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
   end
 
   # Pet methods
-  def game_time_pass
-    game_timer
-    pet_state
 
-    if @sleep_need
-      sleep_tired
-    end 
-
-    return unless game_end?
-    # if @name == 'Monster'
-    #   puts "#{@name} eat you #{array_exit.sample}."
-    #   exit
-    # end
-
-    rand_exit = ['dead', 'sleep forever', 'run away', 'return to Skytown']
-
-    puts "Your creation is #{rand_exit.sample}."
-    exit
-  end
 
 
 
 
 
 #########################
-  def feeling 
-
-  end
-
 
 
   def health(value)
@@ -121,18 +128,47 @@ class Pet
     health(dec_value(@health_array.size))
   end
 
-  def sleep_tired
+  def pet_sick
+    @feeling_value = dec_value(@feeling_value)
+    @feeling_value < 7 ? health_damaged : (puts "#{@name} need cures")
+  end
+
+  def pet_tired
     @sleep_value = dec_value(@sleep_value)
     @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
   end
 
-  def mood
-    @state_property = [@sleep_value]
-     p "@state_property #{@state_property}"
-    @state_property.all? { |v| v > 5} ? 'happy' : 'upset'
+  def mood?
+    @state_property = [@sleep_value, @feeling_value]
+    p @state_property
+    @state_property.all? { |v| v > 5}
   end
 
   ## Engine methods ##
+  def game_time_pass
+    game_timer
+    pet_state
+
+    if @sleep_need
+      pet_tired
+    end 
+
+    if @sick
+      pet_sick
+    end
+
+    return unless game_end?
+    # if @name == 'Monster'
+    #   puts "#{@name} eat you #{array_exit.sample}."
+    #   exit
+    # end
+
+    game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
+
+    puts "Your creation is #{game_ends.sample}."
+    exit
+  end
+
   def game_timer(value = 1)
     @time = @time < 12 ? inc_value(@time, value) : 0
     @age = @time == 12 ? inc_value(@age, value) : @age
