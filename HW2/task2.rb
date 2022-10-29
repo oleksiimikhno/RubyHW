@@ -3,8 +3,6 @@ class Pet
   def initialize(name = false)
     @start = false
     pet_veriables(name)
-
-    start_game
   end
 
   def start_game
@@ -25,7 +23,7 @@ class Pet
     mood: #{@mood_info}
     hungry: #{@hungry_info}
     sleep: #{@sleep_info}
-    poopy: #{@poopy_info} #{@in_intestine}
+    poopy: #{@poopy_info}
     "
   end
 
@@ -61,6 +59,7 @@ class Pet
       return
     end
 
+    @feeling_value = inc_value(@feeling_value, 2)
     @sleep_value = @sleep_value < sleep_max ? @sleep_value + sleep_recovered : @sleep_value
     puts "#{@name} sleep now..."
     skip(3)
@@ -74,9 +73,20 @@ class Pet
       return
     end
 
-    @hungry_value = inc_value(@hungry_value, 2)
-    @in_intestine = inc_value(@in_intestine, 2)
+    @belly_value = inc_value(@belly_value, 2)
+    @intestine_value = inc_value(@intestine_value, 2)
     puts 'feeding...'
+    game_time_pass
+  end
+
+  def huge
+    @belly_value = inc_value(@belly_value, 2)
+    @feeling_value = inc_value(@feeling_value, 2)
+    @sleep_value = inc_value(@sleep_value, 2)
+    @sick = false
+    puts "#{@name} filled self perfectly..."
+    # it's magic method but what price?
+    @reborn = inc_value(@reborn)
     game_time_pass
   end
 
@@ -90,13 +100,13 @@ class Pet
     game_time_pass
   end
 
-  def play
+  def play(value = 2)
     if @sleep_need
       puts "Your #{@name} feeling tired!"
       return
     end
 
-    @feeling_value = inc_value(@feeling_value, 2)
+    @feeling_value = inc_value(@feeling_value, value)
 
     puts "#{@name} play with you and sooooo happy."
     game_time_pass
@@ -104,7 +114,7 @@ class Pet
 
   def clear 
     if pet_poppy?
-      @in_intestine = 0
+      @intestine_value = 0
     end
 
     @feeling_value = inc_value(@feeling_value, 1)
@@ -127,7 +137,7 @@ class Pet
   private
 
   def pet_veriables(name)
-    names = ['Dog', 'Dragon', 'Cat', 'Monster', 'Monkey']
+    names = ['Dog', 'Dragon', 'Cat', 'Unicorn', 'Monkey']
     @name = name ? name : names.sample()
     @time = 0
     @age = 0
@@ -135,14 +145,17 @@ class Pet
     @sick = false
     @sleep_value = 10
     @feeling_value = 10
-    @hungry_value = rand(1..10)
-    @in_intestine = 0
+    @belly_value = 10
+    @intestine_value = 0
+    @reborn = 0
 
     pet_state
+    info
     puts "#{@name} born."
   end
 
   def pet_state
+    @name = reborn? ? 'Monster' : @name
     @feeling_info = @sick ? 'sick' : 'normal'
     @mood_info = pet_mood? ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
@@ -150,18 +163,18 @@ class Pet
     @poopy_info = pet_poppy? ? 'something smell' : 'everything fine'
   end
 
-###########Pet methods##############
+  ## Pet methods ##
   def pet_hungry?
-    @hungry_value < 2
+    @belly_value < 2
   end
 
   def pet_belly
-    @hungry_value = dec_value(@hungry_value)
+    @belly_value = dec_value(@belly_value)
     pet_hungry? ? health_damaged : (puts "#{@name} need feeding")
   end
 
   def pet_poppy?
-    @in_intestine >= 6
+    @intestine_value >= 6
   end
 
   def pet_health(value)
@@ -190,9 +203,12 @@ class Pet
       return false
     end
 
-    state_property = [@sleep_value, @feeling_value, @hungry_value]
-    p state_property
+    state_property = [@sleep_value, @feeling_value, @belly_value]
     state_property.all? { |v| v > 5}
+  end
+
+  def reborn?
+    @reborn >= 4
   end
 
   ## Engine methods ##
@@ -200,7 +216,13 @@ class Pet
     game_timer
     pet_state
 
-    @in_intestine = inc_value(@in_intestine)
+    if reborn?
+      @belly_value = dec_value(@belly_value, 4)
+    else
+      @belly_value = dec_value(@belly_value)
+    end
+
+    @intestine_value = inc_value(@intestine_value)
 
     if @sleep_need
       pet_tired
@@ -211,6 +233,10 @@ class Pet
     end
 
     if pet_hungry?
+      if reborn? && @belly_value < 5
+        puts "#{@name} ear you.."
+        exit
+      end
       pet_belly
     end
 
@@ -224,10 +250,6 @@ class Pet
     end
 
     return unless game_end?
-    # if @name == 'Monster'
-    #   puts "#{@name} eat you #{array_exit.sample}."
-    #   exit
-    # end
 
     game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
@@ -239,7 +261,7 @@ class Pet
     @time = @time < 12 ? inc_value(@time, value) : 0
     @age = @time == 12 ? inc_value(@age, value) : @age
 
-    if @time == 2
+    if @time == 10
       @sleep_need = true
     end
   end
@@ -291,5 +313,5 @@ class Pet
   end
 end
 
-pet = Pet.new('Creation')
+pet = Pet.new
 pet.info
