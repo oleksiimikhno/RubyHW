@@ -32,8 +32,6 @@ class Pet
     puts @game_methods.map { |v| help_description(v.to_s)}
   end
 
-
-
   def walk
     events = ['sunny', 'rainy', 'cloudy', 'coldy']
     event = events.sample()
