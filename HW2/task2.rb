@@ -3,6 +3,7 @@ class Pet
   def initialize(name = false)
     @start = false
     pet_veriables(name)
+    start_game
   end
 
   def start_game
@@ -26,6 +27,13 @@ class Pet
     poopy: #{@poopy_info}
     "
   end
+
+  def help
+    # description_methods 
+    puts @game_methods.map { |v| help_description(v.to_s)}
+  end
+
+
 
   def walk
     events = ['sunny', 'rainy', 'cloudy', 'coldy']
@@ -276,6 +284,35 @@ class Pet
 
   def dec_value(value_name, num = 1)
     value_name -= num
+  end
+
+  def help_description(method)
+    case method
+    when 'help'
+      method + ' - view all methods'
+    when 'feed'
+      method + ' - your pet'
+    when 'info'
+      method + ' - view all information about pet'
+    when 'clear'
+      method + ' - clear poopy in home'
+    when 'walk'
+      method + ' - outside with pet'
+    when 'to_bed'
+      method + ' - put your pet'
+    when 'huge'
+      method + ' - your pet.?.'
+    when 'skip'
+      method + ' - some time in game'
+    when 'cure'
+      method + ' - mayby your pet sick? Need cure his?'
+    when 'play'
+      method + ' - with pet'
+    when 'leave'
+      method + ' - game, its your chose'
+    else
+      raise StandardError.new 'Some error with methods'
+    end
   end
 
   # Handler user action
