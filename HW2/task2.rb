@@ -1,6 +1,6 @@
 # Create new creation in Tamagotchi game
 class Pet
-  def initialize(name = false)
+  def initialize(name: false)
     @start = false
     pet_veriables(name)
   end
@@ -272,27 +272,27 @@ class Pet
   def help_description(method)
     case method
     when 'help'
-      method + ' - view all methods'
+      "#{method} - view all methods"
     when 'feed'
-      method + ' - your pet'
+      "#{method} - your pet"
     when 'info'
-      method + ' - view all information about pet'
+      "#{method} - view all information about pet"
     when 'clear'
-      method + ' - clear poopy in home'
+      "#{method} - clear poopy in home"
     when 'walk'
-      method + ' - outside with pet'
+      "#{method} - outside with pet"
     when 'to_bed'
-      method + ' - put your pet'
+      "#{method} - put your pet"
     when 'huge'
-      method + ' - your pet.?.'
+      "#{method} - your pet.?."
     when 'skip'
-      method + ' - some time in game'
+      "#{method} - some time in game"
     when 'cure'
-      method + ' - mayby your pet sick? Need cure his?'
+      "#{method} - mayby your pet sick? Need cure his?"
     when 'play'
-      method + ' - with pet'
+      "#{method} - with pet"
     when 'leave'
-      method + ' - game, its your chose'
+      "#{method} - game, its your chose"
     else
       raise StandardError, 'Some error with methods'
     end
