@@ -7,7 +7,7 @@ p arr.max
 p arr.min
 p arr.sort
 p arr.sort { |a, b| b <=> a }
-p arr.map { |v| v % 2 }
+p arr.reject(&:odd?)
 p arr.select { |v| (v % 2).zero? ? v : nil }
 p arr.select { |v| (v % 3).zero? ? v : nil }
 p arr.uniq
