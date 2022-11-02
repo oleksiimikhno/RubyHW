@@ -1,8 +1,9 @@
 # Create new creation in Tamagotchi game
 class Pet
-  def initialize(name: false)
+  def initialize(name: nil)
     @start = false
-    pet_veriables(name)
+    veriables(name)
+    start_game
   end
 
   def start_game
@@ -65,13 +66,13 @@ class Pet
     @feeling_value = inc_value(@feeling_value, 2)
     @sleep_value = @sleep_value < sleep_max ? @sleep_value + sleep_recovered : @sleep_value
     puts "#{@name} sleep now..."
-    skip(3)
+    skip_time(3)
 
     @sleep_need = false
   end
 
   def feed
-    if pet_poppy?
+    if poppy?
       puts 'Need clear area :(. Mess, smell...'
       return
     end
@@ -96,7 +97,7 @@ class Pet
   def cure
     if @sick
       @sick = false
-      pet_health(inc_value(@health_array.size))
+      health(inc_value(@health_array.size))
     else
       puts "#{@name} not need cures"
     end
@@ -106,24 +107,23 @@ class Pet
   def play(value = 2)
     if @sleep_need
       puts "Your #{@name} feeling tired!"
-      return
+    else
+      @feeling_value = inc_value(@feeling_value, value)
+
+      puts "#{@name} play with you and sooooo happy."
+      game_time_pass
     end
-
-    @feeling_value = inc_value(@feeling_value, value)
-
-    puts "#{@name} play with you and sooooo happy."
-    game_time_pass
   end
 
   def clear
-    @intestine_value = 0 if pet_poppy?
+    @intestine_value = 0 if poppy?
 
     @feeling_value = inc_value(@feeling_value, 1)
     puts "You clear our house, #{@name} happy now."
     game_time_pass
   end
 
-  def skip(value = 1)
+  def skip_time(value = 1)
     value.times do
       puts 'You passed some time...'
       game_time_pass
@@ -137,12 +137,12 @@ class Pet
 
   private
 
-  def pet_veriables(name)
+  def veriables(name)
     names = %w[Dog Dragon Cat Unicorn Monkey]
     @name = name || names.sample
     @time = 0
     @age = 0
-    @health = @name == 'Cat' ? pet_health(9) : pet_health(rand(1..6))
+    @health = @name == 'Cat' ? health(9) : health(rand(1..6))
     @sick = false
     @sleep_value = 10
     @feeling_value = 10
@@ -150,57 +150,57 @@ class Pet
     @intestine_value = 0
     @reborn = 0
 
-    pet_state
+    state
     info
     puts "#{@name} born."
   end
 
-  def pet_state
+  def state
     @name = reborn? ? 'Monster' : @name
     @feeling_info = @sick ? 'sick' : 'normal'
-    @mood_info = pet_mood? ? 'happy' : 'upset'
+    @mood_info = mood? ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
-    @hungry_info = pet_hungry? ? 'wanna eat' : 'full'
-    @poopy_info = pet_poppy? ? 'something smell' : 'everything fine'
+    @hungry_info = hungry? ? 'wanna eat' : 'full'
+    @poopy_info = poppy? ? 'something smell' : 'everything fine'
   end
 
   ## Pet methods ##
-  def pet_hungry?
+  def hungry?
     @belly_value < 2
   end
 
-  def pet_belly
+  def belly
     @belly_value = dec_value(@belly_value)
-    pet_hungry? ? health_damaged : (puts "#{@name} need feeding")
+    hungry? ? health_damaged : (puts "#{@name} need feeding")
   end
 
-  def pet_poppy?
+  def poppy?
     @intestine_value >= 6
   end
 
-  def pet_health(value)
+  def health(value)
     @health_array = value.times
     @health = value.times.map { '♥' }.join(' ')
   end
 
   def health_damaged
     puts 'Your pet was damaged, something is wrong?'
-    pet_health(dec_value(@health_array.size))
+    health(dec_value(@health_array.size))
   end
 
-  def pet_sick
+  def sick
     @feeling_value = dec_value(@feeling_value)
     @feeling_value < 7 ? health_damaged : (puts "#{@name} need cures")
   end
 
-  def pet_tired
+  def tired
     @feeling_value = dec_value(@feeling_value, 2)
     @sleep_value = dec_value(@sleep_value)
     @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
   end
 
-  def pet_mood?
-    return false if pet_poppy?
+  def mood?
+    return false if poppy?
 
     state_property = [@sleep_value, @feeling_value, @belly_value]
     state_property.all? { |v| v > 5 }
@@ -213,7 +213,7 @@ class Pet
   ## Engine methods ##
   def game_time_pass
     game_timer
-    pet_state
+    state
 
     @belly_value = if reborn?
                      dec_value(@belly_value, 4)
@@ -223,19 +223,19 @@ class Pet
 
     @intestine_value = inc_value(@intestine_value)
 
-    pet_tired if @sleep_need
+    tired if @sleep_need
 
-    pet_sick if @sick
+    sick if @sick
 
-    if pet_hungry?
+    if hungry?
       if reborn? && @belly_value < 5
         puts "#{@name} ear you.."
         exit
       end
-      pet_belly
+      belly
     end
 
-    @sick = [true, false].sample if pet_poppy?
+    @sick = [true, false].sample if poppy?
 
     if @feeling_value.negative?
       puts "#{@name} run away"
@@ -285,7 +285,7 @@ class Pet
       "#{method} - put your pet"
     when 'huge'
       "#{method} - your pet.?."
-    when 'skip'
+    when 'skip_time'
       "#{method} - some time in game"
     when 'cure'
       "#{method} - mayby your pet sick? Need cure his?"
@@ -320,7 +320,7 @@ class Pet
 
     case action
     when action_helper(action)
-      send(action)
+      public_send(action)
     else
       puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
@@ -329,7 +329,7 @@ class Pet
   end
 
   def action_helper(action)
-    @game_methods.detect { |i| i == action }
+    @game_methods.detect { |method| method == action }
   end
 end
 
