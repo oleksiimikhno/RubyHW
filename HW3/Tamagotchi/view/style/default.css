@@ -1,0 +1,26 @@
+@import './reset/normalize.min.css';
+
+:root {
+    --bg-body: #eeded2;
+    --bg-content: #fff;
+    --raidus: 4px;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-body);
+}
+.title {
+    text-align: center;
+}
+
+.content {
+    width: 500px;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bg-content);
+    border-radius: var(--raidus);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

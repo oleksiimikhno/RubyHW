@@ -1,8 +1,15 @@
+# frozen_string_literal: true
+
+require 'erb'
+require 'inner_html_content'
+
 # Create new creation in Tamagotchi game
 class Pet
   def initialize(name: nil)
     @start = false
     veriables(name)
+    render_html
+    start_game
   end
 
   def start_game
@@ -49,6 +56,9 @@ class Pet
     end
 
     puts "You and #{@name} walk. Today #{event} in outside."
+
+
+
     game_time_pass
   end
 
@@ -56,6 +66,7 @@ class Pet
     @sleep_need = false
     sleep_max = 10
     sleep_recovered = 4
+    @emoji = "\u{1F605}"
 
     if @sleep_value > sleep_max
       puts "Your #{@name} not wanna sleep!"
@@ -66,12 +77,13 @@ class Pet
     @sleep_value = @sleep_value < sleep_max ? @sleep_value + sleep_recovered : @sleep_value
     puts "#{@name} sleep now..."
     skip_time(3)
-
+    @emoji = "\u{1F634}"
     @sleep_need = false
   end
 
   def feed
     if poppy?
+      @emoji = "\u{1f922}"
       puts 'Need clear area :(. Mess, smell...'
       return
     end
@@ -100,6 +112,7 @@ class Pet
     else
       puts "#{@name} not need cures"
     end
+    @emoji = "\u{1f604}"
     game_time_pass
   end
 
@@ -148,6 +161,7 @@ class Pet
     @belly_value = 10
     @intestine_value = 0
     @reborn = 0
+    @emoji = "\u{1f604}"
 
     state
     info
@@ -179,7 +193,7 @@ class Pet
 
   def health(value)
     @health_array = value.times
-    @health = value.times.map { '♥' }.join(' ')
+    @health = value.times.map { "\u{2764}" }.join(' ')
   end
 
   def health_damaged
@@ -193,6 +207,7 @@ class Pet
   end
 
   def tired
+    @emoji = "\u{1F614}"
     @feeling_value = dec_value(@feeling_value, 2)
     @sleep_value = dec_value(@sleep_value)
     @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
@@ -211,7 +226,6 @@ class Pet
 
   ## Engine methods ##
   def game_time_pass
-    game_timer
     state
 
     @belly_value = if reborn?
@@ -224,7 +238,10 @@ class Pet
 
     tired if @sleep_need
 
-    sick if @sick
+    if @sick
+      sick
+      @emoji = "\u{1f912}"
+    end
 
     if hungry?
       if reborn? && @belly_value < 5
@@ -234,6 +251,8 @@ class Pet
       belly
     end
 
+    @emoji = "\u{1f608}" if reborn?
+
     @sick = [true, false].sample if poppy?
 
     if @feeling_value.negative?
@@ -241,11 +260,16 @@ class Pet
       exit
     end
 
+    game_timer
+    render_html
+
     return unless game_end?
 
     game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
     puts "Your creation is #{game_ends.sample}."
+    @emoji = "\u{2620}"
+    render_html
     exit
   end
 
@@ -295,6 +319,12 @@ class Pet
     else
       raise StandardError, 'Some error with methods'
     end
+  end
+
+  def render_html
+    template = File.read('view/content.erb')
+    html_content = ERB.new(template).result(binding)
+    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, bypass_html: false)
   end
 
   # Handler user action
