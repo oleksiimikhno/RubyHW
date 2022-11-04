@@ -4,6 +4,7 @@
     --bg-body: #eeded2;
     --bg-content: #fff;
     --raidus: 4px;
+    --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 body {
@@ -15,6 +16,15 @@ body {
     text-align: center;
 }
 
+.message {
+    
+    padding: 10px;
+    margin: 10px;
+    background-color: #94d6f5;
+    border-radius: var(--raidus);
+    box-shadow: var(--shadow);
+}
+
 .content {
     width: 500px;
     align-self: center;
@@ -22,5 +32,5 @@ body {
     padding: 20px;
     background-color: var(--bg-content);
     border-radius: var(--raidus);
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: var(--shadow);
 }

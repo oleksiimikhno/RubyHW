@@ -2,6 +2,7 @@
 
 require 'erb'
 require 'inner_html_content'
+require 'autorefresh'
 
 # Create new creation in Tamagotchi game
 class Pet
@@ -47,17 +48,15 @@ class Pet
     when 'rainy' || 'coldy'
       @sick = [true, false].sample
       @feeling_value = dec_value(@feeling_value, 2)
-      puts 'Pet feeling not good' if @sick
+      game_message('Pet feeling not good.') if @sick
     when 'sunny'
-      puts "#{@name} happyes todays."
+      game_message("#{@name} happyes todays.")
       @feeling_value = inc_value(@feeling_value, 2)
     else
-      puts 'Nothing happened, you returns to home.'
+      game_message('Nothing happened, you returns to home.')
     end
 
-    puts "You and #{@name} walk. Today #{event} in outside."
-
-
+    game_message("You and #{@name} walk. Today #{event} in outside.")
 
     game_time_pass
   end
@@ -69,13 +68,13 @@ class Pet
     @emoji = "\u{1F605}"
 
     if @sleep_value > sleep_max
-      puts "Your #{@name} not wanna sleep!"
+      game_message("Your #{@name} not wanna sleep!")
       return
     end
 
     @feeling_value = inc_value(@feeling_value, 2)
     @sleep_value = @sleep_value < sleep_max ? @sleep_value + sleep_recovered : @sleep_value
-    puts "#{@name} sleep now..."
+    game_message("#{@name} sleep now...")
     skip_time(3)
     @emoji = "\u{1F634}"
     @sleep_need = false
@@ -84,13 +83,14 @@ class Pet
   def feed
     if poppy?
       @emoji = "\u{1f922}"
-      puts 'Need clear area :(. Mess, smell...'
+      game_message('Need clear area :(. Mess, smell...')
       return
     end
 
     @belly_value = inc_value(@belly_value, 3)
     @intestine_value = inc_value(@intestine_value, 1)
-    puts 'feeding...'
+
+    game_message('feeding...')
     game_time_pass
   end
 
@@ -99,9 +99,10 @@ class Pet
     @feeling_value = inc_value(@feeling_value, 2)
     @sleep_value = inc_value(@sleep_value, 2)
     @sick = false
-    puts "#{@name} filled self perfectly..."
     # it's magic method but what price?
     @reborn = inc_value(@reborn)
+
+    game_message("#{@name} filled self perfectly...")
     game_time_pass
   end
 
@@ -110,7 +111,7 @@ class Pet
       @sick = false
       health(inc_value(@health_array.size))
     else
-      puts "#{@name} not need cures"
+      game_message("#{@name} recovered.")
     end
     @emoji = "\u{1f604}"
     game_time_pass
@@ -118,11 +119,10 @@ class Pet
 
   def play(value = 2)
     if @sleep_need
-      puts "Your #{@name} feeling tired!"
+      game_message("Your #{@name} feeling tired!")
     else
       @feeling_value = inc_value(@feeling_value, value)
-
-      puts "#{@name} play with you and sooooo happy."
+      game_message("#{@name} play with you and sooooo happy.")
       game_time_pass
     end
   end
@@ -131,19 +131,19 @@ class Pet
     @intestine_value = 0 if poppy?
 
     @feeling_value = inc_value(@feeling_value, 1)
-    puts "You clear our house, #{@name} happy now."
+    game_message("You clear our house, #{@name} happy now.")
     game_time_pass
   end
 
   def skip_time(value = 1)
     value.times do
-      puts 'You passed some time...'
+      game_message('You passed some time...')
       game_time_pass
     end
   end
 
   def leave
-    puts 'You walk outside buy something stuff and never return...'
+    game_message('You walk outside buy something stuff and never return...')
     exit
   end
 
@@ -165,7 +165,7 @@ class Pet
 
     state
     info
-    puts "#{@name} born."
+    game_message("#{@name} born.")
   end
 
   def state
@@ -184,7 +184,7 @@ class Pet
 
   def belly
     @belly_value = dec_value(@belly_value)
-    hungry? ? health_damaged : (puts "#{@name} need feeding")
+    hungry? ? health_damaged : game_message("#{@name} need feeding.")
   end
 
   def poppy?
@@ -197,20 +197,20 @@ class Pet
   end
 
   def health_damaged
-    puts 'Your pet was damaged, something is wrong?'
+    game_message('Your pet was damaged, something is wrong?')
     health(dec_value(@health_array.size))
   end
 
   def sick
     @feeling_value = dec_value(@feeling_value)
-    @feeling_value < 7 ? health_damaged : (puts "#{@name} need cures")
+    @feeling_value < 7 ? health_damaged : game_message("#{@name} need cures.")
   end
 
   def tired
     @emoji = "\u{1F614}"
     @feeling_value = dec_value(@feeling_value, 2)
     @sleep_value = dec_value(@sleep_value)
-    @sleep_value.negative? ? health_damaged : (puts "#{@name} need some sleep")
+    @sleep_value.negative? ? health_damaged : game_message("#{@name} need some sleep.")
   end
 
   def mood?
@@ -245,7 +245,7 @@ class Pet
 
     if hungry?
       if reborn? && @belly_value < 5
-        puts "#{@name} ear you.."
+        game_message("#{@name} ear you..")
         exit
       end
       belly
@@ -256,7 +256,7 @@ class Pet
     @sick = [true, false].sample if poppy?
 
     if @feeling_value.negative?
-      puts "#{@name} run away"
+      game_message("#{@name} run away!")
       exit
     end
 
@@ -267,7 +267,7 @@ class Pet
 
     game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
-    puts "Your creation is #{game_ends.sample}."
+    game_message("Your creation is #{game_ends.sample}.")
     @emoji = "\u{2620}"
     render_html
     exit
@@ -278,6 +278,11 @@ class Pet
     @age = @time == 12 ? inc_value(@age, value) : @age
 
     @sleep_need = true if @time == 10
+  end
+
+  def game_message(text)
+    puts text
+    @message = text
   end
 
   def game_end?
