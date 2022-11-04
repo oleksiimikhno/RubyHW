@@ -1,0 +1,19 @@
+GIT
+  remote: https://github.com/xiosky90/ruby_inner_html_content.git
+  revision: 1ba21c9c04e3409fe9e8b9b5f189cc40a9d4dfe4
+  branch: main
+  specs:
+    inner_html_content (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  inner_html_content!
+
+BUNDLED WITH
+   2.2.3
