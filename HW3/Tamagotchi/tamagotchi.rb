@@ -2,7 +2,6 @@
 
 require 'erb'
 require 'inner_html_content'
-require 'autorefresh'
 
 # Create new creation in Tamagotchi game
 class Pet

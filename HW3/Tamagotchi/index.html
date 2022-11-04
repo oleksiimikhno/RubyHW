@@ -4,28 +4,38 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamagochi - Unicorn</title>
+  <title>Tamagochi - Cat</title>
   <link rel="stylesheet" href="view/style/default.css" />
 </head>
 <body>
 <div class="content"> 
-    <h1 class="title">Unicorn - 😄</h1>
-    <div class="message">Your pet was damaged, something is wrong?</div>
+    <h1 class="title">Cat - 😄</h1>
+    <div class="message">Cat need cures.</div>
     <div class="container">
-      <p>timelife: 9</p>
+      <p>timelife: 2</p>
       <p>age: 0</p>
-      <p>HP: ❤ ❤ ❤</p>
+      <p>HP: ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</p>
       <p>feeling: normal</p>
-      <p>mood: upset</p>
+      <p>mood: happy</p>
       <p>hungry: full</p>
       <p>sleep: no need sleep</p>
-      <p>poopy: something smell</p>
+      <p>poopy: everything fine</p>
     </div>
 </div>
 <script type="text/javascript">
 setInterval(() => {
-  location.reload(true)
-}, 1000);
+  let content = document.querySelector('.content');
+
+  const url = "index.html"
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      let newDocument = new DOMParser().parseFromString(html, 'text/html');
+      let newContent = newDocument.querySelector('.content').innerHTML;
+
+      content.innerHTML = newContent;
+    })
+}, 500);
 </script>
 </body>
 </html>
