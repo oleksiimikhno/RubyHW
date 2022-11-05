@@ -1,25 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamagochi - Dog</title>
-  <link rel="stylesheet" href="/app/view/style/default.css" />
-</head>
-<body>
 <div class="content"> 
-    <h1 class="title">Dog - 🤒</h1>
-    <div class="message">Your pet was damaged, something is wrong?</div>
+    <h1 class="title"><%= @name %> - <%= @emoji %></h1>
+    <div class="message"><%= @message %></div>
     <div class="container">
-      <p>timelife: 4</p>
-      <p>age: 0</p>
-      <p>HP: ❤ ❤ ❤ ❤ ❤</p>
-      <p>feeling: sick</p>
-      <p>mood: happy</p>
-      <p>hungry: full</p>
-      <p>sleep: no need sleep</p>
-      <p>poopy: everything fine</p>
+      <p>timelife: <%= @time %></p>
+      <p>age: <%= @age %></p>
+      <p>HP: <%= @health %></p>
+      <p>feeling: <%= @feeling_info %></p>
+      <p>mood: <%= @mood_info %></p>
+      <p>hungry: <%= @hungry_info %></p>
+      <p>sleep: <%= @sleep_info %></p>
+      <p>poopy: <%= @poopy_info %></p>
     </div>
     <div>
       <form action="/action" method="get">
@@ -30,7 +20,7 @@
 <script type="text/javascript">
   const handlerUpdateContent = (event) => {
     event.preventDefault();
-    
+
     let target = event.target;
 
     if (target.className === 'btn') {
@@ -46,9 +36,6 @@
       })
     };
   }
-
-
+  
   document.addEventListener('click', handlerUpdateContent);
 </script>
-</body>
-</html>

@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require './app/tamagotchi'
 
-Bundler.require
+# Bundler.require
 
 use Rack::Static,
   :urls => ["/app/view/style/"]
 
-use Rack::Reloader
-run Pet
+use Rack::Reloader, 0
+
+run Pet.new

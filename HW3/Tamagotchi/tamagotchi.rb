@@ -226,7 +226,7 @@ class Pet
   ## Engine methods ##
 
   def render_html
-    template = File.read('./app/view/content.erb')
+    template = File.read('./app/view/content.html.erb')
     html_content = ERB.new(template).result(binding)
     style_path = 'app/view/style/default.css'
     InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)

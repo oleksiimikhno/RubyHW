@@ -6,63 +6,76 @@ require 'rack'
 
 # Create new creation in Tamagotchi game
 class Pet
-  # def call(env)
+  # def self.call(env)
   #   @env = env
-
-  #   # (env).response.finish
-  #   [200, {}, [render_html]]
+  #   new(env).response.finish
   # end
 
-  # def call(env)
-  #   response(env)
-  # end
-
-  def self.call(env)
-    new(env).response
+  def call(env)
+    [200, {}, [response(env)]]
+    # new(env).response.finish
   end
 
+  def initialize
+    
 
-  # def call(env)
-  #   response = Rack::Response.new(env)
-  #   @rack = Rack::Request.new(env).fullpath 
-  #   p response.finish
-  #   p "123123123121231231231231231231233 #{@rack}"
-  #   # (env).response&.finish
-  #   [200, {}, [render_html]]
-  #   # self.new(env)
-  # end
-
-
-  def initialize(env)
-    @rack = Rack::Request.new(env)
-    p @rack
-    # @req = Rack::Request.new(env)
     @start = false
-    veriables(nil)
+    veriables
     render_html
-    # render_html
     start_game
   end
 
-
-
-  def response
-    p @rack.path
-
-
-    case @rack.path
-    when "/favicon.ico"
-      [200, {}, [render_html]]
-      # Rack::Response.new(render_html)
+  def response(env)
+    render_html
+    @request = Rack::Request.new(env)
+    p "___________________#{@request.path}________________________"
+    case "#{@request.path}"
+    when '/'
+      render_html
+    when '/feed'
+      p "-_______FEEED____"
+      walk
+      render_html
     end
-    # [200, {}, [render_html]]
+    # case @request.path
+    # when '/action'
+    #   Rack::Response.new do |response|
+    #     # p "___________________#{response}________________________"
+    #     # response.set_cookie('feed', @request.params['name'])
+    #     # walk
+    #     # response.redirect('/')
+    #     # render_html
+    #   end
+    #   # Rack::Response.new('Not found', 404)
+    # end
+
+
+
+
+
+    # case @request.path
+    # when '/'
+    #   Rack::Response.new(render_html)
+    # when '/action'
+    #   Rack::Response.new do |response|
+    #     # p "___________________#{response}________________________"
+    #     # response.set_cookie('feed', @request.params['name'])
+    #     # walk
+    #     # response.redirect('/')
+    #     render_html
+    #   end
+    # else
+    #   Rack::Response.new('Not found', 404)
+    # end
   end
 
   def render_html
-    template = File.read('./app/view/content.erb')
+    template = File.read('./app/view/content.html.erb')
     html_content = ERB.new(template).result(binding)
+    p html_content
     style_path = '/app/view/style/default.css'
-    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+    cc = InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+    p cc
   end
 
   def start_game
@@ -201,9 +214,9 @@ class Pet
 
   private
 
-  def veriables(name)
+  def veriables
     names = %w[Dog Dragon Cat Unicorn Monkey]
-    @name = name || names.sample
+    @name = names.sample
     @time = 0
     @age = 0
     @health = @name == 'Cat' ? health(9) : health(rand(1..6))
