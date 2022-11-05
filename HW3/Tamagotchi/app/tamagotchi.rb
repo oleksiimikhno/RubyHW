@@ -9,7 +9,19 @@ class Pet
     @start = false
     veriables(name)
     render_html
+    # render_html
     start_game
+  end
+
+  def call(env)
+    [200, {}, [render_html]]
+  end
+
+  def render_html
+    template = File.read('./app/view/content.erb')
+    html_content = ERB.new(template).result(binding)
+    style_path = '/app/view/style/default.css'
+    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
   end
 
   def start_game
@@ -17,7 +29,7 @@ class Pet
     custom_methods = self.class.instance_methods(false)
     @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
 
-    action_message
+    # action_message
   end
 
   def info
@@ -325,11 +337,7 @@ class Pet
     end
   end
 
-  def render_html
-    template = File.read('view/content.erb')
-    html_content = ERB.new(template).result(binding)
-    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, bypass_html: false)
-  end
+
 
   # Handler user action
   def action_message
@@ -345,7 +353,7 @@ class Pet
   def action_user(action)
     !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
 
-    action_message
+    # action_message
   end
 
   def action_reducer(action)
@@ -358,7 +366,7 @@ class Pet
       puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
 
-    action_message
+    # action_message
   end
 
   def action_helper(action)
@@ -366,5 +374,5 @@ class Pet
   end
 end
 
-pet = Pet.new
-pet.info
+# pet = Pet.new
+# pet.info
