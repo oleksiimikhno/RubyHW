@@ -9,28 +9,48 @@
 </head>
 <body>
 <div class="content"> 
-    <h1 class="title">Dog - 🤒</h1>
-    <div class="message">Your pet was damaged, something is wrong?</div>
+    <h1 class="title">Dog - 😄</h1>
+    <div class="message">Dog need cures.</div>
     <div class="container">
-      <p>timelife: 4</p>
+      <p>timelife: 7</p>
       <p>age: 0</p>
-      <p>HP: ❤ ❤ ❤ ❤ ❤</p>
-      <p>feeling: sick</p>
-      <p>mood: happy</p>
+      <p>HP: ❤ ❤</p>
+      <p>feeling: normal</p>
+      <p>mood: upset</p>
       <p>hungry: full</p>
       <p>sleep: no need sleep</p>
-      <p>poopy: everything fine</p>
+      <p>poopy: something smell</p>
     </div>
-    <div>
-      <form action="/action" method="get">
-        <button class="btn" name="feed">Feed</button>
+    <div class="actions">
+      <form method="get" ></form>
+        
+            <button class="btn" name="feed">Feed</button>
+        
+            <button class="btn" name="clear">Clear</button>
+        
+            <button class="btn" name="walk">Walk</button>
+        
+            <button class="btn" name="help">Help</button>
+        
+            <button class="btn" name="to_bed">To_bed</button>
+        
+            <button class="btn" name="skip_time">Skip_time</button>
+        
+            <button class="btn" name="huge">Huge</button>
+        
+            <button class="btn" name="cure">Cure</button>
+        
+            <button class="btn" name="play">Play</button>
+        
+            <button class="btn" name="leave">Leave</button>
+        
       </form>
     </div>
 </div>
 <script type="text/javascript">
   const handlerUpdateContent = (event) => {
     event.preventDefault();
-    
+
     let target = event.target;
 
     if (target.className === 'btn') {
@@ -46,7 +66,6 @@
       })
     };
   }
-
 
   document.addEventListener('click', handlerUpdateContent);
 </script>

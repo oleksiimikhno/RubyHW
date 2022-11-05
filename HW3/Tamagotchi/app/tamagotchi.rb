@@ -6,86 +6,16 @@ require 'rack'
 
 # Create new creation in Tamagotchi game
 class Pet
-  # def self.call(env)
-  #   @env = env
-  #   new(env).response.finish
-  # end
-
   def call(env)
     [200, {}, [response(env)]]
-    # new(env).response.finish
   end
 
   def initialize
-    
-
     @start = false
     veriables
-    render_html
     start_game
   end
-
-  def response(env)
-    render_html
-    @request = Rack::Request.new(env)
-    p "___________________#{@request.path}________________________"
-    case "#{@request.path}"
-    when '/'
-      render_html
-    when '/feed'
-      p "-_______FEEED____"
-      walk
-      render_html
-    end
-    # case @request.path
-    # when '/action'
-    #   Rack::Response.new do |response|
-    #     # p "___________________#{response}________________________"
-    #     # response.set_cookie('feed', @request.params['name'])
-    #     # walk
-    #     # response.redirect('/')
-    #     # render_html
-    #   end
-    #   # Rack::Response.new('Not found', 404)
-    # end
-
-
-
-
-
-    # case @request.path
-    # when '/'
-    #   Rack::Response.new(render_html)
-    # when '/action'
-    #   Rack::Response.new do |response|
-    #     # p "___________________#{response}________________________"
-    #     # response.set_cookie('feed', @request.params['name'])
-    #     # walk
-    #     # response.redirect('/')
-    #     render_html
-    #   end
-    # else
-    #   Rack::Response.new('Not found', 404)
-    # end
-  end
-
-  def render_html
-    template = File.read('./app/view/content.html.erb')
-    html_content = ERB.new(template).result(binding)
-    p html_content
-    style_path = '/app/view/style/default.css'
-    cc = InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
-    p cc
-  end
-
-  def start_game
-    @start = true
-    custom_methods = self.class.instance_methods(false)
-    @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
-
-    # action_message
-  end
-
+  
   def info
     puts "
     -------- #{@name} --------
@@ -391,7 +321,29 @@ class Pet
     end
   end
 
+  def render_html
+    template = File.read('./app/view/content.html.erb')
+    html_content = ERB.new(template).result(binding)
+    style_path = '/app/view/style/default.css'
+    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+  end
 
+  def start_game
+    @start = true
+    custom_methods = self.class.instance_methods(false)
+    @game_methods = @start ? custom_methods - ['start_game'.to_sym, 'call'.to_sym, 'info'.to_sym] : custom_methods
+  end
+
+  def response(env)
+    @request = Rack::Request.new(env)
+    case @request.path
+    when '/'
+      render_html
+    when @request.path
+      action_user(@request.path.delete_prefix('/'))
+      render_html
+    end
+  end
 
   # Handler user action
   def action_message
@@ -405,9 +357,8 @@ class Pet
   end
 
   def action_user(action)
+    puts '_____'
     !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
-
-    # action_message
   end
 
   def action_reducer(action)
@@ -419,14 +370,9 @@ class Pet
     else
       puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
-
-    # action_message
   end
 
   def action_helper(action)
     @game_methods.detect { |method| method == action }
   end
 end
-
-# pet = Pet.new
-# pet.info

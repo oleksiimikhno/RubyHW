@@ -11,9 +11,11 @@
       <p>sleep: <%= @sleep_info %></p>
       <p>poopy: <%= @poopy_info %></p>
     </div>
-    <div>
-      <form action="/action" method="get">
-        <button class="btn" name="feed">Feed</button>
+    <div class="actions">
+      <form method="get" ></form>
+        <% @game_methods.each do |method_name| %>
+            <button class="btn" name="<%= method_name %>"><%= method_name.capitalize %></button>
+        <% end %>
       </form>
     </div>
 </div>
@@ -36,6 +38,6 @@
       })
     };
   }
-  
+
   document.addEventListener('click', handlerUpdateContent);
 </script>

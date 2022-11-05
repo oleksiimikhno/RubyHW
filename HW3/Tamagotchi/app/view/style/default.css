@@ -34,3 +34,13 @@ body {
     border-radius: var(--raidus);
     box-shadow: var(--shadow);
 }
+
+.actions > form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.btn {
+    margin: 5px;
+    cursor: pointer;
+}
