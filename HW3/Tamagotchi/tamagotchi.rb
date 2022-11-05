@@ -2,67 +2,14 @@
 
 require 'erb'
 require 'inner_html_content'
-require 'rack'
 
 # Create new creation in Tamagotchi game
 class Pet
-  # def call(env)
-  #   @env = env
-
-  #   # (env).response.finish
-  #   [200, {}, [render_html]]
-  # end
-
-  # def call(env)
-  #   response(env)
-  # end
-
-  def self.call(env)
-    new(env).response
-  end
-
-
-  # def call(env)
-  #   response = Rack::Response.new(env)
-  #   @rack = Rack::Request.new(env).fullpath 
-  #   p response.finish
-  #   p "123123123121231231231231231231233 #{@rack}"
-  #   # (env).response&.finish
-  #   [200, {}, [render_html]]
-  #   # self.new(env)
-  # end
-
-
-  def initialize(env)
-    @rack = Rack::Request.new(env)
-    p @rack
-    # @req = Rack::Request.new(env)
+  def initialize
     @start = false
-    veriables(nil)
-    render_html
-    # render_html
+    veriables
     start_game
-  end
-
-
-
-  def response
-    p @rack.path
-
-
-    case @rack.path
-    when "/favicon.ico"
-      [200, {}, [render_html]]
-      # Rack::Response.new(render_html)
-    end
-    # [200, {}, [render_html]]
-  end
-
-  def render_html
-    template = File.read('./app/view/content.erb')
-    html_content = ERB.new(template).result(binding)
-    style_path = '/app/view/style/default.css'
-    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+    render_html
   end
 
   def start_game
@@ -70,7 +17,7 @@ class Pet
     custom_methods = self.class.instance_methods(false)
     @game_methods = @start ? custom_methods.reject { |v| v == 'start_game'.to_sym } : custom_methods
 
-    # action_message
+    action_message
   end
 
   def info
@@ -201,9 +148,9 @@ class Pet
 
   private
 
-  def veriables(name)
+  def veriables
     names = %w[Dog Dragon Cat Unicorn Monkey]
-    @name = name || names.sample
+    @name = names.sample
     @time = 0
     @age = 0
     @health = @name == 'Cat' ? health(9) : health(rand(1..6))
@@ -277,6 +224,14 @@ class Pet
   end
 
   ## Engine methods ##
+
+  def render_html
+    template = File.read('./app/view/content.erb')
+    html_content = ERB.new(template).result(binding)
+    style_path = 'app/view/style/default.css'
+    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+  end
+
   def game_time_pass
     state
 
@@ -378,8 +333,6 @@ class Pet
     end
   end
 
-
-
   # Handler user action
   def action_message
     title = "\n--------- Please select method name to interact with #{@name}! ---------"
@@ -394,7 +347,7 @@ class Pet
   def action_user(action)
     !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
 
-    # action_message
+    action_message
   end
 
   def action_reducer(action)
@@ -407,7 +360,7 @@ class Pet
       puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
     end
 
-    # action_message
+    action_message
   end
 
   def action_helper(action)
@@ -415,5 +368,4 @@ class Pet
   end
 end
 
-# pet = Pet.new
-# pet.info
+Pet.new

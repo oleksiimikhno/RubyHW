@@ -11,12 +11,13 @@
       <p>sleep: <%= @sleep_info %></p>
       <p>poopy: <%= @poopy_info %></p>
     </div>
-    <div>
-      <button>Click</button>
-    
-    </div>
+    <%# <div>
+      <form action="/action" method="get">
+        <button name="feed" value="feed">Feed</button>
+      </form>
+    </div> %>
 </div>
-<%# <script type="text/javascript">
+<script type="text/javascript">
 setInterval(() => {
   let content = document.querySelector('.content');
 
@@ -30,4 +31,4 @@ setInterval(() => {
       content.innerHTML = newContent;
     })
 }, 500);
-</script> %>
+</script>
