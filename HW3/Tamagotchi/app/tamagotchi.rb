@@ -251,6 +251,8 @@ class Pet
 
   def start_game
     @start = true
+    public_methods = self.class.instance_methods(false)
+    
     @game_methods = GameEngine.methods(@start, public_methods)
   end
 
