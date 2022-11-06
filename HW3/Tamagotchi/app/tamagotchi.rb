@@ -249,6 +249,11 @@ class Pet
     @sleep_need = true if @time == 10
   end
 
+  def start_game
+    @start = true
+    @game_methods = GameEngine.methods(@start, public_methods)
+  end
+
   def game_message(text, message_class = 'info')
     @message = GameEngine.message(text, message_class)
   end
@@ -263,14 +268,6 @@ class Pet
 
   def dec_value(value_name, num = 1)
     value_name - num
-  end
-
-  def start_game
-    @start = true
-
-    public_methods = self.class.instance_methods(false)
-    remove_methods = %w[start_game call help].map(&:to_sym)
-    @game_methods = @start ? public_methods - remove_methods : public_methods
   end
 
   # Handler user action
