@@ -27,8 +27,10 @@ module GameCommandList
         "#{method} - mayby your pet sick? Need cure his?"
       when 'play'
         "#{method} - with pet"
+      when 'restart'
+        "#{method} - game will restart"
       else
-        raise StandardError, 'Some error with methods'
+        raise StandardError, "Find new Unknown method #{method} in game. Please add description in game_command_list"
       end
     end
   end

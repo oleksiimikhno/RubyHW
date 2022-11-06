@@ -24,6 +24,11 @@ class Pet
     start_game
   end
 
+  def restart
+    veriables
+    start_game
+  end
+
   def walk
     events = %w[sunny rainy cloudy coldy]
     event = events.sample
@@ -236,6 +241,7 @@ class Pet
 
     return unless game_end?
 
+    @game_methods = ['restart'.to_sym]
     @emoji = "\u{2620}"
     game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
@@ -252,7 +258,7 @@ class Pet
   def start_game
     @start = true
     public_methods = self.class.instance_methods(false)
-    
+
     @game_methods = GameEngine.methods(@start, public_methods)
   end
 
@@ -287,6 +293,7 @@ class Pet
       render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path.delete_prefix('/'), @game_methods)
+      p virify_acttion
       public_send(virify_acttion)
       game_end? ? render_html('game_end.html.erb') : render_html
     end
