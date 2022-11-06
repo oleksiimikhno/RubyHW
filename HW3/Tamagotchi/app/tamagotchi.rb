@@ -4,30 +4,20 @@ require 'erb'
 require 'inner_html_content'
 require 'rack'
 
+require './app/controllers/action_user'
+
 # Create new creation in Tamagotchi game
 class Pet
+  include ActionUser
+
   def call(env)
-    [200, {}, [response(env)]]
+    [200, {}, [action_response(env)]]
   end
 
   def initialize
     @start = false
     veriables
     start_game
-  end
-  
-  def info
-    puts "
-    -------- #{@name} --------
-    timelife: #{@time}
-    age: #{@age}
-    HP: #{@health}
-    feeling: #{@feeling_info}
-    mood: #{@mood_info}
-    hungry: #{@hungry_info}
-    sleep: #{@sleep_info}
-    poopy: #{@poopy_info}
-    "
   end
 
   def walk
@@ -149,7 +139,6 @@ class Pet
     @emoji = "\u{1f604}"
 
     state
-    info
     game_message("#{@name} born.")
   end
 
@@ -246,7 +235,7 @@ class Pet
     end
 
     game_timer
-    render_html
+    # render_html
 
     return unless game_end?
 
@@ -255,7 +244,6 @@ class Pet
     game_message("Your creation is #{game_ends.sample}.")
     @emoji = "\u{2620}"
     render_html
-    exit
   end
 
   def game_timer(value = 1)
@@ -292,8 +280,6 @@ class Pet
       "#{method} - view all methods"
     when 'feed'
       "#{method} - your pet"
-    when 'info'
-      "#{method} - view all information about pet"
     when 'clear'
       "#{method} - clear poopy in home"
     when 'walk'
@@ -323,51 +309,64 @@ class Pet
   def start_game
     @start = true
     custom_methods = self.class.instance_methods(false)
-    remove_methods = %w[start_game call info help].map(&:to_sym)
+    remove_methods = %w[start_game call help].map(&:to_sym)
     @game_methods = @start ? custom_methods - remove_methods : custom_methods
   end
 
-  def response(env)
-    @request = Rack::Request.new(env)
-    case @request.path
+  # Handler user action
+  def render_html(file_name = 'content.html.erb')
+    template = File.read("./app/view/template/#{file_name}")
+    html_content = ERB.new(template).result(binding)
+    style_path = '/app/view/style/default.css'
+    InnerHTMLContent.add_content("Tamagochi - #{@pet_name}", html_content, style_path, bypass_html: false)
+  end
+
+  def action_response(env)
+    request = Rack::Request.new(env)
+    case request.path
     when '/'
       render_html
     # when '/leave'
     #   render_html('game_end.html.erb')
-    when @request.path
-      action_user(@request.path.delete_prefix('/'))
+    when request.path
+      virify_acttion = ActionUser.action_user(request.path.delete_prefix('/'), @game_methods)
+      public_send(virify_acttion)
       render_html
     end
   end
 
-  # Handler user action
-  def action_message
-    title = "\n--------- Please select method name to interact with #{@name}! ---------"
-    subtitle = '________________________________________________________________________________'
 
-    puts "#{title}\n#{@game_methods.join("\n")}\n#{subtitle}
-    "
 
-    action_user(gets.chomp)
-  end
+  # def action_response(env)
+  #   request = Rack::Request.new(env)
+  #   case request.path
+  #   when '/'
+  #     render_html
+  #   # when '/leave'
+  #   #   render_html('game_end.html.erb')
+  #   when request.path
+  #     action_user(request.path.delete_prefix('/'))
+  #     render_html
+  #   end
+  # end
 
-  def action_user(action)
-    puts '_____'
-    !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
-  end
+  # def action_user(action)
+  #   puts '_____'
+  #   !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
+  # end
 
-  def action_reducer(action)
-    action = action.to_sym
+  # def action_reducer(action)
+  #   action = action.to_sym
 
-    case action
-    when action_helper(action)
-      public_send(action)
-    else
-      puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
-    end
-  end
+  #   case action
+  #   when action_helper(action)
+  #     public_send(action)
+  #   else
+  #     puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
+  #   end
+  # end
 
-  def action_helper(action)
-    @game_methods.detect { |method| method == action }
-  end
+  # def action_helper(action)
+  #   @game_methods.detect { |method| method == action }
+  # end
 end
