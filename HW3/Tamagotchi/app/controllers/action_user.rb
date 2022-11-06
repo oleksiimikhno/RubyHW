@@ -4,7 +4,9 @@
 module ActionUser
   class << self
     def action_user(action, game_methods)
+      action = action.delete_prefix('/')
       @game_methods = game_methods
+      
       !action.empty? ? action_reducer(action) : (puts '▼ Empty action, please type anything from there ▼▼▼! ▼')
     end
 

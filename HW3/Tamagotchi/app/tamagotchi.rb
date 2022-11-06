@@ -7,12 +7,14 @@ require 'rack'
 require './app/controllers/game_engine'
 require './app/controllers/action_user'
 require './app/controllers/game_command_list'
+require './app/controllers/pet_state'
 
 # Create new creation in Tamagotchi game
 class Pet
   include GameEngine
   include ActionUser
   include GameCommandList
+  include PetState
 
   def call(env)
     [200, {}, [action_response(env)]]
@@ -31,12 +33,10 @@ class Pet
 
   def walk
     event = %w[sunny rainy cloudy coldy].sample
-
     case event
     when 'rainy' || 'coldy'
       @sick = [true, false].sample
-      @feeling_value = dec_value(@feeling_value, 2)
-      game_message('Pet feeling not good.') if @sick
+      @feeling_value = dec_value(@feeling_value, 1)
     when 'sunny'
       game_message("#{@name} happyes todays.")
       @feeling_value = inc_value(@feeling_value, 2)
@@ -66,7 +66,7 @@ class Pet
   end
 
   def feed
-    if poppy?
+    if PetState.poopy(@intestine_value)
       @emoji = "\u{1f922}"
       game_message('Need clear area :(. Mess, smell...')
       return
@@ -85,7 +85,7 @@ class Pet
     @sleep_value = inc_value(@sleep_value, 2)
     @sick = false
     # it's magic method but what price?
-    @reborn = inc_value(@reborn)
+    @reborn_value = inc_value(@reborn_value)
 
     game_message("#{@name} filled self perfectly...")
     game_time_pass
@@ -113,7 +113,7 @@ class Pet
   end
 
   def clear
-    @intestine_value = 0 if poppy?
+    @intestine_value = 0 if PetState.poopy(@intestine_value)
 
     @feeling_value = inc_value(@feeling_value, 1)
     game_message("You clear our house, #{@name} happy now.")
@@ -140,36 +140,25 @@ class Pet
     @feeling_value = 10
     @belly_value = 10
     @intestine_value = 0
-    @reborn = 0
+    @reborn_value = 0
     @emoji = "\u{1f604}"
+
+    @mental_state = [@sleep_value, @feeling_value, @belly_value]
 
     state_info
     game_message("#{@name} born.")
   end
 
   def state_info
-    @name = reborn? ? 'Monster' : @name
+    @name = PetState.reborn(@reborn_value) ? 'Monster' : @name
     @feeling_info = @sick ? 'sick' : 'normal'
-    @mood_info = mood? ? 'happy' : 'upset'
+    @mood_info = PetState.mood(@mental_state) ? 'happy' : 'upset'
     @sleep_info = @sleep_need ? 'sleepy' : 'no need sleep'
-    @hungry_info = hungry? ? 'wanna eat' : 'full'
-    @poopy_info = poppy? ? 'something smell' : 'everything fine'
+    @hungry_info = PetState.hungry(@belly_value) ? 'wanna eat' : 'full'
+    @poopy_info = PetState.poopy(@intestine_value) ? 'something smell' : 'everything fine'
   end
 
   ## Pet methods ##
-  def hungry?
-    @belly_value < 2
-  end
-
-  def belly
-    @belly_value = dec_value(@belly_value)
-    hungry? ? health_damaged : game_message("#{@name} need feeding.")
-  end
-
-  def poppy?
-    @intestine_value >= 6
-  end
-
   def health(value)
     @health_array = value.times
     @health = value.times.map { "\u{2764}" }.join(' ')
@@ -193,43 +182,38 @@ class Pet
     @sleep_value.negative? ? health_damaged : game_message("#{@name} need some sleep.")
   end
 
-  def mood?
-    return false if poppy?
-
-    state_property = [@sleep_value, @feeling_value, @belly_value]
-    state_property.all? { |v| v > 5 }
-  end
-
-  def reborn?
-    @reborn >= 4
+  def belly
+    if PetState.hungry(@belly_value)
+      game_message("#{@name} eat you..", 'alert') unless @name == 'Monster' && @belly_value < 5
+      health_damaged
+    else
+      game_message("#{@name} need feeding.")
+    end
   end
 
   ## Engine methods ##
   def game_time_pass
     state_info
 
-    @belly_value = reborn? ? dec_value(@belly_value, 4) : dec_value(@belly_value)
-    @intestine_value = inc_value(@intestine_value)
-
-    if hungry?
-      game_message("#{@name} eat you..", 'alert') unless reborn? && @belly_value < 5
-      belly
-    end
-
-    @emoji = "\u{1f608}" if reborn?
     sick if @sick
     tired if @sleep_need
-    @sick = [true, false].sample if poppy?
+    belly
+    @sick = [true, false].sample if PetState.poopy(@intestine_value)
+
+    @emoji = "\u{1f608}" if PetState.reborn(@reborn_value)
     game_message("#{@name} run away!", 'alert') if @feeling_value.negative?
 
+    @belly_value = PetState.reborn(@reborn_value) ? dec_value(@belly_value, 4) : dec_value(@belly_value)
+    @intestine_value = inc_value(@intestine_value)
+
     game_timer
-    return unless game_end?
+    return unless PetState.dead(@health_array)
 
     @game_methods = ['restart'.to_sym]
     @emoji = "\u{2620}"
-    game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
+    end_event = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
-    game_message("Your creation is #{game_ends.sample}.", 'alert')
+    game_message("Your creation is #{end_event.sample}.", 'alert')
   end
 
   def game_timer(value = 1)
@@ -246,14 +230,6 @@ class Pet
     @game_methods = GameEngine.methods(@start, public_methods)
   end
 
-  def game_message(text, message_class = 'info')
-    @message = GameEngine.message(text, message_class)
-  end
-
-  def game_end?
-    @health_array.size <= 0
-  end
-
   def inc_value(value_name, num = 1)
     value_name + num
   end
@@ -263,6 +239,10 @@ class Pet
   end
 
   # Handler user action
+  def game_message(text, message_class = 'info')
+    @message = GameEngine.message(text, message_class)
+  end
+
   def render_html(file_name = 'content.html.erb')
     template = File.read("./app/view/template/#{file_name}")
     html_content = ERB.new(template).result(binding)
@@ -276,9 +256,9 @@ class Pet
     when '/'
       render_html
     when request.path
-      virify_acttion = ActionUser.action_user(request.path.delete_prefix('/'), @game_methods)
+      virify_acttion = ActionUser.action_user(request.path, @game_methods)
       public_send(virify_acttion)
-      game_end? ? render_html('game_end.html.erb') : render_html
+      PetState.dead(@health_array) ? render_html('game_end.html.erb') : render_html
     end
   end
 end
