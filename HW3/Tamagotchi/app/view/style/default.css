@@ -1,10 +1,12 @@
 @import './reset/normalize.min.css';
+@import './component/index.css';
 
 :root {
     --bg-body: #eeded2;
     --bg-content: #fff;
     --raidus: 4px;
     --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    --shadow-hover: rgba(0, 0, 0, 0.4) 0px 3px 8px;
 }
 
 body {
@@ -14,25 +16,6 @@ body {
 }
 .title {
     text-align: center;
-}
-
-.message {
-    padding: 10px;
-    margin: 10px;
-    border-radius: var(--raidus);
-    box-shadow: var(--shadow);
-}
-
-.info {
-    background-color: #94d6f5;
-}
-
-.warring {
-    background-color: #f0e43a;
-}
-
-.alert {
-    background-color: #f0553a;
 }
 
 .content {

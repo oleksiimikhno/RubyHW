@@ -9,8 +9,8 @@
 </head>
 <body>
 <div class="content"> 
-  <h1 class="title">Cat - ☠</h1>
-  <!DOCTYPE html>
+    <h1 class="title">Unicorn - 😔</h1>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,44 +20,93 @@
   <link rel="stylesheet" href="/app/view/style/default.css" />
 </head>
 <body>
-<div class="message alert">Your creation is sleep forever.</div>
+<div class="message info">Unicorn need some sleep.</div>
 </body>
 </html>
-  <div class="container">
-    <p>timelife: 10</p>
-    <p>age: 1</p>
-    <p>HP: </p>
-    <p>feeling: sick</p>
-    <p>mood: upset</p>
-    <p>hungry: wanna eat</p>
-    <p>sleep: no need sleep</p>
-    <p>poopy: everything fine</p>
-  </div>
+    <div class="container">
+      <p>timelife: 11</p>
+      <p>age: 0</p>
+      <p>HP: ❤ ❤ ❤ ❤</p>
+      <p>feeling: sick</p>
+      <p>mood: upset</p>
+      <p>hungry: full</p>
+      <p>sleep: sleepy</p>
+      <p>poopy: everything fine</p>
+    </div>
+    <div class="actions">
+      <form method="get" ></form>
+        
+            <button class="btn" name="feed">feed</button>
+        
+            <button class="btn" name="clear">clear</button>
+        
+            <button class="btn" name="walk">walk</button>
+        
+            <button class="btn" name="to_bed">to bed</button>
+        
+            <button class="btn" name="skip_time">skip time</button>
+        
+            <button class="btn" name="huge">huge</button>
+        
+            <button class="btn" name="cure">cure</button>
+        
+            <button class="btn" name="play">play</button>
+        
+      </form>
+    </div>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tamagochi - </title>
+  <link rel="stylesheet" href="/app/view/style/default.css" />
+</head>
+<body>
+<ul class="commands-desc">
   
-    <button class="btn" name="restart">Restart</button>
+  <li>feed - your pet</li>
   
+  <li>clear - clear poopy in home</li>
+  
+  <li>walk - outside with pet</li>
+  
+  <li>to_bed - put your pet</li>
+  
+  <li>skip_time - some time in game</li>
+  
+  <li>huge - your pet.?.</li>
+  
+  <li>cure - mayby your pet sick? Need cure his?</li>
+  
+  <li>play - with pet</li>
+  
+</ul>
+</body>
+</html>
 </div>
 <script type="text/javascript">
-const handlerUpdateContent = (event) => {
-  event.preventDefault();
+  const handlerUpdateContent = (event) => {
+    event.preventDefault();
 
-  let target = event.target;
+    let target = event.target;
 
-  if (target.className === 'btn') {
-    let content = document.querySelector('.content');
-        
-    fetch(`/${target.name}`)
-      .then((response) => response.text())
-      .then((html) => {
-        let newDocument = new DOMParser().parseFromString(html, 'text/html');
-        let newContent = newDocument.querySelector('.content').innerHTML;
+    if (target.className === 'btn') {
+      let content = document.querySelector('.content');
+          
+      fetch(`/${target.name}`)
+        .then((response) => response.text())
+        .then((html) => {
+          let newDocument = new DOMParser().parseFromString(html, 'text/html');
+          let newContent = newDocument.querySelector('.content').innerHTML;
 
-        content.innerHTML = newContent;
-    })
-  };
-}
+          content.innerHTML = newContent;
+      })
+    };
+  }
 
-document.addEventListener('click', handlerUpdateContent);
+  document.addEventListener('click', handlerUpdateContent);
 </script>
 </body>
 </html>

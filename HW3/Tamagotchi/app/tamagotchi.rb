@@ -20,18 +20,17 @@ class Pet
 
   def initialize
     @start = false
-    veriables
+    setup
     start_game
   end
 
   def restart
-    veriables
+    setup
     start_game
   end
 
   def walk
-    events = %w[sunny rainy cloudy coldy]
-    event = events.sample
+    event = %w[sunny rainy cloudy coldy].sample
 
     case event
     when 'rainy' || 'coldy'
@@ -44,9 +43,6 @@ class Pet
     else
       game_message('Nothing happened, you returns to home.')
     end
-
-    game_message("You and #{@name} walk. Today #{event} in outside.")
-
     game_time_pass
   end
 
@@ -133,7 +129,7 @@ class Pet
 
   private
 
-  def veriables
+  def setup
     names = %w[Dog Dragon Cat Unicorn Monkey]
     @name = names.sample
     @time = 0
@@ -185,6 +181,7 @@ class Pet
   end
 
   def sick
+    @emoji = "\u{1f912}"
     @feeling_value = dec_value(@feeling_value)
     @feeling_value < 7 ? health_damaged : game_message("#{@name} need cures.")
   end
@@ -211,20 +208,8 @@ class Pet
   def game_time_pass
     state
 
-    @belly_value = if reborn?
-                     dec_value(@belly_value, 4)
-                   else
-                     dec_value(@belly_value)
-                   end
-
+    @belly_value = reborn? ? dec_value(@belly_value, 4) : dec_value(@belly_value)
     @intestine_value = inc_value(@intestine_value)
-
-    tired if @sleep_need
-
-    if @sick
-      sick
-      @emoji = "\u{1f912}"
-    end
 
     if hungry?
       game_message("#{@name} eat you..", 'alert') unless reborn? && @belly_value < 5
@@ -232,13 +217,12 @@ class Pet
     end
 
     @emoji = "\u{1f608}" if reborn?
-
+    sick if @sick
+    tired if @sleep_need
     @sick = [true, false].sample if poppy?
-
     game_message("#{@name} run away!", 'alert') if @feeling_value.negative?
 
     game_timer
-
     return unless game_end?
 
     @game_methods = ['restart'.to_sym]
