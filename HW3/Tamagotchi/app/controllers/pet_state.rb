@@ -4,7 +4,6 @@
 module PetState
   class << self
     def hungry(belly_value)
-      p belly_value
       belly_value < 2
     end
 
