@@ -331,7 +331,8 @@ class Pet
   def start_game
     @start = true
     custom_methods = self.class.instance_methods(false)
-    @game_methods = @start ? custom_methods - ['start_game'.to_sym, 'call'.to_sym, 'info'.to_sym] : custom_methods
+    remove_methods = %w[start_game call info].map(&:to_sym)
+    @game_methods = @start ? custom_methods - remove_methods : custom_methods
   end
 
   def response(env)
