@@ -4,11 +4,13 @@ require 'erb'
 require 'inner_html_content'
 require 'rack'
 
+require './app/controllers/game_engine'
 require './app/controllers/action_user'
 require './app/controllers/game_command_list'
 
 # Create new creation in Tamagotchi game
 class Pet
+  include GameEngine
   include ActionUser
   include GameCommandList
 
@@ -248,9 +250,7 @@ class Pet
   end
 
   def game_message(text, message_class = 'info')
-    @message_class = message_class
-    puts text
-    @message = text
+    @message = GameEngine.message(text, message_class)
   end
 
   def game_end?
@@ -258,11 +258,11 @@ class Pet
   end
 
   def inc_value(value_name, num = 1)
-    value_name += num
+    value_name + num
   end
 
   def dec_value(value_name, num = 1)
-    value_name -= num
+    value_name - num
   end
 
   def start_game
