@@ -30,11 +30,6 @@ class Pet
     "
   end
 
-  def help
-    # description_methods
-    puts @game_methods.map { |v| help_description(v.to_s) }
-  end
-
   def walk
     events = %w[sunny rainy cloudy coldy]
     event = events.sample
@@ -135,11 +130,6 @@ class Pet
       game_message('You passed some time...')
       game_time_pass
     end
-  end
-
-  def leave
-    game_message('You walk outside buy something stuff and never return...')
-    exit
   end
 
   private
@@ -292,7 +282,11 @@ class Pet
     value_name -= num
   end
 
-  def help_description(method)
+  def commands
+    @game_methods.map { |v| commands_description(v.to_s) }
+  end
+
+  def commands_description(method)
     case method
     when 'help'
       "#{method} - view all methods"
@@ -314,15 +308,13 @@ class Pet
       "#{method} - mayby your pet sick? Need cure his?"
     when 'play'
       "#{method} - with pet"
-    when 'leave'
-      "#{method} - game, its your chose"
     else
       raise StandardError, 'Some error with methods'
     end
   end
 
-  def render_html
-    template = File.read('./app/view/content.html.erb')
+  def render_html(file_name = 'content.html.erb')
+    template = File.read("./app/view/template/#{file_name}")
     html_content = ERB.new(template).result(binding)
     style_path = '/app/view/style/default.css'
     InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
@@ -331,7 +323,7 @@ class Pet
   def start_game
     @start = true
     custom_methods = self.class.instance_methods(false)
-    remove_methods = %w[start_game call info].map(&:to_sym)
+    remove_methods = %w[start_game call info help].map(&:to_sym)
     @game_methods = @start ? custom_methods - remove_methods : custom_methods
   end
 
@@ -340,6 +332,8 @@ class Pet
     case @request.path
     when '/'
       render_html
+    # when '/leave'
+    #   render_html('game_end.html.erb')
     when @request.path
       action_user(@request.path.delete_prefix('/'))
       render_html
