@@ -5,10 +5,12 @@ require 'inner_html_content'
 require 'rack'
 
 require './app/controllers/action_user'
+require './app/controllers/game_command_list'
 
 # Create new creation in Tamagotchi game
 class Pet
   include ActionUser
+  include GameCommandList
 
   def call(env)
     [200, {}, [action_response(env)]]
@@ -226,9 +228,7 @@ class Pet
 
     @sick = [true, false].sample if poppy?
 
-    if @feeling_value.negative?
-      game_message("#{@name} run away!")
-    end
+    game_message("#{@name} run away!", 'alert') if @feeling_value.negative?
 
     game_timer
 
@@ -265,37 +265,9 @@ class Pet
     value_name -= num
   end
 
-  def commands
-    @game_methods.map { |v| commands_description(v.to_s) }
-  end
-
-  def commands_description(method)
-    case method
-    when 'help'
-      "#{method} - view all methods"
-    when 'feed'
-      "#{method} - your pet"
-    when 'clear'
-      "#{method} - clear poopy in home"
-    when 'walk'
-      "#{method} - outside with pet"
-    when 'to_bed'
-      "#{method} - put your pet"
-    when 'huge'
-      "#{method} - your pet.?."
-    when 'skip_time'
-      "#{method} - some time in game"
-    when 'cure'
-      "#{method} - mayby your pet sick? Need cure his?"
-    when 'play'
-      "#{method} - with pet"
-    else
-      raise StandardError, 'Some error with methods'
-    end
-  end
-
   def start_game
     @start = true
+
     public_methods = self.class.instance_methods(false)
     remove_methods = %w[start_game call help].map(&:to_sym)
     @game_methods = @start ? public_methods - remove_methods : public_methods
@@ -303,7 +275,6 @@ class Pet
 
   # Handler user action
   def render_html(file_name = 'content.html.erb')
-    p "_____#{file_name}"
     template = File.read("./app/view/template/#{file_name}")
     html_content = ERB.new(template).result(binding)
     style_path = '/app/view/style/default.css'

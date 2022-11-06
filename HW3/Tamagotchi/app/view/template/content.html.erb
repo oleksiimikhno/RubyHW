@@ -18,13 +18,7 @@
         <% end %>
       </form>
     </div>
-    <div class="commands-desc">
-    <ul>
-      <% commands.each do |command| %>
-        <li><%= command %></li>
-      <% end %>
-    </ul>
-    </div>
+    <%= render_html "game_command_list.html.erb" %>
 </div>
 <script type="text/javascript">
   const handlerUpdateContent = (event) => {
