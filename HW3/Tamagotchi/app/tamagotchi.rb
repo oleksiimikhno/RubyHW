@@ -171,7 +171,7 @@ class Pet
   end
 
   def health_damaged
-    game_message('Your pet was damaged, something is wrong?')
+    game_message('Your pet was damaged, something is wrong?', 'warring')
     health(dec_value(@health_array.size))
   end
 
@@ -218,9 +218,7 @@ class Pet
     end
 
     if hungry?
-      if reborn? && @belly_value < 5
-        game_message("#{@name} ear you..")
-      end
+      game_message("#{@name} eat you..", 'alert') unless reborn? && @belly_value < 5
       belly
     end
 
@@ -239,7 +237,7 @@ class Pet
     @emoji = "\u{2620}"
     game_ends = ['dead', 'sleep forever', 'run away', 'return to Skytown']
 
-    game_message("Your creation is #{game_ends.sample}.")
+    game_message("Your creation is #{game_ends.sample}.", 'alert')
   end
 
   def game_timer(value = 1)
@@ -249,7 +247,8 @@ class Pet
     @sleep_need = true if @time == 10
   end
 
-  def game_message(text)
+  def game_message(text, message_class = 'info')
+    @message_class = message_class
     puts text
     @message = text
   end
@@ -304,6 +303,7 @@ class Pet
 
   # Handler user action
   def render_html(file_name = 'content.html.erb')
+    p "_____#{file_name}"
     template = File.read("./app/view/template/#{file_name}")
     html_content = ERB.new(template).result(binding)
     style_path = '/app/view/style/default.css'
