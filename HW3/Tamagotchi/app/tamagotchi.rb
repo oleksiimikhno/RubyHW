@@ -143,11 +143,11 @@ class Pet
     @reborn = 0
     @emoji = "\u{1f604}"
 
-    state
+    state_info
     game_message("#{@name} born.")
   end
 
-  def state
+  def state_info
     @name = reborn? ? 'Monster' : @name
     @feeling_info = @sick ? 'sick' : 'normal'
     @mood_info = mood? ? 'happy' : 'upset'
@@ -206,7 +206,7 @@ class Pet
 
   ## Engine methods ##
   def game_time_pass
-    state
+    state_info
 
     @belly_value = reborn? ? dec_value(@belly_value, 4) : dec_value(@belly_value)
     @intestine_value = inc_value(@intestine_value)
@@ -277,7 +277,6 @@ class Pet
       render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path.delete_prefix('/'), @game_methods)
-      p virify_acttion
       public_send(virify_acttion)
       game_end? ? render_html('game_end.html.erb') : render_html
     end
