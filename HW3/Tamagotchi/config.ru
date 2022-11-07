@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require './app/tamagotchi'
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require(:default)
 
-# Bundler.require
+require './app/tamagotchi'
 
 use Rack::Static,
   :urls => ["/app/view/style/"]

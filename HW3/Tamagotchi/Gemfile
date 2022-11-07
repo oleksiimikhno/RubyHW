@@ -7,6 +7,6 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 # gem "rails"
 
 gem 'inner_html_content', :git => 'https://github.com/xiosky90/ruby_inner_html_content.git', :branch => 'main'
-gem "byebug", "~> 11.1", :groups => [:development, :test]
-
+# gem "byebug", "~> 11.1", :groups => [:development, :test]
 gem "rack", "= 3.0.0"
+gem "rack-mount", :require => "rack/mount"
