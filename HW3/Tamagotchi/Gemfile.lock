@@ -23,7 +23,7 @@ PLATFORMS
 
 DEPENDENCIES
   inner_html_content!
-  rack
+  rack (= 3.0.0)
   rack-cache
   rack-mount
   rackup

@@ -247,7 +247,7 @@ class Pet
     template = File.read("./app/view/template/#{file_name}")
     html_content = ERB.new(template).result(binding)
     style_path = '/app/view/style/default.css'
-    InnerHTMLContent.add_content("Tamagochi - #{@pet_name}", html_content, style_path, bypass_html: false)
+    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
   end
 
   def action_response(env)
