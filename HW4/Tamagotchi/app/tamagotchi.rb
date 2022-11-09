@@ -254,11 +254,20 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
+      render_html('admin_page.html.erb')
+      # render_html
+    when '/game'
       render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path, @game_methods)
+
+      if virify_acttion.nil?
+        render_html('404.html.erb')
+      else
+
       public_send(virify_acttion)
       PetState.dead(@health_array) ? render_html('game_end.html.erb') : render_html
+      end
     end
   end
 end

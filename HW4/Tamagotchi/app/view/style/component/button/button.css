@@ -1,4 +1,6 @@
 .btn {
+    margin: 5px;
+    cursor: pointer;
     background-color: #49cdf5;
     border-radius: var(--raidus);
     border: 4px solid #49cdf5;

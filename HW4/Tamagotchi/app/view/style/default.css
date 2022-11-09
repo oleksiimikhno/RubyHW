@@ -14,6 +14,22 @@ body {
     height: 100vh;
     background-color: var(--bg-body);
 }
+
+.flex {
+    display: flex;
+}
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.flex > input {
+    max-width: 200px;
+}
 .title {
     text-align: center;
 }
@@ -33,7 +49,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
 }
-.btn {
-    margin: 5px;
-    cursor: pointer;
+
+input {
+    margin-bottom: 10px;
 }
