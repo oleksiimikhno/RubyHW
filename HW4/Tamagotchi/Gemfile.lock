@@ -1,0 +1,32 @@
+GIT
+  remote: https://github.com/xiosky90/ruby_inner_html_content.git
+  revision: 5f16d74bb38439f063290ccd62fe2574226c889a
+  branch: main
+  specs:
+    inner_html_content (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rack (3.0.0)
+    rack-cache (1.13.0)
+      rack (>= 0.4)
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
+    rackup (0.2.2)
+      rack (>= 3.0.0.beta1)
+      webrick
+    webrick (1.7.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  inner_html_content!
+  rack (= 3.0.0)
+  rack-cache
+  rack-mount
+  rackup
+
+BUNDLED WITH
+   2.3.25

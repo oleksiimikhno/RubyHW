@@ -1,0 +1,39 @@
+<div class="content"> 
+  <h1 class="title"><%= @name %> - <%= @emoji %></h1>
+  <%= render_html "game_message.html.erb" %>
+  <div class="container">
+    <p>timelife: <%= @time %></p>
+    <p>age: <%= @age %></p>
+    <p>HP: <%= @health %></p>
+    <p>feeling: <%= @feeling_info %></p>
+    <p>mood: <%= @mood_info %></p>
+    <p>hungry: <%= @hungry_info %></p>
+    <p>sleep: <%= @sleep_info %></p>
+    <p>poopy: <%= @poopy_info %></p>
+  </div>
+  <% @game_methods.each do |method_name| %>
+    <button class="btn" name="<%= method_name %>"><%= method_name.capitalize %></button>
+  <% end %>
+</div>
+<script type="text/javascript">
+const handlerUpdateContent = (event) => {
+  event.preventDefault();
+
+  let target = event.target;
+
+  if (target.className === 'btn') {
+    let content = document.querySelector('.content');
+        
+    fetch(`/${target.name}`)
+      .then((response) => response.text())
+      .then((html) => {
+        let newDocument = new DOMParser().parseFromString(html, 'text/html');
+        let newContent = newDocument.querySelector('.content').innerHTML;
+
+        content.innerHTML = newContent;
+    })
+  };
+}
+
+document.addEventListener('click', handlerUpdateContent);
+</script>

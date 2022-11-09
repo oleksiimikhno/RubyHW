@@ -1,0 +1,39 @@
+@import './reset/normalize.min.css';
+@import './component/index.css';
+
+:root {
+    --bg-body: #eeded2;
+    --bg-content: #fff;
+    --raidus: 4px;
+    --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    --shadow-hover: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-body);
+}
+.title {
+    text-align: center;
+}
+
+.content {
+    width: 500px;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bg-content);
+    border-radius: var(--raidus);
+    box-shadow: var(--shadow);
+}
+
+.actions > form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.btn {
+    margin: 5px;
+    cursor: pointer;
+}
