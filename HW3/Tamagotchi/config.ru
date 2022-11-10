@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require 'rubygems'
-require 'bundler/setup'
-Bundler.setup
-Bundler.require(:default)
-
 require './app/tamagotchi'
 
 use Rack::Static,
