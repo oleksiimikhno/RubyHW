@@ -3,6 +3,7 @@
 require 'erb'
 require 'inner_html_content'
 require 'rack'
+require 'json'
 
 require './app/controllers/game_engine'
 require './app/controllers/action_user'
@@ -254,9 +255,22 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
+      json_data = request.body.read
       p request.body.read
+
+      pars = JSON.parse(json_data.to_json, symbolize_names: true)
+
+      pars2 = JSON.parse('{"hello": "goodbye"}')
+      p pars2['hello']
+      p JSON.parse('{"hello": "goodbye"}')
+      p 'qqq'
+      p request.body.read
+      p pars['login']
+      p request.body
+      p JSON.parse(json_data.to_json, symbolize_names: true)
       p request.params["data"]
       p request.params
+      p request.POST
       p request.POST()
       p request.post?
       render_html('login_page.html.erb')

@@ -4,12 +4,54 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamagochi - Monkey</title>
+  <title>Tamagochi - Cat</title>
   <link rel="stylesheet" href="/app/view/style/default.css" />
 </head>
 <body>
 <div class="content"> 
-    <h1 class="title">404 Page not found</h1>
+  <h1 class="title">Authorization page</h1>
+    <form id="login-form" method="post" action="/">
+      <div class="flex vertical center">
+          <input type="text" id="login" name="login" placeholder="Login" require>
+          <input type="text" name="password" placeholder="Password" require>
+      </div>
+      <div class="flex center">
+        <button type="submit" class="btn">Sign in</button>
+      </div>
+    </form>
 </div>
+<script type="text/javascript">
+
+
+const handlerUpdateContent = (event) => {
+  event.preventDefault();
+
+  let target = event.target;
+
+  if (target.className === 'btn') {
+  const loginForm = document.querySelector('#login-form');
+  let formData = new FormData(loginForm);
+
+  // let content2 = document.querySelector('.content');
+
+  console.log(JSON.stringify(Object.fromEntries(formData)))
+        
+  fetch(`/${target.name}`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify(Object.fromEntries(formData))
+    })
+
+    // const content = await rawResponse.json();
+    // console.log(content);
+    // .then((response) => console.log(response.text()))
+  };
+}
+
+document.addEventListener('click', handlerUpdateContent);
+</script>
 </body>
 </html>

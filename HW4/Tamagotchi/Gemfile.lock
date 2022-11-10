@@ -8,6 +8,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    json (2.6.2)
     rack (3.0.0)
     rackup (0.2.2)
       rack (>= 3.0.0.beta1)
@@ -19,6 +20,7 @@ PLATFORMS
 
 DEPENDENCIES
   inner_html_content!
+  json
   rack (= 3.0.0)
   rackup
 
