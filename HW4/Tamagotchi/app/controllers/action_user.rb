@@ -17,7 +17,7 @@ module ActionUser
       when action_helper(action)
         action
       else
-        puts "▼ Unknown command --- #{action.upcase} ---, please select current! ▼"
+        puts "Unknown resourse or page --- #{action.upcase} ---! ▼"
       end
     end
 
