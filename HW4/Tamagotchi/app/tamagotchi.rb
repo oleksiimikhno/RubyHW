@@ -254,7 +254,11 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
-      p request.POST
+      p request.body.read
+      p request.params["data"]
+      p request.params
+      p request.POST()
+      p request.post?
       render_html('admin_page.html.erb')
       # render_html
     when '/game'
