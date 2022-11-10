@@ -10,3 +10,29 @@
       </div>
     </form>
 </div>
+<script type="text/javascript">
+const handlerUpdateContent = (event) => {
+  event.preventDefault();
+
+  let target = event.target;
+
+  if (target.className === 'btn') {
+    let content2 = document.querySelector('.content');
+        
+    let rawResponse = fetch(`/${target.name}`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify({a: 1, b: 2})
+    })
+
+    // const content = await rawResponse.json();
+    // console.log(content);
+      // .then((response) => console.log(response.text()))
+  };
+}
+
+document.addEventListener('click', handlerUpdateContent);
+</script>

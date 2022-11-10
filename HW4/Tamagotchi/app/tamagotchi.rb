@@ -254,9 +254,11 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
+      p request.POST
       render_html('admin_page.html.erb')
       # render_html
     when '/game'
+      p req.body.read
       render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path, @game_methods)

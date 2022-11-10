@@ -9,10 +9,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     rack (3.0.0)
-    rack-cache (1.13.0)
-      rack (>= 0.4)
-    rack-mount (0.8.3)
-      rack (>= 1.0.0)
     rackup (0.2.2)
       rack (>= 3.0.0.beta1)
       webrick
@@ -24,8 +20,6 @@ PLATFORMS
 DEPENDENCIES
   inner_html_content!
   rack (= 3.0.0)
-  rack-cache
-  rack-mount
   rackup
 
 BUNDLED WITH
