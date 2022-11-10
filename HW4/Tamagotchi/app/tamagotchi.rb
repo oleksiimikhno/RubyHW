@@ -264,10 +264,9 @@ class Pet
       json = JSON.parse(request_data)
       render_html('404.html.erb')
 
-      
+
       render_html
     when '/game'
-      p req.body.read
       render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path, @game_methods)

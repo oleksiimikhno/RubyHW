@@ -22,7 +22,7 @@ const handlerUpdateContent = (event) => {
   const loginForm = document.querySelector('#login-form');
   let formData = new FormData(loginForm);
 
-  // let content2 = document.querySelector('.content');
+  let content = document.querySelector('.content');
 
   console.log(JSON.stringify(Object.fromEntries(formData)))
         console.log(target.name)
@@ -34,10 +34,15 @@ const handlerUpdateContent = (event) => {
     },
       body: JSON.stringify(Object.fromEntries(formData))
     })
-.then((response) => console.log(response.text()))
-    // const content = await rawResponse.json();
-    // console.log(content);
-    // .then((response) => console.log(response.text()))
+      .then((response) => response.text())
+      .then((html) => {
+        // console.log(html)
+        console.log('Response.ok')
+        let newDocument = new DOMParser().parseFromString(html, 'text/html');
+        let newContent = newDocument.querySelector('.content').innerHTML;
+
+        content.innerHTML = newContent;
+    })
   };
 }
 
