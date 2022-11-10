@@ -255,26 +255,17 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
-      json_data = request.body.read
-      p request.body.read
-
-      pars = JSON.parse(json_data.to_json, symbolize_names: true)
-
-      pars2 = JSON.parse('{"hello": "goodbye"}')
-      p pars2['hello']
-      p JSON.parse('{"hello": "goodbye"}')
-      p 'qqq'
-      p request.body.read
-      p pars['login']
-      p request.body
-      p JSON.parse(json_data.to_json, symbolize_names: true)
-      p request.params["data"]
-      p request.params
-      p request.POST
-      p request.POST()
-      p request.post?
-      render_html('login_page.html.erb')
       # render_html
+      render_html('login_page.html.erb')
+    when '/login'
+      request_data = request.body.read
+
+      p request_data
+      json = JSON.parse(request_data)
+      render_html('404.html.erb')
+
+      
+      render_html
     when '/game'
       p req.body.read
       render_html
@@ -284,9 +275,8 @@ class Pet
       if virify_acttion.nil?
         render_html('404.html.erb')
       else
-
-      public_send(virify_acttion)
-      PetState.dead(@health_array) ? render_html('game_end.html.erb') : render_html
+        public_send(virify_acttion)
+        PetState.dead(@health_array) ? render_html('game_end.html.erb') : render_html
       end
     end
   end
