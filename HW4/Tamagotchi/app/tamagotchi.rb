@@ -259,7 +259,7 @@ class Pet
       p request.params
       p request.POST()
       p request.post?
-      render_html('admin_page.html.erb')
+      render_html('login_page.html.erb')
       # render_html
     when '/game'
       p req.body.read
