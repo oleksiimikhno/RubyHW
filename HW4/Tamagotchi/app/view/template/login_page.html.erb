@@ -38,10 +38,10 @@ const handlerUpdateContent = (event) => {
       .then((html) => {
         // console.log(html)
         console.log('Response.ok')
-        let newDocument = new DOMParser().parseFromString(html, 'text/html');
-        let newContent = newDocument.querySelector('.content').innerHTML;
+        // let newDocument = new DOMParser().parseFromString(html, 'text/html');
+        // let newContent = newDocument.querySelector('.content').innerHTML;
 
-        content.innerHTML = newContent;
+        // content.innerHTML = newContent;
     })
   };
 }

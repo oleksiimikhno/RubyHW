@@ -260,12 +260,13 @@ class Pet
     when '/login'
       request_data = request.body.read
 
-      p request_data
+      # p request_data
       json = JSON.parse(request_data)
-      render_html('404.html.erb')
-
+      # render_html('404.html.erb')
+      p json
 
       render_html
+      json['login']
     when '/game'
       render_html
     when request.path
