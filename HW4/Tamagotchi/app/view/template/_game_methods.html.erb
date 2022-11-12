@@ -1,5 +1,5 @@
 <div class="actions">
-  <form method="get" ></form>
+  <form method="get">
     <% @game_methods.each do |method_name| %>
       <button class="btn" name="<%= method_name %>"><%= method_name.to_s.sub(/_/, ' ') %></button>
     <% end %>

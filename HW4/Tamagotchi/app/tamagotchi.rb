@@ -246,31 +246,28 @@ class Pet
     @message = GameEngine.message(text, message_class)
   end
 
-  def render_html(file_name = 'content.html.erb')
-    template = File.read("./app/view/template/#{file_name}")
-    html_content = ERB.new(template).result(binding)
-    style_path = '/app/view/style/default.css'
-    InnerHTMLContent.add_content("Tamagochi - #{@name}", html_content, style_path, bypass_html: false)
+  def render(file_name = 'content.html.erb')
+    ERB.new(File.read("./app/view/template//#{file_name}")).result(binding)
   end
 
   def action_response(env)
     request = Rack::Request.new(env)
     case request.path
     when '/'
-      render_html('login_page.html.erb')
+      render('login_page.html.erb')
     when '/login'
       request_data = request.body.read
       json = JSON.parse(request_data)
       data_response = AuthenticationUser.verify(json)
-      data_response[:error] ? data_response.to_json : response_to_json(render_html)
+      data_response[:error] ? data_response.to_json : response_to_json(render)
     when request.path
       virify_acttion = ActionUser.action_user(request.path, @game_methods)
 
       if virify_acttion.nil?
-        render_html('404.html.erb')
+        render('404.html.erb')
       else
         public_send(virify_acttion)
-        PetState.dead(@health_array) ? response_to_json(render_html('game_end.html.erb')) : response_to_json(render_html)
+        PetState.dead(@health_array) ? response_to_json(render('game_end.html.erb')) : response_to_json(render_html)
       end
     end
   end

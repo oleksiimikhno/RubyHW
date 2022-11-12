@@ -1,60 +1,67 @@
-<div class="content"> 
-  <h1 class="title">Authorization page</h1>
-    <form id="login-form" method="post" action="/login">
-      <div class="form-inputs flex vertical center">
-          <input type="text" id="login" name="login" placeholder="Login - admin" require>
-          <input type="text" name="password" placeholder="Password - admin" require>
-          <span class="error-message"></span>
-      </div>
-      <div class="flex center">
-        <button type="submit" class="btn submit">Sign in</button>
-      </div>
-    </form>
-</div>
-<script type="text/javascript">
-  const handlerUpdateContent = (event) => {
-    event.preventDefault();
-    let target = event.target;
-    let btnSubmit = document.querySelector('button[type="submit"]');
+<!DOCTYPE html>
+<html lang="en">
+  <%= render('_document_head.html.erb') %>
+</head>
+<body>
+  <div class="content"> 
+    <h1 class="title">Authorization page</h1>
+      <form id="login-form" method="post" action="/login">
+        <div class="form-inputs flex vertical center">
+            <input type="text" id="login" name="login" placeholder="Login - admin" require>
+            <input type="text" name="password" placeholder="Password - admin" require>
+            <span class="error-message"></span>
+        </div>
+        <div class="flex center">
+          <button type="submit" class="btn submit">Sign in</button>
+        </div>
+      </form>
+  </div>
+  <script type="text/javascript">
+    const handlerUpdateContent = (event) => {
+      event.preventDefault();
+      let target = event.target;
+      let btnSubmit = document.querySelector('button[type="submit"]');
 
-    if (target == btnSubmit ) {
-      let form = document.querySelector('#login-form');
-      let formData = new FormData(form);
-      let content = document.querySelector('.content');
+      if (target == btnSubmit ) {
+        let form = document.querySelector('#login-form');
+        let formData = new FormData(form);
+        let content = document.querySelector('.content');
 
-      fetch(`/login`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-          body: JSON.stringify(Object.fromEntries(formData))
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data['error']) {
-            errorMessage = document.querySelector('.error-message');
-            errorMessage.textContent = data['message'];
-          } else {
-            reaplaceNewContent(data, content);
-          }
-        })
-    };
-    
-    if (target.className === 'btn') {
-      let content = document.querySelector('.content');
-          
-      fetch(`/${target.name}`)
-        .then((response) => response.json())
-        .then((data) => reaplaceNewContent(data, content))
-    };
-  }
+        fetch(`/login`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+            body: JSON.stringify(Object.fromEntries(formData))
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data['error']) {
+              errorMessage = document.querySelector('.error-message');
+              errorMessage.textContent = data['message'];
+            } else {
+              reaplaceNewContent(data, content);
+            }
+          })
+      };
+      
+      if (target.className === 'btn') {
+        let content = document.querySelector('.content');
+            
+        fetch(`/${target.name}`)
+          .then((response) => response.json())
+          .then((data) => reaplaceNewContent(data, content))
+      };
+    }
 
-  const reaplaceNewContent = (data, contentElement) => {
-    let newDocument = new DOMParser().parseFromString(data['content'], 'text/html');
-    let newContent = newDocument.querySelector('.content').innerHTML;
-    contentElement.innerHTML = newContent;
-  }
+    const reaplaceNewContent = (data, contentElement) => {
+      let newDocument = new DOMParser().parseFromString(data['content'], 'text/html');
+      let newContent = newDocument.querySelector('.content').innerHTML;
+      contentElement.innerHTML = newContent;
+    }
 
-  document.addEventListener('click', handlerUpdateContent);
-</script>
+    document.addEventListener('click', handlerUpdateContent);
+  </script>
+</body>
+</html>

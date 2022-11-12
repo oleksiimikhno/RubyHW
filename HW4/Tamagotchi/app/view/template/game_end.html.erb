@@ -1,9 +1,16 @@
-<div class="content"> 
-  <h1 class="title"><%= @name %> - <%= @emoji %></h1>
-  <%= render_html "_game_message.html.erb" %>
-  <div class="container">
-    <%= render_html "_pet_state.html.erb" %>
+<!DOCTYPE html>
+<html lang="en">
+  <%= render('_document_head.html.erb') %>
+</head>
+<body>
+  <div class="content"> 
+    <h1 class="title"><%= @name %> - <%= @emoji %></h1>
+    <%= render_html "_game_message.html.erb" %>
+    <div class="container">
+      <%= render_html "_pet_state.html.erb" %>
+    </div>
+    <%= render_html "_game_methods.html.erb" %>
+    <%= render_html "_game_command_list.html.erb" %>
   </div>
-  <%= render_html "_game_methods.html.erb" %>
-  <%= render_html "_game_command_list.html.erb" %>
-</div>
+</body>
+</html>
