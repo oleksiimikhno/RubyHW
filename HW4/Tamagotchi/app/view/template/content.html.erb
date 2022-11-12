@@ -2,14 +2,7 @@
   <h1 class="title"><%= @name %> - <%= @emoji %></h1>
   <%= render_html "_game_message.html.erb" %>
   <div class="container">
-    <p>timelife: <%= @time %></p>
-    <p>age: <%= @age %></p>
-    <p>HP: <%= @health %></p>
-    <p>feeling: <%= @feeling_info %></p>
-    <p>mood: <%= @mood_info %></p>
-    <p>hungry: <%= @hungry_info %></p>
-    <p>sleep: <%= @sleep_info %></p>
-    <p>poopy: <%= @poopy_info %></p>
+    <%= render_html "_pet_state.html.erb" %>
   </div>
   <%= render_html "_game_methods.html.erb" %>
   <%= render_html "_game_command_list.html.erb" %>
