@@ -7,7 +7,7 @@
           <span class="error-message"></span>
       </div>
       <div class="flex center">
-        <button type="submit" class="submit">Sign in</button>
+        <button type="submit" class="btn submit">Sign in</button>
       </div>
     </form>
 </div>
@@ -15,8 +15,9 @@
   const handlerUpdateContent = (event) => {
     event.preventDefault();
     let target = event.target;
+    let btnSubmit = document.querySelector('button[type="submit"]');
 
-    if (target.className == 'submit') {
+    if (target == btnSubmit ) {
       let form = document.querySelector('#login-form');
       let formData = new FormData(form);
       let content = document.querySelector('.content');
