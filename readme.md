@@ -1,5 +1,5 @@
 ## Tamagotchi game in browser
-- Path to game **/RubyHW/HW3/Tamagotchi**
+- Path to game **/RubyHW/HW4/Tamagotchi**
 - `gem install bundler`
 - `bundle install`
 - in game folder call `bundle exec rackup`
