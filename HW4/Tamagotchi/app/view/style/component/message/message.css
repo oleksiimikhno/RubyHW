@@ -5,6 +5,13 @@
     box-shadow: var(--shadow);
 }
 
+.error-message {
+    position: absolute;
+    bottom: -10px;
+    font-size: .7rem;
+    color: red;
+}
+
 .info {
     background-color: #94d6f5;
 }

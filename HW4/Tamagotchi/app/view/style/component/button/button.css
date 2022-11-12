@@ -10,6 +10,6 @@
     text-transform: capitalize;
 }
 
-.btn:hover {
+.btn:hover, .btn:focus {
     box-shadow: var(--shadow-hover);
 }

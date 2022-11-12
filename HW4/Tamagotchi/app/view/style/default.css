@@ -50,6 +50,11 @@ body {
     justify-content: center;
 }
 
+.form-inputs {
+    position: relative;
+    margin-bottom: 10px;
+}
+
 input {
     margin-bottom: 10px;
 }
