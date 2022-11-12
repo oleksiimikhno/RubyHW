@@ -7,49 +7,54 @@
           <span class="error-message"></span>
       </div>
       <div class="flex center">
-        <button type="submit" class="btn">Sign in</button>
+        <button type="submit" class="submit">Sign in</button>
       </div>
     </form>
 </div>
 <script type="text/javascript">
+  const handlerUpdateContent = (event) => {
+    event.preventDefault();
 
+    let target = event.target;
 
-const handlerUpdateContent = (event) => {
-  event.preventDefault();
+    if (target.className == 'submit') {
+      let form = document.querySelector('#login-form');
+      let formData = new FormData(form);
+      let content = document.querySelector('.content');
 
-  let target = event.target;
+      fetch(`/login`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(Object.fromEntries(formData))
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data['error']) {
+            errorMessage = document.querySelector('.error-message');
+            errorMessage.textContent = data['message'];
+          } else {
+            reaplaceNewContent(data, content);
+          }
+        })
+    };
+    
+    if (target.className === 'btn') {
+      let content = document.querySelector('.content');
+          
+      fetch(`/${target.name}`)
+        .then((response) => response.json())
+        .then((data) => reaplaceNewContent(data, content))
+    };
+  }
 
-  if (target.className === 'btn') {
-  const loginForm = document.querySelector('#login-form');
-  let formData = new FormData(loginForm);
+  const reaplaceNewContent = (data, contentElement) => {
+    let newDocument = new DOMParser().parseFromString(data['content'], 'text/html');
+    let newContent = newDocument.querySelector('.content').innerHTML;
+    contentElement.innerHTML = newContent;
+  }
 
-  let content = document.querySelector('.content');
-
-  console.log(JSON.stringify(Object.fromEntries(formData)))
-        console.log(target.name)
-  fetch(`/login`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(Object.fromEntries(formData))
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data['error'])
-          errorMessage = document.querySelector('.error-message');
-          errorMessage.textContent = data['message'];
-        console.log()
-        // console.log(html)
-        console.log('Response.ok')
-        // let newDocument = new DOMParser().parseFromString(html, 'text/html');
-        // let newContent = newDocument.querySelector('.content').innerHTML;
-
-        // content.innerHTML = newContent;
-    })
-  };
-}
-
-document.addEventListener('click', handlerUpdateContent);
+  document.addEventListener('click', handlerUpdateContent);
 </script>

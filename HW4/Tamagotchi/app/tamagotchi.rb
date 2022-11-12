@@ -263,8 +263,6 @@ class Pet
       json = JSON.parse(request_data)
       data_response = AuthenticationUser.verify(json)
       data_response[:error] ? data_response.to_json : { error: false, content: render_html }.to_json
-    when '/game'
-      render_html
     when request.path
       virify_acttion = ActionUser.action_user(request.path, @game_methods)
 
@@ -272,7 +270,7 @@ class Pet
         render_html('404.html.erb')
       else
         public_send(virify_acttion)
-        PetState.dead(@health_array) ? render_html('game_end.html.erb') : render_html
+        PetState.dead(@health_array) ? { error: false, content: render_html('game_end.html.erb') }.to_json : { error: false, content: render_html }.to_json
       end
     end
   end

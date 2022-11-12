@@ -15,25 +15,3 @@
     <button class="btn" name="<%= method_name %>"><%= method_name.capitalize %></button>
   <% end %>
 </div>
-<script type="text/javascript">
-const handlerUpdateContent = (event) => {
-  event.preventDefault();
-
-  let target = event.target;
-
-  if (target.className === 'btn') {
-    let content = document.querySelector('.content');
-        
-    fetch(`/${target.name}`)
-      .then((response) => response.text())
-      .then((html) => {
-        let newDocument = new DOMParser().parseFromString(html, 'text/html');
-        let newContent = newDocument.querySelector('.content').innerHTML;
-
-        content.innerHTML = newContent;
-    })
-  };
-}
-
-document.addEventListener('click', handlerUpdateContent);
-</script>
