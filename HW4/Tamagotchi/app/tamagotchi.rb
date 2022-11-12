@@ -267,7 +267,7 @@ class Pet
         render('404.html.erb')
       else
         public_send(virify_acttion)
-        PetState.dead(@health_array) ? response_to_json(render('game_end.html.erb')) : response_to_json(render_html)
+        PetState.dead(@health_array) ? response_to_json(render('game_end.html.erb')) : response_to_json(render)
       end
     end
   end
