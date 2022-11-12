@@ -7,6 +7,7 @@ require 'json'
 
 require './app/controllers/game_engine'
 require './app/controllers/action_user'
+require './app/controllers/authentication_user'
 require './app/controllers/game_command_list'
 require './app/controllers/pet_state'
 
@@ -14,6 +15,7 @@ require './app/controllers/pet_state'
 class Pet
   include GameEngine
   include ActionUser
+  include AuthenticationUser
   include GameCommandList
   include PetState
 
@@ -255,18 +257,12 @@ class Pet
     request = Rack::Request.new(env)
     case request.path
     when '/'
-      # render_html
       render_html('login_page.html.erb')
     when '/login'
       request_data = request.body.read
-
-      # p request_data
       json = JSON.parse(request_data)
-      # render_html('404.html.erb')
-      p json
-
-      render_html
-      json['login']
+      data_response = AuthenticationUser.verify(json)
+      data_response[:error] ? data_response.to_json : { error: false, content: render_html }.to_json
     when '/game'
       render_html
     when request.path
