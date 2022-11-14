@@ -1,5 +1,5 @@
 p "Дан целочисленный массив. Найти максимальный четный элемент."
-p "arr.select { |v| v.even? }.max"
+p "arr.select(&:even?).max"
 
 arr = [22, 44, 55, -100, 55, -6, 5, 7, -2, 1, 55, 8, -1, 44, -100, 55]
-p arr.select { |v| v.even? }.max
+p arr.select(&:even?).max
