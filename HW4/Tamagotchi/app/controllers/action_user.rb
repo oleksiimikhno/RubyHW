@@ -13,7 +13,7 @@ module ActionUser
     def action_reducer(action)
       action = action.to_sym
 
-      action_helper(action) ? action : puts "Unknown resourse or page --- #{action.upcase} ---! ▼"
+      action_helper(action) ? action : (puts "Unknown resourse or page --- #{action.upcase} ---! ▼")
     end
 
     def action_helper(action)
