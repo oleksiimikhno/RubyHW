@@ -13,8 +13,7 @@ module ActionUser
     def action_reducer(action)
       action = action.to_sym
 
-      case action
-      when action_helper(action)
+      if action_helper(action)
         action
       else
         puts "Unknown resourse or page --- #{action.upcase} ---! ▼"
