@@ -38,13 +38,13 @@
 
 * Route `/api/v1/articles/1/unpublished` see all unpublished comments in article
 
-* Route with params `/api/v1/articles/1?filter=published` see article and all published comments
+* Route with params `/api/v1/articles/1?status=published` see article and all published comments
 
-* Route with params `/api/v1/articles/1?filter=unpublished` see article and all unpublished comments
+* Route with params `/api/v1/articles/1?status=unpublished` see article and all unpublished comments
 
-* Route with params `/api/v1/articles/1/comments?filter=published` see only published comments in article
+* Route with params `/api/v1/articles/1/comments?status=published` see only published comments in article
 
-* Route with params `/api/v1/articles/1/comments?filter=unpublished` see only unpublished comments in article
+* Route with params `/api/v1/articles/1/comments?status=unpublished` see only unpublished comments in article
   ### Filter last comments with limit params 
 
   - Route with params `last=10` if you want see last 10 comments in article
@@ -71,9 +71,9 @@
 
 * Route `/api/v1/comments/unpublished` see all unpublished comments
 
-* Route with params `/api/v1/comments?filter=published` see all published comments
+* Route with params `/api/v1/comments?status=published` see all published comments
 
-* Route with params `/api/v1/comments?filter=unpublished` see all unpublished comments
+* Route with params `/api/v1/comments?status=unpublished` see all unpublished comments
   ### Filter last comments with limit params 
 
   - Route with params `last=10` if you want see last 10 comments

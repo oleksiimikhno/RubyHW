@@ -15,4 +15,5 @@ class Article < ApplicationRecord
   validates :author_id, numericality: { only_integer: true }
 
   scope :filter_by_status, ->(filter) { where(status: filter) }
+  scope :filter_by_author_name, ->(name) { where(author: name) }
 end
