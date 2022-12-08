@@ -1,12 +1,12 @@
 class Api::V1::ArticlesController < ApplicationController
   before_action :set_article, only: %i[show update destroy comments published unpublished add_tag]
-  before_action :set_artticles, only: %i[index]
+  before_action :set_articles, only: %i[index]
 
   # GET /articles
   def index
     @articles = @articles.filter_by_status(params[:status]) if params[:status].present?
     @articles = @articles.filter_by_phrase(params[:search]) if params[:search].present?
-    @articles = Tag.filter_articles_by_tags(params[:tags]) if params[:tags].present?
+    @articles = @articles.filter_by_tags(params[:tags]) if params[:tags].present?
     @articles = Author.filter_articles_by_author_name(params[:author]) if params[:author].present?
     @articles = @articles.sort_by_order(params[:order]) if params[:order].present?
 
@@ -84,7 +84,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
 
-  def set_artticles
+  def set_articles
     @articles = Article.all
   end
 

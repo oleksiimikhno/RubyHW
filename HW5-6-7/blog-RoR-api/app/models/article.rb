@@ -15,4 +15,5 @@ class Article < ApplicationRecord
   validates :author_id, numericality: { only_integer: true }
 
   scope :filter_by_status, ->(filter) { where(status: filter) }
+  scope :filter_by_tag, ->(tag) { joins(:tags).where(tags: { name: tag }) }
 end

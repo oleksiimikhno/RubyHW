@@ -1,10 +1,10 @@
 class Api::V1::CommentsController < ApplicationController
   before_action :set_comment, only: %i[show update destroy switch_status]
+  before_action :set_comments, only: %i[index]
 
   # GET /comments published/unpublished
   def index
-    @comments = Comment.all
-    @comments = Comment.filter_by_status(params[:status]) if params[:status].present?
+    @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     render json: @comments, only: %i[id body status article_id created_at]
@@ -65,6 +65,10 @@ class Api::V1::CommentsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_comment
     @comment = Comment.find(params[:id])
+  end
+
+  def set_comments
+    @comments = Comment.all
   end
 
   # Only allow a list of trusted parameters through.

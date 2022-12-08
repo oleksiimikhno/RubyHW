@@ -16,5 +16,6 @@ class Article < ApplicationRecord
 
   scope :filter_by_status, ->(status_name) { where(status: status_name) }
   scope :filter_by_phrase, ->(phrase) { where('lower(title) LIKE :search OR lower(body) LIKE :search', search: "%#{phrase.downcase}%") }
+  scope :filter_by_tags, ->(tags) { joins(:tags).where(tags: { name: tags }) }
   scope :sort_by_order, ->(order = 'asc') { order(title: order.downcase) }
 end
