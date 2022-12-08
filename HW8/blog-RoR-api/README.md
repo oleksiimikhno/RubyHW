@@ -59,12 +59,15 @@
 
 ## Filter articles by phrase
 
-* Route `/api/v1/articles?search=first` if we have in `title:` or `body:` word displayer articles
+* Route `/api/v1/articles?search=first` if we have in `title:` or `body:` word exist in articles
+
+## Sort articles with order
+
+* Route `/api/v1/articles?order=asc` orders `asc` or `desc`
 
 ## Add new tag in article
 
 * Route `/api/v1/articles?/1/add-tag?name=new` if tag exit in tag_table
-
 ## Create/destroy likes
   `use POST method`
 * Route to create new like `/api/v1/likes?like[likeable_id]=2&like[likeable_type]=Comment` where `likeable_id` is comment_id
