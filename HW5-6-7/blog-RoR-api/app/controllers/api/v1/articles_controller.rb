@@ -5,14 +5,15 @@ class Api::V1::ArticlesController < ApplicationController
   # GET /articles
   def index
     @articles = @articles.filter_by_status(params[:status]) if params[:status].present?
-    @articles = Tag.filter_articles_by_tag(params[:tag]) if params[:tag].present?
+    @articles = @articles.filter_by_tag(params[:tag]) if params[:tag].present?
 
     render json: @articles, only: %i[id title body status created_at]
   end
 
   # GET /articles/1 comments published/unpublished
   def show
-    @comments = valid_status?(Comment) ? @article.comments.filter_by_status(params[:filter]) : @article.comments
+    @comments = @article.comments
+    @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     @tags = @article.tags
