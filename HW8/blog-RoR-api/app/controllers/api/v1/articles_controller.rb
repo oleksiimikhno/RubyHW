@@ -5,6 +5,7 @@ class Api::V1::ArticlesController < ApplicationController
   # GET /articles
   def index
     @articles = @articles.filter_by_status(params[:status]) if params[:status].present?
+    @articles = @articles.filter_by_phrase(params[:search]) if params[:search].present?
     @articles = Tag.filter_articles_by_tags(params[:tags]) if params[:tags].present?
     @articles = Author.filter_articles_by_author_name(params[:author]) if params[:author].present?
 

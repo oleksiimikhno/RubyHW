@@ -15,4 +15,5 @@ class Article < ApplicationRecord
   validates :author_id, numericality: { only_integer: true }
 
   scope :filter_by_status, ->(status_name) { where(status: status_name) }
+  scope :filter_by_phrase, ->(phrase) { where('lower(title) LIKE :search OR lower(body) LIKE :search', search: "%#{phrase.downcase}%") }
 end

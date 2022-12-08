@@ -57,6 +57,10 @@
 
 * Route `/api/v1/articles?author=peter` will find if there is a match in the author's name `Peter Parker`
 
+## Filter articles by phrase
+
+* Route `/api/v1/articles?search=first` if we have in `title:` or `body:` word displayer articles
+
 ## Add new tag in article
 
 * Route `/api/v1/articles?/1/add-tag?name=new` if tag exit in tag_table
