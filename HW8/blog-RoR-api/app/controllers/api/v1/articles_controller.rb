@@ -6,6 +6,7 @@ class Api::V1::ArticlesController < ApplicationController
   def index
     @articles = @articles.filter_by_status(params[:status]) if params[:status].present?
     @articles = Tag.filter_articles_by_tag(params[:tag]) if params[:tag].present?
+    @articles = Author.filter_articles_by_author_name(params[:author]) if params[:author].present?
 
     render json: @articles, only: %i[id title body status created_at]
   end
