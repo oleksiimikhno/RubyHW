@@ -16,7 +16,7 @@ class Api::V1::ArticlesController < ApplicationController
   # GET /articles/1 comments published/unpublished
   def show
     @comments = @article.comments
-    @comments = @article.comments.filter_by_status(params[:status]) if params[:status].present?
+    @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     @tags = @article.tags
