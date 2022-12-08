@@ -14,6 +14,6 @@ class Article < ApplicationRecord
   validates :status, inclusion: { in: Article.statuses, message: 'Status %{value} is not a valid' }
   validates :author_id, numericality: { only_integer: true }
 
-  scope :filter_by_status, ->(filter) { where(status: filter) }
+  scope :filter_by_status, ->(status_name) { where(status: status_name) }
   scope :filter_by_author_name, ->(name) { where(author: name) }
 end
