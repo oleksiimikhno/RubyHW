@@ -3,7 +3,7 @@ class Tag < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..10 }
 
-  scope :filter_articles_by_tag, ->(tag) { where(name: tag).first.articles }
+  scope :filter_articles_by_tags, ->(tags) { where(name: tags).first.articles }
   scope :all_tags_names, -> { Tag.all.map(&:name) }
   scope :select_tag, ->(tag) { where(name: tag) }
 end

@@ -49,9 +49,9 @@
 
   - Route with params `last=10` if you want see last 10 comments in article
 
-## Filter articles by tag
+## Filter articles by tags
 
-* Route `/api/v1/articles?tag=new` see all articles with tag `new`
+* Route `/api/v1/articles?tags=new` see all articles with tag `new`
 
 ## Filter articles by author name
 
