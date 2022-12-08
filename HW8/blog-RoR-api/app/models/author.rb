@@ -3,5 +3,7 @@ class Author < ApplicationRecord
   has_many :comments
 
   validates_associated :articles, :comments
-  validates :name, presence: true, length: { in: 2..20 }
+  validates :name, presence: true, length: { in: 2..25 }
+
+  scope :filter_by_author_name, ->(name) { where(author: name) }
 end

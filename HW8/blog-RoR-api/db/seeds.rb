@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 Author.create([{ name: 'Peter Parker' },
-               { name: 'Otto Günther Octavius' }])
+               { name: 'Otto Gunther Octavius' }])
 
 articles = Article.create([{ title: 'First article', status: 1, body: 'Some text for article', author_id: 1 },
                             { title: 'Second article', status: 1, body: 'Some more text for article', author_id: 2 },
