@@ -1,0 +1,15 @@
+h1 {
+    text-align: center;
+}
+
+article {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: var(--bg-content);
+    border-radius: var(--raidus);
+    box-shadow: var(--shadow);
+    h1 {
+        margin: 0;
+        font-size: 1rem;
+    }
+}
