@@ -3,7 +3,8 @@ class Api::V1::CommentsController < ApplicationController
 
   # GET /comments published/unpublished
   def index
-    @comments = valid_status? ? Comment.filter_by_status(params[:filter]) : Comment.all
+    @comments = Comment.all
+    @comments = Comment.filter_by_status(params[:filter]) if params[:filter].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     render json: @comments, only: %i[id body status article_id created_at]
@@ -69,9 +70,5 @@ class Api::V1::CommentsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def comment_params
     params.require(:comment).permit(:body, :status, :article_id, :author_id)
-  end
-
-  def valid_status?
-    Comment.statuses.include?(params[:filter])
   end
 end

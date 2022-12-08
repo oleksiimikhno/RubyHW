@@ -4,7 +4,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles
   def index
-    @articles = valid_status?(Article) ? @articles.filter_by_status(params[:filter]) : @articles
+    @articles = @articles.filter_by_status(params[:filter]) if params[:filter].present?
     @articles = Tag.filter_articles_by_tag(params[:tag]) if params[:tag].present?
 
     render json: @articles, only: %i[id title body status created_at]
@@ -12,7 +12,8 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1 comments published/unpublished
   def show
-    @comments = valid_status?(Comment) ? @article.comments.filter_by_status(params[:filter]) : @article.comments
+    @comments = @article.comments
+    @comments = @article.comments.filter_by_status(params[:filter]) if params[:filter].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     @tags = @article.tags
@@ -87,10 +88,6 @@ class Api::V1::ArticlesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def article_params
     params.require(:article).permit(:title, :body, :status, :author_id)
-  end
-
-  def valid_status?(model)
-    model.statuses.include?(params[:filter])
   end
 
   def valid_tag?
