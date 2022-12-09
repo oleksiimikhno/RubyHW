@@ -10,6 +10,8 @@ class Api::V1::ArticlesController < ApplicationController
     @articles = @articles.filter_by_author_name(params[:author]) if params[:author].present?
     @articles = @articles.sort_by_order(params[:order]) if params[:order].present?
 
+    @pagy, @articles = pagy(@articles, items: 15)
+
     render json: @articles, only: %i[id title body status created_at]
   end
 
