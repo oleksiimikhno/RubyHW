@@ -12,7 +12,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @pagy, @articles = pagy(@articles, items: 15)
 
-    render json: @articles
+    render json: @articles, include: []
   end
 
   # GET /articles/1 comments published/unpublished
@@ -23,7 +23,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @tags = @article.tags
 
-    render json: @article
+    render json: @article, include: ['author', 'comments', 'comments.author']
   end
 
   # POST /articles
