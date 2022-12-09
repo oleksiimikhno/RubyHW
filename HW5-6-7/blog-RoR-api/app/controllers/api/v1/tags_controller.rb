@@ -42,7 +42,7 @@ class Api::V1::TagsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tag
-    @tag = Tags.find(params[:id])
+    @tag = Tag.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
