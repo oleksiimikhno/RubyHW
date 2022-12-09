@@ -12,7 +12,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @pagy, @articles = pagy(@articles, items: 15)
 
-    render json: @articles, only: %i[id title body status created_at]
+    render json: @articles
   end
 
   # GET /articles/1 comments published/unpublished

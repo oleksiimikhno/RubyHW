@@ -7,7 +7,7 @@ class Api::V1::CommentsController < ApplicationController
     @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
-    render json: @comments, only: %i[id body status article_id created_at]
+    render json: @comments
   end
 
   # GET /comments/1
