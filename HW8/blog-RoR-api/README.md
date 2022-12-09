@@ -51,7 +51,7 @@
 
 ## Filter articles by tags
 
-* Route `/api/v1/articles?tags=new` see all articles with tag `new`
+* Route `/api/v1/articles?tags=new` see all articles with collection tags `new, old, it` or else
 
 ## Filter articles by author name
 
