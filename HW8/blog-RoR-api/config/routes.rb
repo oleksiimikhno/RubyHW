@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         get :comments, on: :member
         get :published, on: :member
         get :unpublished, on: :member
-        get 'add-tag', to: 'articles#add_tag', on: :member
+        get 'add-tags', to: 'articles#add_tags', on: :member
       end
 
       resources :comments do

@@ -1,5 +1,5 @@
 class Api::V1::ArticlesController < ApplicationController
-  before_action :set_article, only: %i[show update destroy comments published unpublished add_tag]
+  before_action :set_article, only: %i[show update destroy comments published unpublished add_tags]
   before_action :set_articles, only: %i[index]
 
   # GET /articles
@@ -67,11 +67,11 @@ class Api::V1::ArticlesController < ApplicationController
     render json: { article: @article, comments: @comments }
   end
 
-  # POST /articles/1/add-tag
-  def add_tag
-    if valid_tag?
-      @tag = @article.tags << Tag.select_tag(params[:name])
-      render json: { article: @article, tags: @tag }, status: :accepted
+  # POST /articles/1/add-tags
+  def add_tags
+    if valid_tags?
+      @tags = @article.tags << Tag.select_tag(params[:name])
+      render json: { article: @article, tags: @tags }, status: :accepted
     else
       render json: { alert: 'Tag alrady add or not exist in table!', tags: @article.tags }, status: :unprocessable_entity
     end
@@ -93,7 +93,7 @@ class Api::V1::ArticlesController < ApplicationController
     params.require(:article).permit(:title, :body, :status, :author_id)
   end
 
-  def valid_tag?
+  def valid_tags?
     @article.tags.all_tags_names.include?(params[:name]) && !@article.tags.map(&:name).include?(params[:name])
   end
 end
