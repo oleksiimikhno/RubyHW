@@ -23,7 +23,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @tags = @article.tags
 
-    render json: { article: @article, comments: @comments, tags: @tags }
+    render json: @article
   end
 
   # POST /articles

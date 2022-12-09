@@ -1,5 +1,5 @@
 class Api::V1::CommentSerializer < ActiveModel::Serializer
-  attributes :id, :status, :body, :created_at, :author
+  attributes :id, :status, :body, :created_at
 
-  belongs_to :author
+  has_one :author
 end
