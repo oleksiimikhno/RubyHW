@@ -13,7 +13,9 @@ Rails.application.routes.draw do
         get :published, on: :collection
         get :unpublished, on: :collection
       end
+
       resources :tags
+      resources :authors
       resources :likes, only: %i[create destroy]
     end
   end
