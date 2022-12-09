@@ -7,12 +7,12 @@ class Api::V1::CommentsController < ApplicationController
     @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
-    render json: @comments
+    render json: @comments, include: []
   end
 
   # GET /comments/1
   def show
-    render json: @comment, only: %i[id body status created_at]
+    render json: @comment
   end
 
   # POST /comments

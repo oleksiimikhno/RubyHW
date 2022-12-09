@@ -5,7 +5,7 @@ class Api::V1::TagsController < ApplicationController
   def index
     @tags = Tag.all
 
-    render json: @tags, only: %i[id name created_at]
+    render json: @tags, include: []
   end
 
   # GET /tags/1

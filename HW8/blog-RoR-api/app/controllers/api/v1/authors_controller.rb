@@ -5,7 +5,7 @@ class Api::V1::AuthorsController < ApplicationController
   # GET /authors
   def index
 # byebug
-    render json: @authors
+    render json: @authors, include: []
   end
 
   # GET /authors/1
