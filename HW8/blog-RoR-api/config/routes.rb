@@ -11,11 +11,11 @@ Rails.application.routes.draw do
       end
 
       resources :comments do
-        post :switch, to: 'comments#switch_status', on: :member
         collection do
           get :published
           get :unpublished
         end
+        patch :switch, to: 'comments#switch_status', on: :member
       end
 
       resources :tags
