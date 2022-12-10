@@ -76,7 +76,7 @@ class Api::V1::ArticlesController < ApplicationController
       @tags = @article.tags << Tag.select_tag(params[:name])
       render json: { article: @article, tags: @tags }, status: :accepted
     else
-      render json: { alert: 'Tag alrady add or not exist in table!', tags: @article.tags }, status: :unprocessable_entity
+      render json: { message: 'Tag alrady add or not exist in table!', tags: @article.tags }, status: :unprocessable_entity
     end
   end
 
