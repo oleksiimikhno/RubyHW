@@ -1,4 +1,5 @@
 class Api::V1::ArticlesController < ApplicationController
+  include Pagy::Backend
   before_action :set_article, only: %i[show update destroy comments published unpublished add_tags]
   before_action :set_articles, only: %i[index]
 
