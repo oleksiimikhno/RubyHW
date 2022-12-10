@@ -2,16 +2,20 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :articles do
-        get :comments, on: :member
-        get :published, on: :member
-        get :unpublished, on: :member
-        get 'add-tags', to: 'articles#add_tags', on: :member
+        member do
+          get :comments
+          get :published
+          get :unpublished
+          get 'add-tags', to: 'articles#add_tags'
+        end
       end
 
       resources :comments do
-        get :switch, to: 'comments#switch_status', on: :member
-        get :published, on: :collection
-        get :unpublished, on: :collection
+        post :switch, to: 'comments#switch_status', on: :member
+        collection do
+          get :published
+          get :unpublished
+        end
       end
 
       resources :tags
