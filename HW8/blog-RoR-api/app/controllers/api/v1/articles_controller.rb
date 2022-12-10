@@ -70,13 +70,13 @@ class Api::V1::ArticlesController < ApplicationController
     render json: { article: @article, comments: @comments }
   end
 
-  # POST /articles/1/add-tags
+  # POST articles?/1/add-tag?tag=new
   def add_tags
     if valid_tags?
-      @tags = @article.tags << Tag.select_tag(params[:name])
+      @tags = @article.tags << Tag.select_tag(params[:tag])
       render json: { article: @article, tags: @tags }, status: :accepted
     else
-      render json: { message: 'Tag alrady add or not exist in table!', tags: @article.tags }, status: :unprocessable_entity
+      render json: { message: 'Tag alrady add!', tags: @article.tags }, status: :unprocessable_entity
     end
   end
 
@@ -97,6 +97,6 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def valid_tags?
-    @article.tags.all_tags_names.include?(params[:name]) && !@article.tags.map(&:name).include?(params[:name])
+    !@article.tags.map(&:name).include?(params[:tag])
   end
 end
