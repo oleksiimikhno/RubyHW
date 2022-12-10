@@ -52,10 +52,9 @@
 ## Filter articles by tag
 
 * Route `/api/v1/articles?tag=new` see all articles with tag `new`
-
 ## Add new tag in article
-
-* Route `/api/v1/articles?/1/add-tag?name=new` if tag exit in tag_table
+`use POST method`
+* Route `/api/v1/articles?/1/add-tag?tag=new` if tag exist
 
 ## Create/destroy likes
   `use POST method`
