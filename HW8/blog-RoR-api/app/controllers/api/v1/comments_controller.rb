@@ -54,9 +54,13 @@ class Api::V1::CommentsController < ApplicationController
 
   # POST /comments/1/switch?status=published
   def switch_status
-    @comment.update(status: params[:status]) if Comment.statuses[params[:status]] && params[:status].present?
-
-    render json: @comment
+    if Comment.statuses[params[:status]] && params[:status].present?
+      @comment.update(status: params[:status])
+      
+      render json: @comment
+    else
+      render json: { message: "Not exist status: #{params[:status]}", comment: @comment }, status: :unprocessable_entity
+    end
   end
 
   private
