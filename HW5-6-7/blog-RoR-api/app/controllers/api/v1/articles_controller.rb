@@ -91,6 +91,6 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def valid_tags?
-    !@article.tags.map(&:name).include?(params[:tag])
+    !@article.tags.all_tags_names.include?(params[:tag])
   end
 end
