@@ -3,6 +3,6 @@ class Tag < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { in: 2..10 }
 
-  scope :all_tags_names, -> { Tag.all.map(&:name) }
+  scope :all_tags_names, -> { Tag.pluck(&:name) }
   scope :select_tag, ->(tag) { where(name: tag) }
 end
