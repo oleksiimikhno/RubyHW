@@ -56,7 +56,7 @@ class Api::V1::CommentsController < ApplicationController
   def switch_status
     if Comment.statuses[params[:status]] && params[:status].present?
       @comment.update(status: params[:status])
-      
+
       render json: @comment
     else
       render json: { message: "Not exist status: #{params[:status]}", comment: @comment }, status: :unprocessable_entity
