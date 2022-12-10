@@ -52,10 +52,9 @@ class Api::V1::CommentsController < ApplicationController
     render json: @comments
   end
 
-  # GET /comments/1/switch
+  # POST /comments/1/switch?status=published
   def switch_status
-    new_status = @comment.unpublished? ? Comment.statuses[:published] : Comment.statuses[:unpublished]
-    @comment.update(status: new_status)
+    @comment.update(status: params[:status]) if Comment.statuses[params[:status]] && params[:status].present?
 
     render json: @comment
   end
