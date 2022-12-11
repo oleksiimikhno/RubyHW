@@ -8,11 +8,10 @@ class Article < ApplicationRecord
 
   validates :title, presence: true, length: { in: 2..20 }
   validates :body, presence: true, length: { in: 3..500 }
-  validates :status, inclusion: { in: Article.statuses, message: 'Status %{value} is not a valid' }
   validates :author_id, numericality: { only_integer: true }
 
   scope :serialize_tags, ->(tags) { where(tags: { name: tags.split(',').collect { |tag| tag.strip.downcase } }) }
-  scope :find_in_column, ->(phrase, column) { where("lower(#{column}) LIKE ?", "%#{phrase.downcase}%") }
+  scope :find_in_column, ->(phrase, column) { where("#{column} ILIKE ?", "%#{phrase}%") }
 
   scope :filter_by_status, ->(status_name) { where(status: status_name) }
   scope :filter_by_phrase, ->(phrase) { find_in_column(phrase, :title).or(find_in_column(phrase, :body)) }
