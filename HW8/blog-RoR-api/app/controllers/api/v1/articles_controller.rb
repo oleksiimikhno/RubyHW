@@ -32,7 +32,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      render json: @article, status: :created
+      render json: @article, status: :created, serializer: ArticleSerializer
     else
       render json: @article.errors, status: :unprocessable_entity
     end
@@ -41,7 +41,7 @@ class Api::V1::ArticlesController < ApplicationController
   # PATCH/PUT /articles/1
   def update
     if @article.update(article_params)
-      render json: @article
+      render json: @article, serializer: ArticleSerializer
     else
       render json: @article.errors, status: :unprocessable_entity
     end
@@ -72,13 +72,8 @@ class Api::V1::ArticlesController < ApplicationController
 
   # POST articles?/1/add-tag?tag=new
   def add_tag
-    # if valid_tags?
-# byebug
-      @tags = @article.tags << Tag.where(name: params[:name], )
-      render json: { article: @article, tags: @tags }, status: :accepted
-    # else
-    #   render json: { message: 'Tag alrady add!', tags: @article.tags }, status: :unprocessable_entity
-    # end
+    @tags = @article.tags << Tag.where(name: params[:name] )
+    render json: { article: @article, tags: @tags }, status: :accepted
   end
 
   private
@@ -96,14 +91,4 @@ class Api::V1::ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:title, :body, :status, :author_id)
   end
-
-  def tag_params
-    
-    params.permit(:tag)
-    # byebug
-  end
-
-  # def valid_tags?
-  #   !@article.tags.all_tags_names.include?(params[:tag])
-  # end
 end

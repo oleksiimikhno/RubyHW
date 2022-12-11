@@ -8,7 +8,6 @@ class Article < ApplicationRecord
 
   validates :title, presence: true, length: { in: 2..20 }
   validates :body, presence: true, length: { in: 3..500 }
-  validates :status, inclusion: { in: Article.statuses, message: 'Status %{value} is not a valid' }
   validates :author_id, numericality: { only_integer: true }
 
   scope :filter_by_status, ->(filter) { where(status: filter) }

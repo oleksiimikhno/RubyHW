@@ -65,13 +65,9 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   # POST articles?/1/add-tag?tag=new
-  def add_tags
-    if valid_tags?
-      @tags = @article.tags << Tag.select_tag(params[:tag])
-      render json: { article: @article, tags: @tags }, status: :accepted
-    else
-      render json: { message: 'Tag alrady add!', tags: @article.tags }, status: :unprocessable_entity
-    end
+  def add_tag
+    @tags = @article.tags << Tag.select_tag(params[:tag])
+    render json: { article: @article, tags: @tags }, status: :accepted
   end
 
   private
@@ -88,9 +84,5 @@ class Api::V1::ArticlesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def article_params
     params.require(:article).permit(:title, :body, :status, :author_id)
-  end
-
-  def valid_tags?
-    !@article.tags.all_tags_names.include?(params[:tag])
   end
 end
