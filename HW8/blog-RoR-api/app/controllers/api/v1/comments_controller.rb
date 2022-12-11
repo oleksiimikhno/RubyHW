@@ -20,7 +20,7 @@ class Api::V1::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render json: @comment, status: :created
+      render json: @comment, status: :created, serializer: CommentSerializer
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class Api::V1::CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
-      render json: @comment
+      render json: @comment, serializer: CommentSerializer
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -54,13 +54,9 @@ class Api::V1::CommentsController < ApplicationController
 
   # PATCH /comments/1/switch?status=published
   def switch_status
-    if Comment.statuses[params[:status]] && params[:status].present?
-      @comment.update(status: params[:status])
+    @comment.update(status: params[:status]) if params[:status].present?
 
-      render json: @comment, status: :accepted
-    else
-      render json: { message: "Not exist status: #{params[:status]}", comment: @comment }, status: :unprocessable_entity
-    end
+    render json: @comment, status: :accepted, serializer: CommentSerializer
   end
 
   private
