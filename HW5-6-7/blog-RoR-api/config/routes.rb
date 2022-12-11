@@ -6,7 +6,7 @@ Rails.application.routes.draw do
           get :comments
           get :published
           get :unpublished
-          post 'add-tags', to: 'articles#add_tags'
+          post 'add-tag', to: 'articles#add_tag'
         end
       end
 
