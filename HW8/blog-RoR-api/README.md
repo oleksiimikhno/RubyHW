@@ -67,7 +67,7 @@
 
 ## Add new tag in article
 `use POST method`
-* Route `/api/v1/articles/1/add-tag?tag=new` if tag exist
+* Route `/api/v1/articles/1/add-tag?name=new` if tag exist
 ## Create/destroy likes
   `use POST method`
 * Route to create new like `/api/v1/likes?like[likeable_id]=2&like[likeable_type]=Comment` where `likeable_id` is comment_id
