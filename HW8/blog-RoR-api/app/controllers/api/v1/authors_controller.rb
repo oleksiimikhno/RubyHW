@@ -18,7 +18,7 @@ class Api::V1::AuthorsController < ApplicationController
     @author = Author.new(author_params)
 
     if @author.save
-      render json: @author, status: :created
+      render json: @author, status: :created, serializer: AuthorSerializer
     else
       render json: @author.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class Api::V1::AuthorsController < ApplicationController
   # PATCH/PUT /authors/1
   def update
     if @author.update(author_params)
-      render json: @author
+      render json: @author, serializer: AuthorSerializer
     else
       render json: @author.errors, status: :unprocessable_entity
     end

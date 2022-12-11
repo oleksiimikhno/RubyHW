@@ -5,12 +5,12 @@ class Api::V1::TagsController < ApplicationController
   def index
     @tags = Tag.all
 
-    render json: @tags, include: [], serializer: TagSerializer
+    render json: @tags, include: [], each_serializer: TagSerializer
   end
 
   # GET /tags/1
   def show
-    render json: @tag
+    render json: @tag, serializer: TagSerializer
   end
 
   # POST /tags
@@ -27,7 +27,7 @@ class Api::V1::TagsController < ApplicationController
   # PATCH/PUT /tags/1
   def update
     if @tag.update(tag_params)
-      render json: @tag
+      render json: @tag, serializer: TagSerializer
     else
       render json: @tag.errors, status: :unprocessable_entity
     end

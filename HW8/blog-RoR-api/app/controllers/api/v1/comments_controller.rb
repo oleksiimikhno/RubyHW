@@ -43,13 +43,13 @@ class Api::V1::CommentsController < ApplicationController
   # GET /comments/published
   def published
     @comments = Comment.published
-    render json: @comments
+    render json: @comments, include: [], each_serializer: CommentSerializer
   end
 
   # GET /comments/unpublished
   def unpublished
     @comments = Comment.unpublished
-    render json: @comments
+    render json: @comments, include: [], each_serializer: CommentSerializer
   end
 
   # PATCH /comments/1/switch?status=published
