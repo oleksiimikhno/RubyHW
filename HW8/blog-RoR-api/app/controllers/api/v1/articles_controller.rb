@@ -72,7 +72,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # POST articles?/1/add-tag?tag=new
   def add_tag
-    @tags = @article.tags << Tag.where(name: params[:name] )
+    @tags = @article.tags << Tag.where(name: params[:name])
     render json: { article: @article, tags: @tags }, status: :accepted
   end
 
