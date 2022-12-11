@@ -5,12 +5,12 @@ class Api::V1::AuthorsController < ApplicationController
   # GET /authors
   def index
 # byebug
-    render json: @authors, include: []
+    render json: @authors, include: [], each_serializer: AuthorSerializer
   end
 
   # GET /authors/1
   def show
-    render json: @author
+    render json: @author, serializer: AuthorSerializer
   end
 
   # POST /authors

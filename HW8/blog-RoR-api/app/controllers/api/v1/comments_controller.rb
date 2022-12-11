@@ -7,12 +7,12 @@ class Api::V1::CommentsController < ApplicationController
     @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
-    render json: @comments, include: []
+    render json: @comments, include: [], each_serializer: CommentSerializer
   end
 
   # GET /comments/1
   def show
-    render json: @comment
+    render json: @comment, serializer: CommentSerializer
   end
 
   # POST /comments
@@ -52,7 +52,7 @@ class Api::V1::CommentsController < ApplicationController
     render json: @comments
   end
 
-  # POST /comments/1/switch?status=published
+  # PATCH /comments/1/switch?status=published
   def switch_status
     if Comment.statuses[params[:status]] && params[:status].present?
       @comment.update(status: params[:status])

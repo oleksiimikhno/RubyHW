@@ -5,7 +5,7 @@ class Api::V1::TagsController < ApplicationController
   def index
     @tags = Tag.all
 
-    render json: @tags, include: []
+    render json: @tags, include: [], serializer: TagSerializer
   end
 
   # GET /tags/1

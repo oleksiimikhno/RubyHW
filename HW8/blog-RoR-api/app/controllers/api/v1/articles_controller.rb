@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
   include Pagy::Backend
-  before_action :set_article, only: %i[show update destroy comments published unpublished add_tags]
+  before_action :set_article, only: %i[show update destroy comments published unpublished add_tag]
   before_action :set_articles, only: %i[index]
 
   # GET /articles
@@ -13,7 +13,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @pagy, @articles = pagy(@articles, items: 15)
 
-    render json: @articles, include: []
+    render json: @articles, include: [], each_serializer: ArticleSerializer
   end
 
   # GET /articles/1 comments published/unpublished
@@ -24,7 +24,7 @@ class Api::V1::ArticlesController < ApplicationController
 
     @tags = @article.tags
 
-    render json: @article, include: ['author', 'comments', 'comments.author']
+    render json: @article, include: ['author', 'comments', 'comments.author'], serializer: ArticleSerializer
   end
 
   # POST /articles
@@ -71,13 +71,14 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   # POST articles?/1/add-tag?tag=new
-  def add_tags
-    if valid_tags?
-      @tags = @article.tags << Tag.select_tag(params[:tag])
+  def add_tag
+    # if valid_tags?
+# byebug
+      @tags = @article.tags << Tag.where(name: params[:name], )
       render json: { article: @article, tags: @tags }, status: :accepted
-    else
-      render json: { message: 'Tag alrady add!', tags: @article.tags }, status: :unprocessable_entity
-    end
+    # else
+    #   render json: { message: 'Tag alrady add!', tags: @article.tags }, status: :unprocessable_entity
+    # end
   end
 
   private
@@ -96,7 +97,13 @@ class Api::V1::ArticlesController < ApplicationController
     params.require(:article).permit(:title, :body, :status, :author_id)
   end
 
-  def valid_tags?
-    !@article.tags.all_tags_names.include?(params[:tag])
+  def tag_params
+    
+    params.permit(:tag)
+    # byebug
   end
+
+  # def valid_tags?
+  #   !@article.tags.all_tags_names.include?(params[:tag])
+  # end
 end
