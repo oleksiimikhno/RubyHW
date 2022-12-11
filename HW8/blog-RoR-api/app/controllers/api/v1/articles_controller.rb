@@ -22,8 +22,6 @@ class Api::V1::ArticlesController < ApplicationController
     @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
-    @tags = @article.tags
-
     render json: @article, include: ['author', 'comments', 'comments.author'], serializer: ArticleSerializer
   end
 
@@ -73,7 +71,7 @@ class Api::V1::ArticlesController < ApplicationController
   # POST articles?/1/add-tag?tag=new
   def add_tag
     @tags = @article.tags << Tag.where(name: params[:name])
-    render json: { article: @article, tags: @tags }, status: :accepted
+    render json: { article: @article, tags: @tags }, status: :created
   end
 
   private
