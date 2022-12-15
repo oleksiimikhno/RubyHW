@@ -86,7 +86,6 @@ RSpec.describe 'api/v1/articles', type: :request do
   end
 
   path '/api/v1/articles' do
-
     get('list articles') do
       tags 'Articles'
       response(200, 'successful') do
@@ -111,7 +110,6 @@ RSpec.describe 'api/v1/articles', type: :request do
         properties: {
           title: { type: :string },
           body: { type: :string },
-          status: { type: :string, enum: %w[unpublished published] },
           author_id: { type: :integer }
         },
         required: %w[title body author_id]
@@ -161,7 +159,7 @@ RSpec.describe 'api/v1/articles', type: :request do
           properties: {
             title: { type: :string },
             body: { type: :string },
-            status: %w[published unpublished],
+            status: { type: :string, enum: %w[unpublished published] },
             author_id: { type: :integer }
           },
           required: false
