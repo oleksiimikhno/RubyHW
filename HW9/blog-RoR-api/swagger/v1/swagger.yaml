@@ -1,0 +1,102 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/articles/{id}/comments":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: comments article
+      responses:
+        '200':
+          description: successful
+  "/api/v1/articles/{id}/published":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: published article
+      responses:
+        '200':
+          description: successful
+  "/api/v1/articles/{id}/unpublished":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: unpublished article
+      responses:
+        '200':
+          description: successful
+  "/api/v1/articles/{id}/add-tag":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    post:
+      summary: add_tag article
+      responses:
+        '200':
+          description: successful
+  "/api/v1/articles":
+    get:
+      summary: list articles
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create article
+      responses:
+        '200':
+          description: successful
+  "/api/v1/articles/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show article
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update article
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update article
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete article
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
