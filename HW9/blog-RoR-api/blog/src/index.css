@@ -1,0 +1,29 @@
+@import './style/normalize.min.css';
+
+:root {
+  --bg-body: #eeded2;
+  --bg-content: #fff;
+  --raidus: 4px;
+  --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-hover: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--bg-body);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  margin: 0 auto;
+}
+
+.App {
+  width: 400px;
+}
