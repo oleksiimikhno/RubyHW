@@ -111,14 +111,13 @@ RSpec.describe 'api/v1/articles', type: :request do
         properties: {
           title: { type: :string },
           body: { type: :string },
-          status: %w[published unpublished],
+          status: { type: :string, enum: %w[unpublished published] },
           author_id: { type: :integer }
         },
         required: %w[title body author_id]
       }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
