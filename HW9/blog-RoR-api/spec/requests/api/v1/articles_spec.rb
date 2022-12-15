@@ -69,7 +69,17 @@ RSpec.describe 'api/v1/articles', type: :request do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     post('add_tag article') do
-      tags 'Articles add new'
+      tags 'Article add new tag'
+
+      consumes 'application/json'
+      parameter name: :article, in: :body, schema: {
+        type: :object,
+        properties: {
+          name: { type: :string }
+        },
+        required: ['name']
+      }
+
       response(200, 'successful') do
         let(:id) { '123' }
 
