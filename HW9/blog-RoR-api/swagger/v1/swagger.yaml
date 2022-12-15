@@ -14,6 +14,8 @@ paths:
         type: string
     get:
       summary: comments article
+      tags:
+      - Article comments
       responses:
         '200':
           description: successful
@@ -27,6 +29,8 @@ paths:
         type: string
     get:
       summary: published article
+      tags:
+      - Article comments
       responses:
         '200':
           description: successful
@@ -40,6 +44,8 @@ paths:
         type: string
     get:
       summary: unpublished article
+      tags:
+      - Article comments
       responses:
         '200':
           description: successful
@@ -53,20 +59,46 @@ paths:
         type: string
     post:
       summary: add_tag article
+      tags:
+      - Articles add new
       responses:
         '200':
           description: successful
   "/api/v1/articles":
     get:
       summary: list articles
+      tags:
+      - Articles
       responses:
         '200':
           description: successful
     post:
       summary: create article
+      tags:
+      - Articles
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                status:
+                - published
+                - unpublished
+                author_id:
+                  type: integer
+              required:
+              - title
+              - body
+              - author_id
   "/api/v1/articles/{id}":
     parameters:
     - name: id
@@ -77,21 +109,46 @@ paths:
         type: string
     get:
       summary: show article
+      tags:
+      - Articles
       responses:
         '200':
           description: successful
     patch:
       summary: update article
+      tags:
+      - Articles
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                status:
+                - published
+                - unpublished
+                author_id:
+                  type: integer
+              required: false
     put:
       summary: update article
+      tags:
+      - Articles
       responses:
         '200':
           description: successful
     delete:
       summary: delete article
+      tags:
+      - Articles
       responses:
         '200':
           description: successful
