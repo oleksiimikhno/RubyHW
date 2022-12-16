@@ -62,6 +62,16 @@ RSpec.describe 'api/v1/comments', type: :request do
     get('list comments') do
       tags 'Comments'
 
+      consumes 'application/json'
+      parameter name: :comments, in: :query, schema: {
+        type: :object,
+        properties: {
+          status: { type: :string, enum: %w[unpublished published] },
+          last: { type: :integer }
+        },
+        required: false
+      }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
+
       response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
@@ -76,6 +86,17 @@ RSpec.describe 'api/v1/comments', type: :request do
 
     post('create comment') do
       tags 'Comments'
+
+      consumes 'application/json'
+      parameter name: :comment, in: :body, schema: {
+        type: :object,
+        properties: {
+          body: { type: :string },
+          author_id: { type: :integer },
+          article_id: { type: :integer }
+        },
+        required: %w[body author_id article_id]
+      }, description: 'status key is default value = unpublished'
 
       response(200, 'successful') do
         after do |example|
@@ -114,6 +135,18 @@ RSpec.describe 'api/v1/comments', type: :request do
     patch('update comment') do
       tags 'Comments'
 
+      consumes 'application/json'
+      parameter name: :comment, in: :body, schema: {
+        type: :object,
+        properties: {
+          body: { type: :string },
+          status: { type: :string, enum: %w[unpublished published] },
+          author_id: { type: :integer },
+          articler_id: { type: :integer }
+        },
+        required: false
+      }
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -130,6 +163,18 @@ RSpec.describe 'api/v1/comments', type: :request do
 
     put('update comment') do
       tags 'Comments'
+
+      consumes 'application/json'
+      parameter name: :comment, in: :body, schema: {
+        type: :object,
+        properties: {
+          body: { type: :string },
+          status: { type: :string, enum: %w[unpublished published] },
+          author_id: { type: :integer },
+          articler_id: { type: :integer }
+        },
+        required: false
+      }
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -158,6 +203,10 @@ RSpec.describe 'api/v1/comments', type: :request do
             }
           }
         end
+        run_test!
+      end
+      response(404, 'invalid request') do
+        let(:id) { '123' }
         run_test!
       end
     end

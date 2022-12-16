@@ -219,12 +219,16 @@ paths:
   "/api/v1/comments/published":
     get:
       summary: published comment
+      tags:
+      - Comments
       responses:
         '200':
           description: successful
   "/api/v1/comments/unpublished":
     get:
       summary: unpublished comment
+      tags:
+      - Comments
       responses:
         '200':
           description: successful
@@ -238,20 +242,60 @@ paths:
         type: string
     patch:
       summary: switch_status comment
+      tags:
+      - Comments
       responses:
         '200':
           description: successful
   "/api/v1/comments":
     get:
       summary: list comments
+      tags:
+      - Comments
+      parameters:
+      - name: comments
+        in: query
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - unpublished
+              - published
+            last:
+              type: integer
+          required: false
+        description: 'Get comments with status: published/unpublished. Get last limit
+          comments with limit: integer'
       responses:
         '200':
           description: successful
     post:
       summary: create comment
+      tags:
+      - Comments
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                author_id:
+                  type: integer
+                article_id:
+                  type: integer
+              required:
+              - body
+              - author_id
+              - article_id
+        description: status key is default value = unpublished
   "/api/v1/comments/{id}":
     parameters:
     - name: id
@@ -262,24 +306,72 @@ paths:
         type: string
     get:
       summary: show comment
+      tags:
+      - Comments
       responses:
         '200':
           description: successful
     patch:
       summary: update comment
+      tags:
+      - Comments
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
+                author_id:
+                  type: integer
+                articler_id:
+                  type: integer
+              required: false
     put:
       summary: update comment
+      tags:
+      - Comments
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
+                author_id:
+                  type: integer
+                articler_id:
+                  type: integer
+              required: false
     delete:
       summary: delete comment
+      tags:
+      - Comments
       responses:
         '200':
           description: successful
+        '404':
+          description: invalid request
 servers:
 - url: http://{defaultHost}
   variables:
