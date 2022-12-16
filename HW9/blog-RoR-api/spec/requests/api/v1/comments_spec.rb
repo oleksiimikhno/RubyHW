@@ -1,7 +1,6 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/comments', type: :request do
-
   path '/api/v1/comments/published' do
     get('published comment') do
       tags 'Comments'
@@ -43,6 +42,15 @@ RSpec.describe 'api/v1/comments', type: :request do
     patch('switch_status comment') do
       tags 'Comments'
 
+      consumes 'application/json'
+      parameter name: :comment, in: :body, schema: {
+        type: :object,
+        properties: {
+          status: { type: :string, enum: %w[unpublished published] }
+        },
+        required: ['status']
+      }, description: 'swith status comment published/unpublished'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -53,6 +61,11 @@ RSpec.describe 'api/v1/comments', type: :request do
             }
           }
         end
+        run_test!
+      end
+
+      response(500, 'Not valid status') do
+        let(:status) { %w[unpublished published] }
         run_test!
       end
     end
