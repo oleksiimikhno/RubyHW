@@ -67,7 +67,7 @@ class Api::V1::ArticlesController < ApplicationController
     render json: @article, include: ['comments_unpublished'], serializer: ArticleSerializer
   end
 
-  # POST articles?/1/add-tag?tag=new
+  # POST articles/1/add-tag?tag=new
   def add_tag
     @tags = @article.tags << Tag.where(name: params[:name])
     render json: { article: @article, tags: @tags }, status: :created
