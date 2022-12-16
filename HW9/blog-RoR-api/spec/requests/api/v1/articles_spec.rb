@@ -83,7 +83,7 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Article add new tag'
 
       consumes 'application/json'
-      parameter name: :tag, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
+      parameter name: :name, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
 
       response(200, 'successful') do
         let(:id) { '123' }
