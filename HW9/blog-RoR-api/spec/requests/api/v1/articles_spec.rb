@@ -122,7 +122,7 @@ RSpec.describe 'api/v1/articles', type: :request do
         properties: {
           status: { type: :string, enum: %w[unpublished published] },
           search: { type: :string },
-          tags: { type: :string },
+          tags: { type: :string, enum: %w[asc desc] }, },
           author: { type: :string },
           order: { type: :string }
         },
