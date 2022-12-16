@@ -7,8 +7,10 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     get('comments article') do
       tags 'Article comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
+
         consumes 'application/json'
         parameter name: :article, in: :query, schema: {
           type: :object,
@@ -36,6 +38,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     get('published article') do
       tags 'Article comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -57,6 +60,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     get('unpublished article') do
       tags 'Article comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -79,17 +83,17 @@ RSpec.describe 'api/v1/articles', type: :request do
     post('add_tag article') do
       tags 'Article add new tag'
 
-      consumes 'application/json'
-      parameter name: :article, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        },
-        required: ['name']
-      }, description: 'If tag exist in tag collection.'
-
       response(200, 'successful') do
         let(:id) { '123' }
+
+        consumes 'application/json'
+        parameter name: :article, in: :body, schema: {
+          type: :object,
+          properties: {
+            name: { type: :string }
+          },
+          required: ['name']
+        }, description: 'If tag exist in tag collection.'
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -152,6 +156,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     get('show article') do
       tags 'Articles'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -168,6 +173,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     patch('update article') do
       tags 'Articles'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -196,6 +202,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     put('update article') do
       tags 'Articles'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -224,7 +231,21 @@ RSpec.describe 'api/v1/articles', type: :request do
 
     delete('delete article') do
       tags 'Articles'
+
       response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(204, 'Delete successful') do
         let(:id) { '123' }
 
         after do |example|
