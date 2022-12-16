@@ -60,10 +60,21 @@ paths:
     post:
       summary: add_tag article
       tags:
-      - Articles add new
+      - Article add new tag
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
   "/api/v1/articles":
     get:
       summary: list articles
@@ -90,11 +101,6 @@ paths:
                   type: string
                 body:
                   type: string
-                status:
-                  type: string
-                  enum:
-                  - unpublished
-                  - published
                 author_id:
                   type: integer
               required:
@@ -135,8 +141,10 @@ paths:
                 body:
                   type: string
                 status:
-                - published
-                - unpublished
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
                 author_id:
                   type: integer
               required: false
