@@ -63,8 +63,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/unpublished
   def unpublished
-    @comments = @article.comments.unpublished
-    render json: { article: @article, comments: @comments }
+    render json: @article, include: ['unpublished_comments'], serializer: ArticleSerializer
   end
 
   # POST articles?/1/add-tag?tag=new

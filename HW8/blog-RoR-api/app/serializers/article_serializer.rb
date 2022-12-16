@@ -7,4 +7,8 @@ class ArticleSerializer < ActiveModel::Serializer
   has_many :comments, each_serializer: CommentSerializer, key: :published_comments do
     object.comments.published
   end
+
+  has_many :comments, each_serializer: CommentSerializer, key: :unpublished_comments do
+    object.comments.unpublished
+  end
 end
