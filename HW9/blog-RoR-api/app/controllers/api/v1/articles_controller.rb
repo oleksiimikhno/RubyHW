@@ -53,7 +53,6 @@ class Api::V1::ArticlesController < ApplicationController
   # GET /articles/1/comments
   def comments
     render json: @article,
-           params_status: params[:status],
            include: ['comments', 'comments.author'],
            serializer: ArticleSerializer,
            scope: { 'status': params[:status] }
