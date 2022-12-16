@@ -43,13 +43,7 @@ RSpec.describe 'api/v1/comments', type: :request do
       tags 'Comments'
 
       consumes 'application/json'
-      parameter name: :comment, in: :body, schema: {
-        type: :object,
-        properties: {
-          status: { type: :string, enum: %w[unpublished published] }
-        },
-        required: ['status']
-      }, description: 'swith status comment published/unpublished'
+      parameter name: :status, in: :query, type: :string, required: :status, description: 'Swith status comment published/unpublished'
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -76,14 +70,8 @@ RSpec.describe 'api/v1/comments', type: :request do
       tags 'Comments'
 
       consumes 'application/json'
-      parameter name: :comments, in: :query, schema: {
-        type: :object,
-        properties: {
-          status: { type: :string, enum: %w[unpublished published] },
-          last: { type: :integer }
-        },
-        required: false
-      }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
+      parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
+      parameter name: :last, in: :query, type: :integer, description: 'Get last limit comments with limit: integer.'
 
       response(200, 'successful') do
         after do |example|
