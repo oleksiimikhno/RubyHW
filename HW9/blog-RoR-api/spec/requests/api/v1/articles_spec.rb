@@ -110,8 +110,8 @@ RSpec.describe 'api/v1/articles', type: :request do
   path '/api/v1/articles' do
     get('list articles') do
       tags 'Articles'
-      response(200, 'successful') do
 
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -135,7 +135,7 @@ RSpec.describe 'api/v1/articles', type: :request do
           author_id: { type: :integer }
         },
         required: %w[title body author_id]
-      }
+      }, description: 'status key is default value = unpublished'
 
       response(200, 'successful') do
         after do |example|
@@ -159,6 +159,16 @@ RSpec.describe 'api/v1/articles', type: :request do
 
       response(200, 'successful') do
         let(:id) { '123' }
+
+        consumes 'application/json'
+        parameter name: :article, in: :query, schema: {
+          type: :object,
+          properties: {
+            status: { type: :string, enum: %w[unpublished published] },
+            last: { type: :integer }
+          },
+          required: false
+        }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
 
         after do |example|
           example.metadata[:response][:content] = {
