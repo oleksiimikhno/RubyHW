@@ -116,6 +116,23 @@ RSpec.describe 'api/v1/articles', type: :request do
     get('list articles') do
       tags 'Articles'
 
+      consumes 'application/json'
+      parameter name: :articles, in: :query, schema: {
+        type: :object,
+        properties: {
+          status: { type: :string, enum: %w[unpublished published] },
+          search: { type: :string },
+          tags: { type: :string },
+          author: { type: :string },
+          order: { type: :string }
+        },
+        required: false
+      }, description: 'Get comments with status: published/unpublished.
+                       Search articles by phrase in title and description.
+                       Search articles by tags (split tags with commas).
+                       Search articles by author.
+                       Sort articles by order asc/desc.'
+
       response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
