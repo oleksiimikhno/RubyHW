@@ -30,7 +30,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      render json: @article, status: :created, serializer: ArticleSerializer
+      render json: @article, include: [], status: :created, serializer: ArticleSerializer
     else
       render json: @article.errors, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class Api::V1::ArticlesController < ApplicationController
   # PATCH/PUT /articles/1
   def update
     if @article.update(article_params)
-      render json: @article, serializer: ArticleSerializer
+      render json: @article, include: [], serializer: ArticleSerializer
     else
       render json: @article.errors, status: :unprocessable_entity
     end
