@@ -58,8 +58,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/published
   def published
-    @comments = @article.comments.published
-    render json: { article: @article, comments: @comments }
+    render json: @article, include: ['published_comments'], serializer: ArticleSerializer
   end
 
   # GET /articles/1/unpublished

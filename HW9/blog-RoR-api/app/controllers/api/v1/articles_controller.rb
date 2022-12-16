@@ -22,7 +22,7 @@ class Api::V1::ArticlesController < ApplicationController
     @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
-    render json: @article, include: ['author', 'comments', 'comments.author'], serializer: ArticleSerializer
+    render json: @article, user_id: 12, include: ['author', 'comments', 'comments.author'], serializer: ArticleSerializer
   end
 
   # POST /articles
@@ -58,8 +58,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/published
   def published
-    @comments = @article.comments.published
-    render json: { article: @article, comments: @comments }
+    render json: @article, include: ['published_comments'], serializer: ArticleSerializer
   end
 
   # GET /articles/1/unpublished
