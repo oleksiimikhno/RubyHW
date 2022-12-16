@@ -5,7 +5,7 @@ class ArticleSerializer < ActiveModel::Serializer
 
   has_many :comments, each_serializer: CommentSerializer do
     comments = object.comments
-    comments = object.comments.filter_by_status(scope[:status]) if scope[:status].present?
+    comments = object.comments.filter_by_status(scope[:status]) if scope.present? && scope[:status].present?
 
     comments
   end
