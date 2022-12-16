@@ -58,12 +58,12 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/published
   def published
-    render json: @article, include: ['published_comments'], serializer: ArticleSerializer
+    render json: @article, include: ['comments_published'], serializer: ArticleSerializer
   end
 
   # GET /articles/1/unpublished
   def unpublished
-    render json: @article, include: ['unpublished_comments'], serializer: ArticleSerializer
+    render json: @article, include: ['comments_unpublished'], serializer: ArticleSerializer
   end
 
   # POST articles?/1/add-tag?tag=new

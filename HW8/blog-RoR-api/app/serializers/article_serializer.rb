@@ -4,11 +4,11 @@ class ArticleSerializer < ActiveModel::Serializer
   has_one :author, serializer: AuthorSerializer
   has_many :comments, each_serializer: CommentSerializer
 
-  has_many :comments, each_serializer: CommentSerializer, key: :published_comments do
+  has_many :comments, each_serializer: CommentSerializer, key: :comments_published do
     object.comments.published
   end
 
-  has_many :comments, each_serializer: CommentSerializer, key: :unpublished_comments do
+  has_many :comments, each_serializer: CommentSerializer, key: :comments_unpublished do
     object.comments.unpublished
   end
 end
