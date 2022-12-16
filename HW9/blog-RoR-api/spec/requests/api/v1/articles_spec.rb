@@ -9,6 +9,14 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Article comments'
       response(200, 'successful') do
         let(:id) { '123' }
+        consumes 'application/json'
+        parameter name: :article, in: :query, schema: {
+          type: :object,
+          properties: {
+            status: { type: :string, enum: %w[unpublished published] }
+          },
+          required: false
+        }, description: 'Get comments with status published/unpublished'
 
         after do |example|
           example.metadata[:response][:content] = {
