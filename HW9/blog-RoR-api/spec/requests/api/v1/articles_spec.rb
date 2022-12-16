@@ -9,13 +9,7 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Article comments'
 
       consumes 'application/json'
-      parameter name: :article, in: :query, schema: {
-        type: :object,
-        properties: {
-          status: { type: :string, enum: %w[unpublished published] }
-        },
-        required: false
-      }, description: 'Get comments with status published/unpublished'
+      parameter name: :status, in: :query, type: :string, description: 'Get comments with status published or unpublished'
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -89,13 +83,7 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Article add new tag'
 
       consumes 'application/json'
-      parameter name: :article, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        },
-        required: ['name']
-      }, description: 'If tag exist in tag collection.'
+      parameter name: :tag, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -122,9 +110,9 @@ RSpec.describe 'api/v1/articles', type: :request do
         properties: {
           status: { type: :string, enum: %w[unpublished published] },
           search: { type: :string },
-          tags: { type: :string, enum: %w[asc desc] }, },
+          tags: { type: :string },
           author: { type: :string },
-          order: { type: :string }
+          order: { type: :string, enum: %w[asc desc] }
         },
         required: false
       }, description: 'Get comments with status: published/unpublished.
@@ -132,6 +120,8 @@ RSpec.describe 'api/v1/articles', type: :request do
                        Search articles by tags (split tags with commas).
                        Search articles by author.
                        Sort articles by order asc/desc.'
+
+      parameter name: :status, in: :query, type: :string, required: false, description: 'Get comments with status: published/unpublished.'
 
       response(200, 'successful') do
         after do |example|
@@ -191,6 +181,8 @@ RSpec.describe 'api/v1/articles', type: :request do
 
       response(200, 'successful') do
         let(:id) { '123' }
+
+        let(:status) { 'stat' }
 
         after do |example|
           example.metadata[:response][:content] = {
