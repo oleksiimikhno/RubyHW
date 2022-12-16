@@ -8,17 +8,17 @@ RSpec.describe 'api/v1/articles', type: :request do
     get('comments article') do
       tags 'Article comments'
 
+      consumes 'application/json'
+      parameter name: :article, in: :query, schema: {
+        type: :object,
+        properties: {
+          status: { type: :string, enum: %w[unpublished published] }
+        },
+        required: false
+      }, description: 'Get comments with status published/unpublished'
+
       response(200, 'successful') do
         let(:id) { '123' }
-
-        consumes 'application/json'
-        parameter name: :article, in: :query, schema: {
-          type: :object,
-          properties: {
-            status: { type: :string, enum: %w[unpublished published] }
-          },
-          required: false
-        }, description: 'Get comments with status published/unpublished'
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -83,17 +83,17 @@ RSpec.describe 'api/v1/articles', type: :request do
     post('add_tag article') do
       tags 'Article add new tag'
 
+      consumes 'application/json'
+      parameter name: :article, in: :body, schema: {
+        type: :object,
+        properties: {
+          name: { type: :string }
+        },
+        required: ['name']
+      }, description: 'If tag exist in tag collection.'
+
       response(200, 'successful') do
         let(:id) { '123' }
-
-        consumes 'application/json'
-        parameter name: :article, in: :body, schema: {
-          type: :object,
-          properties: {
-            name: { type: :string }
-          },
-          required: ['name']
-        }, description: 'If tag exist in tag collection.'
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -157,18 +157,18 @@ RSpec.describe 'api/v1/articles', type: :request do
     get('show article') do
       tags 'Articles'
 
+      consumes 'application/json'
+      parameter name: :article, in: :query, schema: {
+        type: :object,
+        properties: {
+          status: { type: :string, enum: %w[unpublished published] },
+          last: { type: :integer }
+        },
+        required: false
+      }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
+
       response(200, 'successful') do
         let(:id) { '123' }
-
-        consumes 'application/json'
-        parameter name: :article, in: :query, schema: {
-          type: :object,
-          properties: {
-            status: { type: :string, enum: %w[unpublished published] },
-            last: { type: :integer }
-          },
-          required: false
-        }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -184,20 +184,20 @@ RSpec.describe 'api/v1/articles', type: :request do
     patch('update article') do
       tags 'Articles'
 
+      consumes 'application/json'
+      parameter name: :article, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string },
+          body: { type: :string },
+          status: { type: :string, enum: %w[unpublished published] },
+          author_id: { type: :integer }
+        },
+        required: false
+      }
+
       response(200, 'successful') do
         let(:id) { '123' }
-
-        consumes 'application/json'
-        parameter name: :article, in: :body, schema: {
-          type: :object,
-          properties: {
-            title: { type: :string },
-            body: { type: :string },
-            status: { type: :string, enum: %w[unpublished published] },
-            author_id: { type: :integer }
-          },
-          required: false
-        }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -213,20 +213,20 @@ RSpec.describe 'api/v1/articles', type: :request do
     put('update article') do
       tags 'Articles'
 
+      consumes 'application/json'
+      parameter name: :article, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string },
+          body: { type: :string },
+          status: { type: :string, enum: %w[unpublished published] },
+          author_id: { type: :integer }
+        },
+        required: false
+      }
+
       response(200, 'successful') do
         let(:id) { '123' }
-
-        consumes 'application/json'
-        parameter name: :article, in: :body, schema: {
-          type: :object,
-          properties: {
-            title: { type: :string },
-            body: { type: :string },
-            status: { type: :string, enum: %w[unpublished published] },
-            author_id: { type: :integer }
-          },
-          required: false
-        }
 
         after do |example|
           example.metadata[:response][:content] = {
