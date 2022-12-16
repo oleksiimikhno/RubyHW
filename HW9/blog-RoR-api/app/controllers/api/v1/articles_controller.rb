@@ -52,8 +52,8 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/comments
   def comments
-    @comments = @article.comments.filter_by_status(params[:filter])
-    render json: { article: @article, comments: @comments }
+    @comments = @article.comments.filter_by_status(params[:status])
+    render json: { article: @article, comments: @comments }, each_serializer: ArticleSerializer
   end
 
   # GET /articles/1/published

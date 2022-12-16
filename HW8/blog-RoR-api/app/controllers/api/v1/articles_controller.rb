@@ -52,7 +52,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   # GET /articles/1/comments
   def comments
-    @comments = @article.comments.filter_by_status(params[:filter])
+    @comments = @article.comments.filter_by_status(params[:status])
     render json: { article: @article, comments: @comments }
   end
 
