@@ -105,23 +105,11 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Articles'
 
       consumes 'application/json'
-      parameter name: :articles, in: :query, schema: {
-        type: :object,
-        properties: {
-          status: { type: :string, enum: %w[unpublished published] },
-          search: { type: :string },
-          tags: { type: :string },
-          author: { type: :string },
-          order: { type: :string, enum: %w[asc desc] }
-        },
-        required: false
-      }, description: 'Get comments with status: published/unpublished.
-                       Search articles by phrase in title and description.
-                       Search articles by tags (split tags with commas).
-                       Search articles by author.
-                       Sort articles by order asc/desc.'
-
-      parameter name: :status, in: :query, type: :string, required: false, description: 'Get comments with status: published/unpublished.'
+      parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
+      parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
+      parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
+      parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
+      parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
       response(200, 'successful') do
         after do |example|
@@ -170,14 +158,8 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Articles'
 
       consumes 'application/json'
-      parameter name: :article, in: :query, schema: {
-        type: :object,
-        properties: {
-          status: { type: :string, enum: %w[unpublished published] },
-          last: { type: :integer }
-        },
-        required: false
-      }, description: 'Get comments with status: published/unpublished. Get last limit comments with limit: integer'
+      parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
+      parameter name: :last, in: :query, type: :integer, description: 'Get last limit comments with limit: integer.'
 
       response(200, 'successful') do
         let(:id) { '123' }
