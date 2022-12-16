@@ -3,10 +3,10 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/comments', type: :request do
 
   path '/api/v1/comments/published' do
-
     get('published comment') do
-      response(200, 'successful') do
+      tags 'Comments'
 
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -20,10 +20,10 @@ RSpec.describe 'api/v1/comments', type: :request do
   end
 
   path '/api/v1/comments/unpublished' do
-
     get('unpublished comment') do
-      response(200, 'successful') do
+      tags 'Comments'
 
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -41,6 +41,8 @@ RSpec.describe 'api/v1/comments', type: :request do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     patch('switch_status comment') do
+      tags 'Comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -57,10 +59,10 @@ RSpec.describe 'api/v1/comments', type: :request do
   end
 
   path '/api/v1/comments' do
-
     get('list comments') do
-      response(200, 'successful') do
+      tags 'Comments'
 
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -73,8 +75,9 @@ RSpec.describe 'api/v1/comments', type: :request do
     end
 
     post('create comment') do
-      response(200, 'successful') do
+      tags 'Comments'
 
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -92,6 +95,8 @@ RSpec.describe 'api/v1/comments', type: :request do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('show comment') do
+      tags 'Comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -107,6 +112,8 @@ RSpec.describe 'api/v1/comments', type: :request do
     end
 
     patch('update comment') do
+      tags 'Comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -122,6 +129,8 @@ RSpec.describe 'api/v1/comments', type: :request do
     end
 
     put('update comment') do
+      tags 'Comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -137,6 +146,8 @@ RSpec.describe 'api/v1/comments', type: :request do
     end
 
     delete('delete comment') do
+      tags 'Comments'
+
       response(200, 'successful') do
         let(:id) { '123' }
 
