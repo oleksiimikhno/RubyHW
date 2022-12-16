@@ -29,6 +29,11 @@ RSpec.describe 'api/v1/articles', type: :request do
         end
         run_test!
       end
+
+      response(404, 'invalid request') do
+        let(:id) { '123' }
+        run_test!
+      end
     end
   end
 

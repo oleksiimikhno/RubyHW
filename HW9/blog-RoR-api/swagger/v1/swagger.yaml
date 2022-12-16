@@ -16,9 +16,24 @@ paths:
       summary: comments article
       tags:
       - Article comments
+      parameters:
+      - name: article
+        in: query
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - unpublished
+              - published
+          required: false
+        description: Get comments with status published/unpublished
       responses:
         '200':
           description: successful
+        '404':
+          description: invalid request
   "/api/v1/articles/{id}/published":
     parameters:
     - name: id
@@ -75,6 +90,7 @@ paths:
                   type: string
               required:
               - name
+        description: If tag exist in tag collection.
   "/api/v1/articles":
     get:
       summary: list articles
@@ -107,6 +123,7 @@ paths:
               - title
               - body
               - author_id
+        description: status key is default value = unpublished
   "/api/v1/articles/{id}":
     parameters:
     - name: id
@@ -119,6 +136,22 @@ paths:
       summary: show article
       tags:
       - Articles
+      parameters:
+      - name: article
+        in: query
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - unpublished
+              - published
+            last:
+              type: integer
+          required: false
+        description: 'Get comments with status: published/unpublished. Get last limit
+          comments with limit: integer'
       responses:
         '200':
           description: successful
@@ -152,13 +185,98 @@ paths:
       summary: update article
       tags:
       - Articles
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
+                author_id:
+                  type: integer
+              required: false
     delete:
       summary: delete article
       tags:
       - Articles
+      responses:
+        '200':
+          description: successful
+        '204':
+          description: Delete successful
+  "/api/v1/comments/published":
+    get:
+      summary: published comment
+      responses:
+        '200':
+          description: successful
+  "/api/v1/comments/unpublished":
+    get:
+      summary: unpublished comment
+      responses:
+        '200':
+          description: successful
+  "/api/v1/comments/{id}/switch":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    patch:
+      summary: switch_status comment
+      responses:
+        '200':
+          description: successful
+  "/api/v1/comments":
+    get:
+      summary: list comments
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create comment
+      responses:
+        '200':
+          description: successful
+  "/api/v1/comments/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show comment
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete comment
       responses:
         '200':
           description: successful
