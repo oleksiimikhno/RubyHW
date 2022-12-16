@@ -17,18 +17,11 @@ paths:
       tags:
       - Article comments
       parameters:
-      - name: article
+      - name: status
         in: query
+        description: Get comments with status published or unpublished
         schema:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - unpublished
-              - published
-          required: false
-        description: Get comments with status published/unpublished
+          type: string
       responses:
         '200':
           description: successful
@@ -76,26 +69,47 @@ paths:
       summary: add_tag article
       tags:
       - Article add new tag
-      parameters: []
+      parameters:
+      - name: name
+        in: query
+        required: name
+        description: If tag exist in tag collection.
+        schema:
+          type: string
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              required:
-              - name
-        description: If tag exist in tag collection.
   "/api/v1/articles":
     get:
       summary: list articles
       tags:
       - Articles
+      parameters:
+      - name: status
+        in: query
+        description: 'Get comments with status: published/unpublished.'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search articles by phrase in title and description.
+        schema:
+          type: string
+      - name: tags
+        in: query
+        description: Search articles by tags (split tags with commas).
+        schema:
+          type: string
+      - name: author
+        in: query
+        description: Search articles by author.
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: Sort articles by order asc/desc.
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -137,21 +151,16 @@ paths:
       tags:
       - Articles
       parameters:
-      - name: article
+      - name: status
         in: query
+        description: 'Get comments with status: published/unpublished.'
         schema:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - unpublished
-              - published
-            last:
-              type: integer
-          required: false
-        description: 'Get comments with status: published/unpublished. Get last limit
-          comments with limit: integer'
+          type: string
+      - name: last
+        in: query
+        description: 'Get last limit comments with limit: integer.'
+        schema:
+          type: integer
       responses:
         '200':
           description: successful
@@ -244,47 +253,34 @@ paths:
       summary: switch_status comment
       tags:
       - Comments
-      parameters: []
+      parameters:
+      - name: status
+        in: query
+        required: status
+        description: Swith status comment published/unpublished
+        schema:
+          type: string
       responses:
         '200':
           description: successful
         '500':
           description: Not valid status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                status:
-                  type: string
-                  enum:
-                  - unpublished
-                  - published
-              required:
-              - status
-        description: swith status comment published/unpublished
   "/api/v1/comments":
     get:
       summary: list comments
       tags:
       - Comments
       parameters:
-      - name: comments
+      - name: status
         in: query
+        description: 'Get comments with status: published/unpublished.'
         schema:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - unpublished
-              - published
-            last:
-              type: integer
-          required: false
-        description: 'Get comments with status: published/unpublished. Get last limit
-          comments with limit: integer'
+          type: string
+      - name: last
+        in: query
+        description: 'Get last limit comments with limit: integer.'
+        schema:
+          type: integer
       responses:
         '200':
           description: successful
