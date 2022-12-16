@@ -191,6 +191,18 @@ RSpec.describe 'api/v1/articles', type: :request do
       response(200, 'successful') do
         let(:id) { '123' }
 
+        consumes 'application/json'
+        parameter name: :article, in: :body, schema: {
+          type: :object,
+          properties: {
+            title: { type: :string },
+            body: { type: :string },
+            status: { type: :string, enum: %w[unpublished published] },
+            author_id: { type: :integer }
+          },
+          required: false
+        }
+
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
