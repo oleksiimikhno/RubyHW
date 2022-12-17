@@ -4,12 +4,10 @@ RSpec.describe 'api/v1/articles', type: :request do
   path '/api/v1/articles/{id}/comments' do
     # You'll want to customize the parameter types...
     parameter name: 'id', in: :path, type: :string, description: 'id'
+    parameter name: :status, in: :query, type: :string, description: 'Get comments with status published or unpublished'
 
     get('comments article') do
       tags 'Article comments'
-
-      consumes 'application/json'
-      parameter name: :status, in: :query, type: :string, description: 'Get comments with status published or unpublished'
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -78,12 +76,10 @@ RSpec.describe 'api/v1/articles', type: :request do
   path '/api/v1/articles/{id}/add-tag' do
     # You'll want to customize the parameter types...
     parameter name: 'id', in: :path, type: :string, description: 'id'
+    parameter name: :name, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
 
     post('add_tag article') do
       tags 'Article add new tag'
-
-      consumes 'application/json'
-      parameter name: :name, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -101,15 +97,14 @@ RSpec.describe 'api/v1/articles', type: :request do
   end
 
   path '/api/v1/articles' do
+    parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
+    parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
+    parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
+    parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
+    parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
+
     get('list articles') do
       tags 'Articles'
-
-      consumes 'application/json'
-      parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
-      parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
-      parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
-      parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
-      parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
       response(200, 'successful') do
         after do |example|
@@ -157,7 +152,6 @@ RSpec.describe 'api/v1/articles', type: :request do
     get('show article') do
       tags 'Articles'
 
-      consumes 'application/json'
       parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
       parameter name: :last, in: :query, type: :integer, description: 'Get last limit comments with limit: integer.'
 
