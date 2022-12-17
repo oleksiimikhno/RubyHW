@@ -18,7 +18,6 @@ Rails.application.routes.draw do
           get :published
           get :unpublished
         end
-        patch :switch, to: 'comments#switch_status', on: :member
       end
 
       resources :tags
