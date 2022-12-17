@@ -89,10 +89,6 @@
 
   - Route with params `last=10` if you want see last 10 comments
 
-## Switch status comment with params
-`use PATCH method`
-* Route `/api/v1/comments/1/switch?status=published` to switch comment `published`/ `unpublished`
-
 ## Create new comments with params
   `use POST method`
 * Create new comment `/api/v1/comments?comment[body]=Create new comment&comment[status]=published&comment[article_id]=1&comment[author_id]=1`

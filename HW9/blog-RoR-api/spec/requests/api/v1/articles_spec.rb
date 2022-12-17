@@ -18,7 +18,7 @@ RSpec.describe 'api/v1/articles', type: :request do
       tags 'Article comments'
 
       response(200, 'successful') do
-        let(:id) { '123' }
+        let(:id) { '2' }
 
         after do |example|
           example.metadata[:response][:content] = {
