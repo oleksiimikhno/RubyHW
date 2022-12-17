@@ -1,6 +1,6 @@
 class Api::V1::CommentsController < ApplicationController
   before_action :set_comment, only: %i[show update destroy switch_status]
-  before_action :set_comments, only: %i[index]
+  before_action :set_comments, only: %i[index published unpublished]
 
   # GET /comments published/unpublished
   def index
@@ -42,14 +42,12 @@ class Api::V1::CommentsController < ApplicationController
 
   # GET /comments/published
   def published
-    @comments = Comment.published
-    render json: @comments, include: [], each_serializer: CommentSerializer
+    render json: @comments.published, include: [], each_serializer: CommentSerializer
   end
 
   # GET /comments/unpublished
   def unpublished
-    @comments = Comment.unpublished
-    render json: @comments, include: [], each_serializer: CommentSerializer
+    render json: @comments.unpublished, include: [], each_serializer: CommentSerializer
   end
 
   # PATCH /comments/1/switch?status=published
