@@ -310,6 +310,13 @@ paths:
       responses:
         '200':
           description: successful
+    delete:
+      summary: delete comment
+      tags:
+      - Comments
+      responses:
+        '204':
+          description: successful
 servers:
 - url: http://{defaultHost}
   variables:
