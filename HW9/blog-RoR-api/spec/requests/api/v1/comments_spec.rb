@@ -38,7 +38,15 @@ RSpec.describe 'api/v1/comments', type: :request do
   path '/api/v1/comments/{id}/switch' do
     # You'll want to customize the parameter types...
     parameter name: 'id', in: :path, type: :string, description: 'id'
-    parameter name: :status, in: :query, type: :string, required: :status, description: 'Swith status comment published/unpublished'
+    parameter(
+      name: :status,
+      in: :query,
+      schema: {
+        type: :string,
+        enum: ['unpublished', 'published'],
+      },
+      description: 'Get comments with status: published/unpublished.'
+    )
 
     patch('switch_status comment') do
       tags 'Comments'
@@ -66,8 +74,16 @@ RSpec.describe 'api/v1/comments', type: :request do
   path '/api/v1/comments' do
     get('list comments') do
       tags 'Comments'
-      
-      parameter name: :status, in: :query, type: :string, description: 'Get comments with status: published/unpublished.'
+
+      parameter(
+        name: :status,
+        in: :query,
+        schema: {
+          type: :string,
+          enum: ['unpublished', 'published'],
+        },
+        description: 'Get comments with status: published/unpublished.'
+      )
       parameter name: :last, in: :query, type: :integer, description: 'Get last limit comments with limit: integer.'
 
       response(200, 'successful') do
