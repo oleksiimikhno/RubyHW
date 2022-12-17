@@ -310,6 +310,58 @@ paths:
       responses:
         '200':
           description: successful
+    patch:
+      summary: update comment
+      tags:
+      - Comments
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
+                author_id:
+                  type: integer
+                articler_id:
+                  type: integer
+              required: false
+    put:
+      summary: update comment
+      tags:
+      - Comments
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - unpublished
+                  - published
+                author_id:
+                  type: integer
+                articler_id:
+                  type: integer
+              required: false
     delete:
       summary: delete comment
       tags:

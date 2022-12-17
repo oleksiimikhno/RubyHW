@@ -108,8 +108,6 @@ RSpec.describe 'api/v1/comments', type: :request do
       tags 'Comments'
 
       response(200, 'successful') do
-        # let(:id) { new_comment.id }
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -136,18 +134,23 @@ RSpec.describe 'api/v1/comments', type: :request do
         required: false
       }
 
-      # response(200, 'successful') do
-      #   let(:comment) { update_comment }
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
 
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+        describe 'PATCH api/v1/comments{id}' do
+          it 'check putch comment' do
+            comment.update(body: 'New text')
+            expect(Comment.find_by(body: 'New text')).to eq(comment)
+          end
+          run_test!
+        end
+      end
     end
 
     put('update comment') do
@@ -165,24 +168,23 @@ RSpec.describe 'api/v1/comments', type: :request do
         required: false
       }
 
-      # response(200, 'successful') do
-      #     let(:author) { Author.create(name: 'Faker::Name.name') }
-      #   let(:article) { Article.create(title: 'Faker::Movie.title', body: 'Faker::Movie.quote', author_id: author.id) }
-      #   let(:comment) { Comment.create(body: body, author_id: author.id, article_id: article.id) }
-      #   let(:id) { comment.id }
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
 
-      #   let(:comment) { Comment.update(body: body, author_id: author.id, article_id: article.id) }
-
-      #   after do |example|
-      #     debugger
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+        describe 'PUT api/v1/comments{id}' do
+          it 'check put comment' do
+            comment.update(body: 'New text')
+            expect(Comment.find_by(body: 'New text')).to eq(comment)
+          end
+          run_test!
+        end
+      end
     end
 
     delete('delete comment') do
