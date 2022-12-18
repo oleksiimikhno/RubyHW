@@ -102,30 +102,29 @@ RSpec.describe 'api/v1/articles', type: :request do
   end
 
   path '/api/v1/articles' do
-    let(:author) { Author.create(name: 'Peter') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-
-    parameter(
-      name: :status,
-      in: :query,
-      schema: {
-        type: :string,
-        enum: ['unpublished', 'published'],
-      },
-      description: 'Get comments with status: published/unpublished.'
-    )
-    parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
-    parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
-    # parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
-    parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
+    let(:author_article) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author_article.id) }
 
     get('list articles') do
       tags 'Articles'
+      parameter(
+        name: :status,
+        in: :query,
+        schema: {
+          type: :string,
+          enum: ['unpublished', 'published'],
+        },
+        description: 'Get comments with status: published/unpublished.'
+      )
+      parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
+      # parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
+      parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
+      parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
       response(200, 'successful') do
         let(:search) { 'Title' }
-        let(:tags) { 'ruby' }
-        # let(:author) { '1' }
+        # let(:tags) { 'ruby' }
+        let(:author) { 'Peter' }
         let(:order) { 'desc' }
 
         after do |example|
@@ -141,9 +140,9 @@ RSpec.describe 'api/v1/articles', type: :request do
             expect(article).to eq(Article.find_by(title: search))
           end
 
-          # it 'Filter with phrase' do
-          #   expect(articles.first).to eq(Article.find_by(title: search))
-          # end
+          it 'Filter with author' do
+            expect(author_article.name).to eq(Author.find_by(name: author).name)
+          end
         end
         run_test!
       end
@@ -163,16 +162,17 @@ RSpec.describe 'api/v1/articles', type: :request do
         required: %w[title body author_id]
       }, description: 'status key is default value = unpublished'
 
-      # response(200, 'successful') do
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+      response(201, 'successful') do
+        let(:article) { { title: 'Title2', body: 'Body title3', author_id: author_article.id } }
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 

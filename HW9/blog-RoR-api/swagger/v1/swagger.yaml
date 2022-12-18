@@ -4,6 +4,63 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/articles":
+    get:
+      summary: list articles
+      tags:
+      - Articles
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - unpublished
+          - published
+        description: 'Get comments with status: published/unpublished.'
+      - name: search
+        in: query
+        description: Search articles by phrase in title and description.
+        schema:
+          type: string
+      - name: author
+        in: query
+        description: Search articles by author.
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: Sort articles by order asc/desc.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create article
+      tags:
+      - Articles
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+                author_id:
+                  type: integer
+              required:
+              - title
+              - body
+              - author_id
+        description: status key is default value = unpublished
   "/api/v1/articles/{id}":
     parameters:
     - name: id
