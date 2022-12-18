@@ -148,8 +148,8 @@ RSpec.describe 'api/v1/comments', type: :request do
             comment.update(body: 'New text')
             expect(Comment.find_by(body: 'New text')).to eq(comment)
           end
-          run_test!
         end
+        run_test!
       end
     end
 
@@ -182,8 +182,8 @@ RSpec.describe 'api/v1/comments', type: :request do
             comment.update(body: 'New text')
             expect(Comment.find_by(body: 'New text')).to eq(comment)
           end
-          run_test!
         end
+        run_test!
       end
     end
 
@@ -196,9 +196,8 @@ RSpec.describe 'api/v1/comments', type: :request do
             comment.destroy
             expect(Comment.count).to eq(0)
           end
-
-          run_test!
         end
+        run_test!
       end
     end
   end
