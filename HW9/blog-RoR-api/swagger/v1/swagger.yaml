@@ -244,6 +244,29 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/comments/{id}/switch":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    - name: status
+      in: query
+      schema:
+        type: string
+        enum:
+        - unpublished
+        - published
+      description: 'Get comments with status: published/unpublished.'
+    patch:
+      summary: switch_status comment
+      tags:
+      - Comments
+      responses:
+        '202':
+          description: successful
   "/api/v1/comments":
     get:
       summary: list comments

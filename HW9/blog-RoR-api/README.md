@@ -88,6 +88,9 @@
   ### Filter last comments with limit params 
 
   - Route with params `last=10` if you want see last 10 comments
+## Switch status comment with params
+`use PATCH method`
+  * Route `/api/v1/comments/1/switch?status=published` to switch comment `published`/ `unpublished`
 
 ## Create new comments with params
   `use POST method`
