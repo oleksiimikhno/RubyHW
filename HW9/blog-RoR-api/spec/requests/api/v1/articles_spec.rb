@@ -119,23 +119,15 @@ RSpec.describe 'api/v1/articles', type: :request do
         description: 'Get comments with status: published/unpublished.'
       )
       parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
-      # parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
+      parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
       parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
       parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
       response(200, 'successful') do
         let(:search) { 'Title' }
-        # let(:tags) { '123' }
+        let(:tags) { article.tags.first }
         let(:author) { 'Peter' }
         let(:order) { 'desc' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
 
         describe 'queries filters for api/v1/articles' do
           it 'Filter with phrase' do
@@ -146,11 +138,18 @@ RSpec.describe 'api/v1/articles', type: :request do
             expect(author_article.name).to eq(Author.find_by(name: author).name)
           end
 
-          # it 'Filter with tags' do
-          #   article.tags << tag
-          #   debugger
-          #   expect(article.tags.where(name: '123')).to eq(Author.find_by(name: author).name)
-          # end
+          it 'Filter with tags' do
+            article.tags << tag
+            expect(article.tags.where(name: '123')).to eq(Article.first.tags)
+          end
+        end
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
         end
         run_test!
       end
@@ -235,6 +234,14 @@ RSpec.describe 'api/v1/articles', type: :request do
       }
 
       response(200, 'successful') do
+
+        describe 'PATCH api/v1/articles{id}' do
+          it 'check putch article' do
+            article.update(body: 'New text')
+            expect(Article.find_by(body: 'New text')).to eq(article)
+          end
+        end
+
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -242,14 +249,7 @@ RSpec.describe 'api/v1/articles', type: :request do
             }
           }
         end
-
-        describe 'PATCH api/v1/articles{id}' do
-          it 'check putch article' do
-            article.update(body: 'New text')
-            expect(Article.find_by(body: 'New text')).to eq(article)
-          end
-          run_test!
-        end
+        run_test!
       end
     end
 
@@ -269,6 +269,13 @@ RSpec.describe 'api/v1/articles', type: :request do
       }
 
       response(200, 'successful') do
+        describe 'PUT api/v1/articles{id}' do
+          it 'check put article' do
+            article.update(body: 'New text')
+            expect(Article.find_by(body: 'New text')).to eq(article)
+          end
+        end
+
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -276,14 +283,7 @@ RSpec.describe 'api/v1/articles', type: :request do
             }
           }
         end
-
-        describe 'PUT api/v1/articles{id}' do
-          it 'check put article' do
-            article.update(body: 'New text')
-            expect(Article.find_by(body: 'New text')).to eq(article)
-          end
-          run_test!
-        end
+        run_test!
       end
     end
 
@@ -296,9 +296,8 @@ RSpec.describe 'api/v1/articles', type: :request do
             article.destroy
             expect(Article.count).to eq(0)
           end
-
-          run_test!
         end
+        run_test!
       end
     end
   end
