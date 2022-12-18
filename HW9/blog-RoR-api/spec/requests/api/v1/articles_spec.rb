@@ -102,6 +102,9 @@ RSpec.describe 'api/v1/articles', type: :request do
   end
 
   path '/api/v1/articles' do
+    let(:author) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+
     parameter(
       name: :status,
       in: :query,
@@ -113,22 +116,37 @@ RSpec.describe 'api/v1/articles', type: :request do
     )
     parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
     parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
-    parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
+    # parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
     parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
     get('list articles') do
       tags 'Articles'
 
-      # response(200, 'successful') do
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+      response(200, 'successful') do
+        let(:search) { 'Title' }
+        let(:tags) { 'ruby' }
+        # let(:author) { '1' }
+        let(:order) { 'desc' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+
+        describe 'queries filters for api/v1/articles' do
+          it 'Filter with phrase' do
+            expect(article).to eq(Article.find_by(title: search))
+          end
+
+          # it 'Filter with phrase' do
+          #   expect(articles.first).to eq(Article.find_by(title: search))
+          # end
+        end
+        run_test!
+      end
     end
 
     post('create article') do
