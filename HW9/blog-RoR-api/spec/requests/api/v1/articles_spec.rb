@@ -1,11 +1,12 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/articles', type: :request do
+  let(:author) { Author.create(name: 'Peter') }
+  let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+  let(:id) { article.id }
+
   path '/api/v1/articles/{id}/comments' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
-    let(:author) { Author.create(name: 'Peter') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-    let(:id) { article.id }
 
     parameter(
       name: :status,
@@ -36,9 +37,6 @@ RSpec.describe 'api/v1/articles', type: :request do
 
   path '/api/v1/articles/{id}/published' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
-    let(:author) { Author.create(name: 'Peter') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-    let(:id) { article.id }
 
     get('published article') do
       tags 'Article comments'
@@ -58,9 +56,6 @@ RSpec.describe 'api/v1/articles', type: :request do
 
   path '/api/v1/articles/{id}/unpublished' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
-    let(:author) { Author.create(name: 'Peter') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-    let(:id) { article.id }
 
     get('unpublished article') do
       tags 'Article comments'
@@ -81,9 +76,6 @@ RSpec.describe 'api/v1/articles', type: :request do
   path '/api/v1/articles/{id}/add-tag' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
     parameter name: :name, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
-    let(:author) { Author.create(name: 'Peter') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-    let(:id) { article.id }
 
     post('add_tag article') do
       tags 'Article add new tag'
@@ -185,10 +177,6 @@ RSpec.describe 'api/v1/articles', type: :request do
 
   path '/api/v1/articles/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
-    let(:author) { Author.create(name: 'Author name') }
-    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
-    let(:id) { article.id }
-
 
     get('show article') do
       tags 'Articles'
