@@ -3,6 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/articles', type: :request do
   let(:author) { Author.create(name: 'Peter') }
   let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+  let(:comment) { Comment.create(body: 'Body comment', article_id: article.id, author_id: author.id) }
   let(:id) { article.id }
 
   path '/api/v1/articles/{id}/comments' do
@@ -169,6 +170,10 @@ RSpec.describe 'api/v1/articles', type: :request do
               example: JSON.parse(response.body, symbolize_names: true)
             }
           }
+
+          data = JSON.parse(response.body)['article']
+          expect(data['title']).to eq(Article.first.title)
+          expect(data['body']).to eq(Article.first.body)
         end
         run_test!
       end
