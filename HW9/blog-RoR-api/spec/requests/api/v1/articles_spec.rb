@@ -3,6 +3,9 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/articles', type: :request do
   path '/api/v1/articles/{id}/comments' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
+    let(:author) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+    let(:id) { article.id }
 
     parameter(
       name: :status,
@@ -17,93 +20,92 @@ RSpec.describe 'api/v1/articles', type: :request do
     get('comments article') do
       tags 'Article comments'
 
-      # response(200, 'successful') do
-      #   let(:id) { '2' }
+      response(200, 'successful') do
 
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
-
-      # response(404, 'invalid request') do
-      #   let(:id) { '123' }
-      #   run_test!
-      # end
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 
   path '/api/v1/articles/{id}/published' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
+    let(:author) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+    let(:id) { article.id }
 
     get('published article') do
       tags 'Article comments'
 
-      # response(200, 'successful') do
-      #   let(:id) { '123' }
-
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 
   path '/api/v1/articles/{id}/unpublished' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
+    let(:author) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+    let(:id) { article.id }
 
     get('unpublished article') do
       tags 'Article comments'
 
-      # response(200, 'successful') do
-      #   let(:id) { '123' }
-
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 
   path '/api/v1/articles/{id}/add-tag' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
     parameter name: :name, in: :query, type: :string, required: :name, description: 'If tag exist in tag collection.'
+    let(:author) { Author.create(name: 'Peter') }
+    let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
+    let(:id) { article.id }
 
     post('add_tag article') do
       tags 'Article add new tag'
 
-      # response(200, 'successful') do
-      #   let(:id) { '123' }
-
-      #   after do |example|
-      #     example.metadata[:response][:content] = {
-      #       'application/json' => {
-      #         example: JSON.parse(response.body, symbolize_names: true)
-      #       }
-      #     }
-      #   end
-      #   run_test!
-      # end
+      response(201, 'successful') do
+        let(:name) { 'it' }
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 
   path '/api/v1/articles' do
     let(:author_article) { Author.create(name: 'Peter') }
     let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author_article.id) }
+    let(:tag) { Tag.create(name: '123') }
 
     get('list articles') do
       tags 'Articles'
@@ -123,7 +125,7 @@ RSpec.describe 'api/v1/articles', type: :request do
 
       response(200, 'successful') do
         let(:search) { 'Title' }
-        # let(:tags) { 'ruby' }
+        # let(:tags) { '123' }
         let(:author) { 'Peter' }
         let(:order) { 'desc' }
 
@@ -143,6 +145,12 @@ RSpec.describe 'api/v1/articles', type: :request do
           it 'Filter with author' do
             expect(author_article.name).to eq(Author.find_by(name: author).name)
           end
+
+          # it 'Filter with tags' do
+          #   article.tags << tag
+          #   debugger
+          #   expect(article.tags.where(name: '123')).to eq(Author.find_by(name: author).name)
+          # end
         end
         run_test!
       end
