@@ -103,3 +103,11 @@
 * `cd blog` and start `npm i` to install npm modules
 
 * start React server `PORT=3001 npm run start`
+
+# Rswag and Rspec
+
+  - generated rswag yaml and run swagger tests `rails rswag`
+  - open swagger api-docs `http://localhost:3000/api-docs/index.html`
+  - run test with Rspec `rspec spec/requests/api/v1/*_spec.rb`
+
+ 
