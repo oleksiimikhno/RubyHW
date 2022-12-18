@@ -97,6 +97,11 @@ paths:
         description: Search articles by phrase in title and description.
         schema:
           type: string
+      - name: tags
+        in: query
+        description: Search articles by tags (split tags with commas).
+        schema:
+          type: string
       - name: author
         in: query
         description: Search articles by author.
