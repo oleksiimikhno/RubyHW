@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 categories = Category.create([
-  { name: 'Phones',
+  { title: 'Phones',
     description: 'Category description' }
 ])
 
@@ -18,3 +18,5 @@ products = Product.create([
     image: '/images/apple/iphone/14',
     price: 999.99, category_id: 1 }
 ])
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
