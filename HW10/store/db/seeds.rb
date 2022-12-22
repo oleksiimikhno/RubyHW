@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 categories = Category.create([
-  { name: 'Phones',
+  { title: 'Phones',
     description: 'Category description' }
 ])
 
