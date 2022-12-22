@@ -1,24 +1,14 @@
-# README
+# Store
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Create db
+  - Create database `rails db:create`
+  - Run migration `rails db:migration`
+  - Install seeds `rails db:seed`
+## Generate assets
+  - Generate js/css `rails assets:precompile`
+  
+## User login
+  - default user login/password `admin@example.com password`
+## Admin dashboard
+  - Link `loadlhost:3000/admin`
+  - Default admin login/password `admin@example.com password`
