@@ -3,8 +3,6 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
-
-    render :products
   end
 
   def show; end
