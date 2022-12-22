@@ -19,4 +19,6 @@ products = Product.create([
     price: 999.99, category_id: 1 }
 ])
 
+User.create!(email: 'user@example.com', password: 'password', password_confirmation: 'password') 
+
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
