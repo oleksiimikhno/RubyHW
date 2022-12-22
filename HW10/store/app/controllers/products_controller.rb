@@ -1,30 +1,25 @@
 class ProductsController < ApplicationController
-  # before_action :set_product, only: %i[show update destroy]
-  # before_action :set_products, only: %i[index]
+  before_action :set_product, only: %i[show edit update destroy]
 
   def index
-    @products
+    @products = Product.all
 
     render :products
   end
 
-  def show
-    @product
-  end
+  def show; end
 
   def create
     @product = Article.new(product_params)
 
     if @product.save
-      redirect_to @product
+      redirect_to @product, notice: "High score was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-    @product = Product.find(params[:id])
-  end
+  def edit; end
 
   def destroy
     @product.destroy
@@ -34,10 +29,6 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = Product.find[params[:id]]
-  end
-
-  def set_products
-    @products = Product.all
   end
 
   def product_params
