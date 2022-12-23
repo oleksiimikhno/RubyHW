@@ -6,19 +6,30 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-categories = Category.create([
-  { title: 'Phones',
-    description: 'Category description' }
-])
+require 'faker'
 
-products = Product.create([
-  { name: 'Iphone 14',
-    description: 'iPhone 14 Pro has Dynamic Island, a magical new way to interact with iPhone.
-                  And an Always-On display, which keeps your important info at a glance.',
-    image: '/images/apple/iphone/14',
-    price: 999.99, category_id: 1 }
-])
+Product.destroy_all
+Category.destroy_all
+User.destroy_all
+AdminUser.destroy_all
 
-User.create!(email: 'user@example.com', password: 'password', password_confirmation: 'password') 
+5.times do
+  Category.create(
+    title: Faker::Commerce.material,
+    description: Faker::Lorem.paragraph(sentence_count: 2)
+  )
+end
+
+12.times do
+  Product.create(
+    name: Faker::Commerce.product_name,
+    description: Faker::Lorem.paragraph(sentence_count: 2),
+    image: "https://loremflickr.com/#{rand(150..200)}//#{rand(150..200)}/all",
+    price: Faker::Commerce.price(range: 0..10.0, as_string: true),
+    category_id: rand(Category.first.id..Category.last.id)
+  )
+end
+
+User.create!(email: 'user@example.com', password: 'password', password_confirmation: 'password')
 
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
