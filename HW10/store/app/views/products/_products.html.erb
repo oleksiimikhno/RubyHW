@@ -1,0 +1,10 @@
+<% @products.each do |product| %>
+  <%= link_to product, class: "card p-0 mt-3 mx-auto shadow-sm" do %>
+    <img src=<%= product.image %> class="card-img-top" alt=<%= product.name %>>
+    <div class="card-body px">
+      <h5 class="card-title text-center"><%= product.name %></h5>
+      <p class="card-text"><%= product.description %></p>
+      <p class="card-price mt-auto text-end"><%= number_to_currency(product.price) %></p>
+    </div>
+  <% end %>
+<% end %>
