@@ -115,6 +115,8 @@ GEM
       warden (~> 1.2.3)
     erubi (1.11.0)
     execjs (2.8.1)
+    faker (3.0.0)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.2)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -339,6 +341,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
+  faker
   image_processing (~> 1.2)
   importmap-rails (~> 1.1)
   jbuilder
