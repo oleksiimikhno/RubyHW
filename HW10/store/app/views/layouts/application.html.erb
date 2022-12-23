@@ -9,14 +9,15 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
+    <div class="row">
+      <%= render "layouts/navbar" %>
+    </div>
     <main class="container">
+      <% flash.each do |type, alert| %>
       <div class="row">
-        <%= render "layouts/navbar" %>
+        <p class="alert alert-danger" role="alert"><%= alert %></p>
       </div>
-      <div class="row">
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
-      </div>
+      <% end %>
       <%= yield %>
     </main>
   </body>
