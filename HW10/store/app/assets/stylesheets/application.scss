@@ -5,6 +5,7 @@
   text-decoration: none;
   &:hover {
     box-shadow: $box-shadow !important;
+    color: black;
     cursor: pointer;
   }
 
@@ -12,6 +13,10 @@
     max-height: 260px;
   }
 
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
   .card-price {
     margin-bottom: 0;
   }

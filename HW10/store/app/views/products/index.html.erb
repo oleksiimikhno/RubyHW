@@ -1,6 +1,4 @@
 <div class="row">
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
   <h2 class="text-center">Latest products</h2>
 </div>
 <div class="row d-flex justify-content-between">
@@ -10,7 +8,7 @@
       <div class="card-body px">
         <h5 class="card-title text-center"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
-        <p class="card-price mt-auto"><%= product.price %></p>
+        <p class="card-price mt-auto text-end">$<%= product.price %></p>
       </div>
     <% end %>
   <% end %>

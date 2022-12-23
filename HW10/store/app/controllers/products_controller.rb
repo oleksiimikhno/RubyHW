@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
     else
-      render :new, status: :unprocessable_entity
+      render :show, status: :unprocessable_entity
     end
   end
 
@@ -26,7 +26,12 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find[params[:id]]
+    @product = Product.find_by(id: params[:id])
+    if @product.nil?
+      @products = Product.all
+      flash.now[:alert] = "Your product was not found"
+      render "index"
+    end
   end
 
   def product_params
