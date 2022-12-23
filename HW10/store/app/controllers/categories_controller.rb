@@ -5,7 +5,12 @@ class CategoriesController < ApplicationController
     @categories = Category.all
   end
 
-  def show; end
+  def show
+    @products = @category.products
+    if !@products.any?
+      flash.now[:alert] = "Products in category not found"
+    end
+  end
 
   def create
     @category = Category.new(category_params)

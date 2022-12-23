@@ -16,7 +16,9 @@
               Category
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="#">Action</a></li>
+              <% Category.all.each do |category| %>
+                <%= link_to category.title, category, class: "dropdown-item" %>
+              <% end %>
             </ul>
           </li>
         </ul>
