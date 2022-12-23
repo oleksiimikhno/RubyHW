@@ -1,2 +1,1 @@
-import "popper"
-import "bootstrap"
+import * as bootstrap from "bootstrap";
