@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   def show; end
 
   def create
-    @product = Article.new(product_params)
+    @product = Product.new(product_params)
 
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
