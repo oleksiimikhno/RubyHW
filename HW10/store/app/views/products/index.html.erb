@@ -3,16 +3,15 @@
   <p class="alert"><%= alert %></p>
   <h2 class="text-center">Latest products</h2>
 </div>
-<div class="row">
+<div class="row d-flex justify-content-between">
   <% @products.each do |product| %>
-    <div class="card col-sm-6 col-md-3 p-0">
+    <%= link_to product, class: "card col-sm-6 col-md-3 p-0 mt-3 shadow-sm" do %>
       <img src=<%= product.image %> class="card-img-top" alt=<%= product.name %>>
       <div class="card-body px">
         <h5 class="card-title text-center"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
-        <p class="card-price text-right"><%= product.price %></p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <p class="card-price mt-auto"><%= product.price %></p>
       </div>
-    </div>
+    <% end %>
   <% end %>
 </div>
