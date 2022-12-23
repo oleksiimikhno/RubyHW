@@ -4,9 +4,6 @@
   - Create database `rails db:create`
   - Run migration `rails db:migration`
   - Install seeds `rails db:seed`
-## Generate assets
-  - Generate js/css `rails assets:precompile`
-  
 ## User login
   - default user login/password `admin@example.com password`
 ## Admin dashboard
