@@ -10,14 +10,10 @@
   </head>
   <body>
     <div class="row">
-      <%= render "layouts/navbar" %>
+      <%= render partial: "layouts/navbar" %>
     </div>
     <main class="container">
-      <% flash.each do |type, alert| %>
-      <div class="row">
-        <p class="alert alert-danger" role="alert"><%= alert %></p>
-      </div>
-      <% end %>
+      <%= render partial: "layouts/flash_message" %>
       <%= yield %>
     </main>
   </body>
