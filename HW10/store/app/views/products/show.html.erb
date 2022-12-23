@@ -7,7 +7,6 @@
     <img src=<%= @product.image %> class="card-img-top" alt=<%= @product.name %>>
   </div>
   <div class="col-sm-6">
-      <h5 class="card-title text-center"><%= @product.name %></h5>
       <p class="card-text"><%= @product.description %></p>
       <p class="card-price mt-auto"><%= number_to_currency(@product.price) %></p>
   </div>
