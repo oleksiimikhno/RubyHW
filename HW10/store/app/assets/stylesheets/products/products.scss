@@ -1,12 +1,12 @@
 .products > * {
   margin-top: 1rem;
+  text-decoration: none;
 }
 
 .products .card {
   height: 100%;
   margin: 0 .5rem 0;
   color: black;
-  text-decoration: none;
   &:hover {
     box-shadow: $box-shadow !important;
     color: black;
