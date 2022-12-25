@@ -2,7 +2,9 @@
   <div class="container-fluid justify-content-end justify-content-md-between">
     <h2 class="d-none d-sm-block"><%= link_to "Store name", root_path %></h2>
     <div>
-    <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+    <% if user_signed_in? %>
+      <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+    <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
