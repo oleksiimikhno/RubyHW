@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to @product, notice: "Product was successfully created."
+      redirect_to @product, notice: 'Product was successfully created.'
     else
       render :show, status: :unprocessable_entity
     end
@@ -29,8 +29,8 @@ class ProductsController < ApplicationController
     @product = Product.find_by(id: params[:id])
     if @product.nil?
       @products = Product.all
-      flash.now[:alert] = "Your product was not found"
-      render "index"
+      flash.now[:alert] = 'Your product was not found'
+      render 'index'
     end
   end
 

@@ -9,7 +9,7 @@ class CategoriesController < ApplicationController
     @products = @category.products
 
     if !@products.any?
-      flash.now[:alert] = "Products in category not found"
+      flash.now[:alert] = 'Products in category not found'
     end
   end
 
@@ -17,7 +17,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
-      redirect_to @category, notice: "Category was successfully created."
+      redirect_to @category, notice: 'Category was successfully created.'
     else
       render :show, status: :unprocessable_entity
     end
@@ -34,9 +34,8 @@ class CategoriesController < ApplicationController
   def set_category
     @category = Category.find_by(id: params[:id])
     if @category.nil?
-      @categories = Category.all
-      flash.now[:alert] = "Your category was not found"
-      render "index"
+      flash.now[:alert] = 'Your category was not found'
+      render template: 'layouts/404'
     end
   end
 
