@@ -7,7 +7,6 @@ class CategoriesController < ApplicationController
 
   def show
     @products = @category.products
-    @breadcrumb = @category
 
     if !@products.any?
       flash.now[:alert] = "Products in category not found"
