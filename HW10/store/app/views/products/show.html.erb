@@ -1,5 +1,5 @@
 <div class="row">
-  <%= render partial: "layouts/template/breadcrumb" %>
+  <%= render partial: "layouts/template/breadcrumb", locals: { breadcrumb: @product.category } %>
 </div>
 <div class="row">
   <h1 class="text-center"><%= @product.name %></h1>

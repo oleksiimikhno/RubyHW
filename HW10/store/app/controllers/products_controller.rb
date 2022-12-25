@@ -5,10 +5,7 @@ class ProductsController < ApplicationController
     @products = Product.all
   end
 
-  def show
-    @breadcrumb = @product.category
-    @product
-  end
+  def show; end
 
   def create
     @product = Product.new(product_params)
