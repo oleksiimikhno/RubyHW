@@ -9,5 +9,6 @@
   <div class="col-sm-6">
       <p class="card-text"><%= @product.description %></p>
       <p class="card-price mt-auto"><%= number_to_currency(@product.price) %></p>
+      <%= button_to "Add to cart", line_items_path(@product) %>
   </div>
 </div>
