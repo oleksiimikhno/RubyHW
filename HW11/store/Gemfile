@@ -66,7 +66,7 @@ gem "image_processing", "~> 1.2"
 # The administration framework for business critical Ruby on Rails applications. 
 gem "activeadmin"
 
-#Import maps let you import JavaScript modules using logical names that map to versioned/digested files
+# Import maps let you import JavaScript modules using logical names that map to versioned/digested files
 gem "importmap-rails", "~> 1.1"
 
 # Powerful, extensible, and feature-packed frontend toolki
