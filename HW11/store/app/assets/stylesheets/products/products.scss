@@ -1,0 +1,27 @@
+.products > * {
+  margin-top: 1rem;
+  text-decoration: none;
+}
+
+.products .card {
+  height: 100%;
+  margin: 0 .5rem 0;
+  color: black;
+  &:hover {
+    box-shadow: $box-shadow !important;
+    color: black;
+    cursor: pointer;
+  }
+
+  .card-img-top{
+    max-height: 260px;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-price {
+    margin-bottom: 0;
+  }
+}

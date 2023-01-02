@@ -1,0 +1,13 @@
+<div class="row">
+  <%= render partial: "layouts/template/breadcrumb", locals: { breadcrumb: @product.category } %>
+</div>
+<div class="row">
+  <h1 class="text-center"><%= @product.name %></h1>
+  <div class="col-sm-6">
+    <img src=<%= @product.image %> class="card-img-top" alt=<%= @product.name %>>
+  </div>
+  <div class="col-sm-6">
+      <p class="card-text"><%= @product.description %></p>
+      <p class="card-price mt-auto"><%= number_to_currency(@product.price) %></p>
+  </div>
+</div>
