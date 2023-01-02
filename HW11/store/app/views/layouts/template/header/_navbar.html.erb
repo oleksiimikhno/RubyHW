@@ -1,0 +1,12 @@
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid justify-content-end justify-content-md-between">
+    <%= render partial: "layouts/template/header/menu" %>
+    <h2 class="d-none d-sm-block"><%= link_to "Store name", root_path %></h2>
+    <div>
+      <%= render partial: "layouts/template/header/cart" %>
+      <% if user_signed_in? %>
+        <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+      <% end %>
+    </div>
+  </div>
+</nav>
