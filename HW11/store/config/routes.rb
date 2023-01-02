@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -9,10 +10,15 @@ Rails.application.routes.draw do
 
   resources :products
   resources :categories
+  # resources :carts
+
+  get '/carts/:id', to: 'carts#show', as: 'cart'
+  post 'line_items', to: 'line_items#create'
+
+  # get "carts#show", as: "cart"
+  #  get 'carts/show', as: 'cart'
+  
+  # get 'carts/show'
 
   root 'products#index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
