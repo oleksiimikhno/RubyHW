@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :categories
   resources :orders, only: %i[create new index show]
 
+  patch 'orders/:id/switch', to: 'orders#switch_status', as: 'switch'
+
   resources :line_items, only: %i[create update destroy]
   post 'line_items/:id/increase_quantity', to: 'line_items#increase_quantity', as: 'line_item_increase'
   post 'line_items/:id/decrease_quantity', to: 'line_items#decrease_quantity', as: 'line_item_decrease'

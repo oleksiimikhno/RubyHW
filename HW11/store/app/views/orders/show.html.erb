@@ -1,2 +1,22 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<h1>Order #<%= @order.id%> <span class="badge <%= @order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= @order.status %></span></h1>
+<% @line_items.each do | item |%>
+  <div class="cart-product-list">
+    <div> 
+      <h4 class="text-center"><%= item.product.name %></h4>
+      <div class="d-flex">
+        <img src="<%= item.product.image %>" width="100" alt="<%= item.product.name %>">
+        <div class="d-flex">
+          <p class="quantity">Quantity: x <%= item.quantity %></p>
+        </div>
+        <div>
+          <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
+          <p>Total: <%= number_to_currency(item.total_price) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @order.unpaid? %>
+  <%= button_to 'Proceed to payment', switch_path,  :method => :patch, class: 'btn btn-primary' %>
+<% end %>
