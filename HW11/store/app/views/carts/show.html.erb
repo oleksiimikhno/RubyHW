@@ -1,8 +1,23 @@
-<h1>Carts#show</h1>
-<p>Find me in app/views/carts/show.html.erb</p>
-
-
-
-<!-- <% @items.each do |item |%>
-  <p><%= item.product.name %></p>
-<% end %> -->
+<h1 class="text-center">Cart</h1>
+<div>
+  <% @line_items.each do | item |%>
+    <div class="cart-product-list">
+      <div> 
+        <h4 class="text-center"><%= item.product.name %></h4>
+        <div class="d-flex">
+          <img src="<%= item.product.image %>" width="100" alt="<%= item.product.name %>">
+          <div class="d-flex">
+            <%= button_to "-", line_item_decrease_path(item), class: "btn btn-primary" %>
+            <p class="quantity"><%= item.quantity %></p>
+            <%= button_to "+", line_item_increase_path(item), class: "btn btn-primary" %>
+          </div>
+          <div>
+            <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
+            <p>Total: <%= number_to_currency(item.total_price) %></p>
+          </div>
+          <%= button_to "x", line_item_path(item), method: :delete, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
