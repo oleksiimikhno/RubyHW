@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -8,23 +7,14 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
-  resources :products 
-  # do
-  #   resources :line_items, only: %i[create update destroy]
-  # end
+  resources :products
   resources :categories
 
   resources :line_items, only: %i[create update destroy]
-  
-  # resources :carts
+  post 'line_items/:id/increase_quantity', to: 'line_items#increase_quantity', as: 'line_item_increase'
+  post 'line_items/:id/decrease_quantity', to: 'line_items#decrease_quantity', as: 'line_item_decrease'
 
   get '/carts/:id', to: 'carts#show', as: 'cart'
-  # post 'line_items', to: 'line_items#create'
-
-  # get "carts#show", as: "cart"
-  #  get 'carts/show', as: 'cart'
-  
-  # get 'carts/show'
 
   root 'products#index'
 end
