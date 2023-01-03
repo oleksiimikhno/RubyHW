@@ -16,6 +16,9 @@
     </div>
   </div>
 <% end %>
+<div class="text-end">
+  <strong>Order total price: </strong>  <%= number_to_currency(@order.cart.total_price) %>
+</div>
 
 <% if @order.unpaid? %>
   <%= button_to 'Proceed to payment', switch_path,  :method => :patch, class: 'btn btn-primary' %>
