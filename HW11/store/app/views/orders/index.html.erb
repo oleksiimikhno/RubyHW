@@ -10,6 +10,10 @@
         <strong class="mb-1">Order# <%= order.id %></strong>
         <span class="badge <%= order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= order.status %></span>
       </div>
+      <div class="col-10 mb-1 small">Name: <%= order.name %></div>
+      <div class="col-10 mb-1 small">E-mail: <%= order.email %></div>
+      <div class="col-10 mb-1 small">Address shiping: <%= order.address %></div>
+      <div class="col-10 mb-1 small">Payment method: <%= order.payment %></div>
       <% end %>
     <% end %>
   </div>
