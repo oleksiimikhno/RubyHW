@@ -1,2 +1,17 @@
-<h1>Orders#index</h1>
-<p>Find me in app/views/orders/index.html.erb</p>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+  <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+    <span class="fs-5 fw-semibold">Orders</span>
+  </div>
+  <div class="list-group list-group-flush border-bottom scrollarea">
+  
+    <% @orders.each do |order| %>
+      <%= link_to order, class: "list-group-item list-group-item-action active py-3 mb-3 rounded lh-sm" do %>
+      <div class="d-flex w-100 align-items-center justify-content-between">
+        <strong class="mb-1">Order# <%= order.id %></strong>
+        <span class="badge <%= order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= order.status %></span>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
