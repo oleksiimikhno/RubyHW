@@ -52,7 +52,8 @@ window.addEventListener('DOMContentLoaded', () => {
   
   }
   
-  getCart();
+  // getCart();
+
   const addProductToCart = (event) => {
     const target = event.target;
 
@@ -71,5 +72,5 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  document.addEventListener('click', addProductToCart)
+  // document.addEventListener('click', addProductToCart)
 })
