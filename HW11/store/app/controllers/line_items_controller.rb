@@ -1,7 +1,6 @@
 class LineItemsController < ApplicationController
   before_action :find_line_item, only: %i[create]
   before_action :set_line_item, only: %i[destroy increase_quantity decrease_quantity]
-  protect_from_forgery except: :create
 
   def create
     if @line_item.present?
@@ -11,9 +10,7 @@ class LineItemsController < ApplicationController
     end
   end
 
-  def update 
-
-  end
+  def update; end
 
   def destroy
     @line_item.destroy
@@ -22,14 +19,12 @@ class LineItemsController < ApplicationController
   end
 
   def increase_quantity
-    @line_item.quantity += 1
-    @line_item.save
+    @line_item.update(quantity: @line_item.quantity + 1)
     redirect_to cart_path(current_cart)
   end
 
   def decrease_quantity
-    @line_item.quantity -= 1
-    @line_item.save
+    @line_item.update(quantity: @line_item.quantity - 1)
     redirect_to cart_path(current_cart)
   end
 
