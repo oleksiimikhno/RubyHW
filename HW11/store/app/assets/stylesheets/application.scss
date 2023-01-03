@@ -5,11 +5,29 @@ main {
   margin-top: 80px;
 }
 
-.cart-list li {
+.cart-list li{
   padding: .5rem;
   color: #fff;
 }
-.cart-list li:nth-child(even) {
+.cart-list li:nth-child(even), .cart-product-list > div {
   border-radius: 6px;
   background-color: rgb(122, 122, 122);
+}
+
+.cart-product-list > div {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgb(241, 241, 241);
+  .d-flex {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+  .quantity {
+    padding: 0 1rem;
+    margin-bottom: 0;
+  }
 }

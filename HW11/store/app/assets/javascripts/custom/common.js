@@ -6,8 +6,18 @@ window.addEventListener('DOMContentLoaded', () => {
     const cartTotal = document.querySelector('.cart-button .total');
     const cartList = document.querySelector('.cart-list');
 
-    fetch(cartUrl)
-      .then((response) => response.json())
+    fetch(cartUrl, {
+      headers: {
+        method: 'POST',
+        'Content-Type': 'application/json'
+      },
+    })
+      .then((response) => {
+        console.log('response: ', response);
+
+
+        response.json()
+      })
       .then((data) => {
         const products = data.products;
 
@@ -53,6 +63,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       fetch(`${action}`, {
         method: 'POST',
+        'Content-Type': 'application/json'
       })
       .then((response) => {
           getCart();
