@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[show]
 
   def index
-    @orders = Order.all
+    @orders = current_user.orders
   end
 
   def show
@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
 
     cookies.delete(:cart_id)
 
-    redirect_to root_path
+    redirect_to orders_path
   end
 
   def new
