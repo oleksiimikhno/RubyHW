@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  # before_action :authenticate_user!
   before_action :handle_cookies
   helper_method :current_cart, :cart_total_quantity
 
