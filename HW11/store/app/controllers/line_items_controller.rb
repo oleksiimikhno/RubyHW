@@ -8,6 +8,8 @@ class LineItemsController < ApplicationController
     else
       @line_item = current_cart.line_items.create(product_id: params[:product_id])
     end
+
+    redirect_back fallback_location: root_path
   end
 
   def update; end
@@ -15,17 +17,19 @@ class LineItemsController < ApplicationController
   def destroy
     @line_item.destroy
 
-    redirect_to cart_path(current_cart)
+    redirect_back fallback_location: root_path
   end
 
   def increase_quantity
     @line_item.update(quantity: @line_item.quantity + 1)
-    redirect_to cart_path(current_cart)
+
+    redirect_back fallback_location: root_path
   end
 
   def decrease_quantity
     @line_item.update(quantity: @line_item.quantity - 1)
-    redirect_to cart_path(current_cart)
+
+    redirect_back fallback_location: root_path
   end
 
   private
