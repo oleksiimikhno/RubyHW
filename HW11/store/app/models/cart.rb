@@ -1,4 +1,4 @@
 class Cart < ApplicationRecord
-  has_many :line_items, dependent: :destroy
-  # has_many :products, through: :line_items
+  has_many :line_items, dependent: :nullify
+  has_one :order, dependent: :nullify
 end
