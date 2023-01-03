@@ -1,5 +1,6 @@
 class LineItemsController < ApplicationController
   before_action :find_line_item, only: %i[create]
+  protect_from_forgery except: :create
 
   def create
     # debugger
@@ -34,4 +35,8 @@ class LineItemsController < ApplicationController
   def find_line_item
     @line_item = current_cart.line_items.find_by(product_id: params[:product_id])
   end
+
+  # def line_item_params
+  #   params.require(:product_id).permit(:product_id)
+  # end
 end

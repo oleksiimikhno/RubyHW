@@ -5,8 +5,10 @@
       <div class="card-body px">
         <h5 class="card-title text-center"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
-        <%= button_to "Add to cart", line_items_path(product_id: product.id), class: "add-to-cart" %>
-        <p class="card-price mt-auto text-end"><%= number_to_currency(product.price) %></p>
+        <div class="d-flex card-footer">
+          <%= button_to "Add to cart", line_items_path(product_id: product.id), class: "btn btn-primary add-to-cart" %>
+          <p class="card-price mt-auto text-end"><%= number_to_currency(product.price) %></p>
+        </div>
       </div>
     </div>
   <% end %>

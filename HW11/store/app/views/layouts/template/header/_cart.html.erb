@@ -10,10 +10,11 @@
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <ul class="">
-      <li class="">
+    <ul class="list-unstyled table tab le-dark tab le-striped cart-list">
+      <li>
           Cart is empty
       </li>
     </ul>
+    <%= button_to 'Cart page', current_cart, class: "btn btn-secondary" %>
   </div>
 </div>

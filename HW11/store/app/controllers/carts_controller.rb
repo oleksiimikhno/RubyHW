@@ -1,7 +1,14 @@
 class CartsController < ApplicationController
   def show
-    @items = current_cart.line_items
 
-    render json: @items
+    products = current_cart.line_items.map { |item| { product: item.product, quantity: item.quantity } }
+    # debugger
+    # debugger
+    # products = current_cart.line_items.map do |item|
+    #   item.name
+    # end
+    # debugger
+
+    render json: { products: products }
   end
 end

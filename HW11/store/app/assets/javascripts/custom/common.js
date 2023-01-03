@@ -33,8 +33,11 @@ window.addEventListener('DOMContentLoaded', () => {
           });
   
           cartTotal.textContent = totalProducts;
-        }
+        } else {
+          const emptyList = `<li>Empry cart</li>`
 
+          cartList.insertAdjacentHTML('afterBegin', emptyList);
+        }
     })
   
   }

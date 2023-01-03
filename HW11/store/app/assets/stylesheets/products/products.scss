@@ -20,8 +20,11 @@
   .card-body {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
-  .card-price {
-    margin-bottom: 0;
+
+  .card-footer {
+    justify-content: space-between;
+    background-color: inherit;
   }
 }

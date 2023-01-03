@@ -4,3 +4,12 @@
 main {
   margin-top: 80px;
 }
+
+.cart-list li {
+  padding: .5rem;
+  color: #fff;
+}
+.cart-list li:nth-child(even) {
+  border-radius: 6px;
+  background-color: rgb(122, 122, 122);
+}
