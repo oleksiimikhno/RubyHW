@@ -14,8 +14,23 @@
       <% if cart_total_quantity.zero? %>
         <li>Cart is empty</li>
       <% else %>
-        <%= link_to 'Cart page', current_cart, class: "btn btn-secondary" %>
+        <% current_cart.line_items.map do | item | %>
+          <li>
+            <%= item.product.name %>
+            <div class="d-flex justify-content-between">
+              <img src="<%= item.product.image %>" width="50" alt="<%= item.product.name %>">
+              <div>x <%= item.quantity %></div>
+              <div><%= number_to_currency(item.total_price) %></div>
+            </div>
+          </li>
+        <% end %>
       <% end %>
+      <li>
+        <div class="text-end">
+          <strong>Cart total price:</strong>  <%= number_to_currency(current_cart.total_price) %>
+        </div>
+        <%= link_to 'Cart page', current_cart, class: "btn btn-secondary mt-3" %>
+      </li>
     </ul>
   </div>
 </div>
