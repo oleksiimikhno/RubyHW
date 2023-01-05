@@ -1,4 +1,4 @@
-<h1>Order #<%= @order.id%> <span class="badge <%= @order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= @order.status %></span></h1>
+<h1>Order #<%= @order.id %> <span class="badge <%= @order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= @order.status %></span></h1>
 <% @line_items.each do | item |%>
   <div class="cart-product-list">
     <div> 

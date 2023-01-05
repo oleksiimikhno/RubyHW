@@ -27,7 +27,7 @@
         Cart is empty
       <% else %>
         <div class="text-end">
-          <strong>Cart total price:</strong>  <%= number_to_currency(current_cart.total_price) %>
+          <strong>Cart total price:</strong> <%= number_to_currency(current_cart.total_price) %>
         </div>
         <%= link_to 'Cart page', current_cart, class: "btn btn-secondary mt-3" %>
       <% end %>
