@@ -8,18 +8,10 @@ paths:
     parameters:
     - name: id
       in: path
-      description: id
+      description: Get all comments from Article.
       required: true
       schema:
         type: string
-    - name: status
-      in: query
-      schema:
-        type: string
-        enum:
-        - unpublished
-        - published
-      description: 'Get comments with status: published/unpublished.'
     get:
       summary: comments article
       tags:
@@ -99,9 +91,12 @@ paths:
           type: string
       - name: tags
         in: query
-        description: Search articles by tags (split tags with commas).
+        required: false
         schema:
           type: array
+          items:
+            type: string
+            description: Search articles by tags (array).
       - name: author
         in: query
         description: Search articles by author.
