@@ -20,8 +20,7 @@ class Api::V1::ArticlesController < ApplicationController
   def show
     render json: @article,
            include: ['author', 'comments', 'comments.author'],
-           serializer: ArticleSerializer,
-           scope: { 'status': params[:status], 'last': params[:last] }
+           serializer: ArticleSerializer
   end
 
   # POST /articles
