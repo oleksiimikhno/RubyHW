@@ -4,7 +4,7 @@ class Api::V1::CommentsController < ApplicationController
 
   # GET /comments published/unpublished
   def index
-    @comments = @comments.filter_by_status(params[:status]) if params[:status].present?
+    @comments = @comments.where(status: params[:status]) if params[:status].present?
     @comments = @comments.filter_by_last_items_limit(params[:last]) if params[:last].present?
 
     render json: @comments, include: [], each_serializer: CommentSerializer

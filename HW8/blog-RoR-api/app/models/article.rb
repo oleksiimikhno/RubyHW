@@ -12,7 +12,6 @@ class Article < ApplicationRecord
 
   scope :serialize_tags, ->(tags) { where(tags: { name: tags.split(',').collect { |tag| tag.strip.downcase } }) }
 
-  scope :filter_by_status, ->(status_name) { where(status: status_name) }
   scope :filter_by_phrase, ->(phrase) { where('title || body ILIKE ?', '%' + phrase + '%') }
   scope :filter_by_tags, ->(tags) { joins(:tags).serialize_tags(tags).distinct }
   scope :filter_by_author_name, ->(name) { joins(:author).where('name ILIKE ?', '%' + name + '%') }
