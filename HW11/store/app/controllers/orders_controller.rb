@@ -7,7 +7,11 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @line_items = @order.cart.line_items
+    if @order.nil?
+      render template: 'layouts/404'
+    else
+      @line_items = @order.cart.line_items
+    end
   end
 
   def create
@@ -34,7 +38,7 @@ class OrdersController < ApplicationController
   private
 
   def set_order
-    @order = Order.find_by(id: params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
   end
 
   def order_params

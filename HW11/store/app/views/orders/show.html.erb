@@ -1,35 +1,30 @@
-
-<% if @order.user == current_user %>
-  <h1>Order #<%= @order.id %> <span class="badge <%= @order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= @order.status %></span></h1>
-  <% @line_items.each do | item | %>
-    <div class="cart-product-list">
-      <div> 
-        <h4 class="text-center"><%= item.product.name %></h4>
+<h1>Order #<%= @order.id %> <span class="badge <%= @order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= @order.status %></span></h1>
+<% @line_items.each do | item | %>
+  <div class="cart-product-list">
+    <div> 
+      <h4 class="text-center"><%= item.product.name %></h4>
+      <div class="d-flex">
+        <img src="<%= item.product.image %>" width="100" alt="<%= item.product.name %>">
         <div class="d-flex">
-          <img src="<%= item.product.image %>" width="100" alt="<%= item.product.name %>">
-          <div class="d-flex">
-            <p class="quantity">Quantity: x <%= item.quantity %></p>
-          </div>
-          <div>
-            <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
-            <p>Total: <%= number_to_currency(item.total_price) %></p>
-          </div>
+          <p class="quantity">Quantity: x <%= item.quantity %></p>
+        </div>
+        <div>
+          <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
+          <p>Total: <%= number_to_currency(item.total_price) %></p>
         </div>
       </div>
     </div>
-  <% end %>
-  <div class="text-end">
-    <strong>Order total price: </strong>  <%= number_to_currency(@order.cart.total_price) %>
   </div>
+<% end %>
+<div class="text-end">
+  <strong>Order total price: </strong>  <%= number_to_currency(@order.cart.total_price) %>
+</div>
 
-  <% if @order.unpaid? %>
-    <%= button_to switch_path, method: :patch, class: "btn btn-primary" do %>
-      Proceed to payment
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
-        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/>
-      </svg>
-    <% end %>
+<% if @order.unpaid? %>
+  <%= button_to switch_path, method: :patch, class: "btn btn-primary" do %>
+    Proceed to payment
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
+      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/>
+    </svg>
   <% end %>
-<% else %>
-  Order not found
 <% end %>
