@@ -16,5 +16,5 @@ class Article < ApplicationRecord
   scope :filter_by_phrase, ->(phrase) { where('title || body ILIKE ?', '%' + phrase + '%') }
   scope :filter_by_tags, ->(tags) { joins(:tags).serialize_tags(tags).distinct }
   scope :filter_by_author_name, ->(name) { joins(:author).where('name ILIKE ?', '%' + name + '%') }
-  scope :sort_by_order, ->(order = 'asc') { order(title: order.downcase) }git st
+  scope :sort_by_order, ->(order = 'asc') { order(title: order.downcase) }
 end
