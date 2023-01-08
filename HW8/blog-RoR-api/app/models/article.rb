@@ -10,10 +10,8 @@ class Article < ApplicationRecord
   validates :body, presence: true, length: { in: 3..500 }
   validates :author_id, numericality: { only_integer: true }
 
-  scope :serialize_tags, ->(tags) { where(tags: { name: tags.split(',').collect { |tag| tag.strip.downcase } }) }
-
   scope :filter_by_phrase, ->(phrase) { where('title || body ILIKE ?', '%' + phrase + '%') }
-  scope :filter_by_tags, ->(tags) { joins(:tags).serialize_tags(tags).distinct }
+  scope :filter_by_tags, ->(tags) { joins(:tags).where(tags: { name: tags }) }
   scope :filter_by_author_name, ->(name) { joins(:author).where('name ILIKE ?', '%' + name + '%') }
   scope :sort_by_order, ->(order = 'asc') { order(title: order.downcase) }
 end

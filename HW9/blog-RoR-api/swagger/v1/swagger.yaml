@@ -101,7 +101,7 @@ paths:
         in: query
         description: Search articles by tags (split tags with commas).
         schema:
-          type: string
+          type: array
       - name: author
         in: query
         description: Search articles by author.

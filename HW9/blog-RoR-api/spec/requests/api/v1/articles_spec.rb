@@ -112,7 +112,7 @@ RSpec.describe 'api/v1/articles', type: :request do
         description: 'Get comments with status: published/unpublished.'
       )
       parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
-      parameter name: :tags, in: :query, type: :string, description: 'Search articles by tags (split tags with commas).'
+      parameter name: :tags, in: :query, type: :array, description: 'Search articles by tags (array).'
       parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
       parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
