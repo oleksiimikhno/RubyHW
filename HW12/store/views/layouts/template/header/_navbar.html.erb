@@ -5,6 +5,8 @@
     <div>
       <% if user_signed_in? %>
         <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+      <% else %>  
+        <%= link_to "Log in", user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
       <% end %>
       <%= render partial: "layouts/template/header/cart" %>
     </div>

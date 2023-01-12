@@ -69,7 +69,7 @@ gem "activeadmin"
 # Import maps let you import JavaScript modules using logical names that map to versioned/digested files
 gem "importmap-rails", "~> 1.1"
 
-# Powerful, extensible, and feature-packed frontend toolki
+# Powerful, extensible, and feature-packed frontend toolkit
 gem "bootstrap", "~> 5.2"
 
 gem "popper", "~> 0.5.3"
@@ -80,6 +80,9 @@ group :development, :test do
 
   # Faker helps you generate realistic test data
   gem "faker"
+
+  # Add a comment summarizing the current schema to the top or bottom
+  gem "annotate"
 
   # The Bullet gem is designed to help you increase your application's performance by reducing the number of queries it makes.
   gem "bullet"
