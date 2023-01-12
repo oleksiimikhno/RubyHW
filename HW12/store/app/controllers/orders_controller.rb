@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
     if @order.nil?
       render template: 'layouts/404'
     else
-      @line_items = @order.cart.line_items
+      @line_items = @order.cart.line_items.includes(:product)
     end
   end
 
