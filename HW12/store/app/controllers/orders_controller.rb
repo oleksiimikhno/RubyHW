@@ -15,11 +15,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.create(order_params)
-    @order.update(user: current_user, cart: current_cart)
-
-    @order.save
-
+    @order = current_user.orders.create(cart: current_cart).update(order_params)
     cookies.delete(:cart_id)
 
     redirect_to orders_path
@@ -30,7 +26,7 @@ class OrdersController < ApplicationController
   end
 
   def switch_status
-    @order.update(status: :paid)
+    @order.paid!
 
     redirect_back fallback_location: root_path
   end
@@ -38,7 +34,7 @@ class OrdersController < ApplicationController
   private
 
   def set_order
-    @order = current_user.orders.find_by(id: params[:id])
+    @order = current_user.orders.find(params[:id])
   end
 
   def order_params
