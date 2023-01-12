@@ -11,6 +11,6 @@ class Cart < ApplicationRecord
   has_one :order, dependent: :nullify
 
   def total_price
-    line_items.includes(:product).map(&:total_price).sum
+    line_items.includes(:product).sum(&:total_price)
   end
 end
