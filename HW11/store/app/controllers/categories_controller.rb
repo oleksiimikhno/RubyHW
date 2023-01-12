@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
   def show
     @products = @category.products
 
-    if !@products.any?
+    unless @products.exist?
       flash.now[:alert] = 'Products in category not found'
     end
   end
