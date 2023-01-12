@@ -84,6 +84,9 @@ group :development, :test do
   # Add a comment summarizing the current schema to the top or bottom
   gem "annotate"
 
+  # The Bullet gem is designed to help you increase your application's performance by reducing the number of queries it makes.
+  gem "bullet"
+
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter. 
   gem "rubocop", require: false
 end
