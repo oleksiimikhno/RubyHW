@@ -7,17 +7,7 @@ RSpec.describe 'api/v1/articles', type: :request do
   let(:id)      { article.id }
 
   path '/api/v1/articles/{id}/comments' do
-    parameter name: 'id', in: :path, type: :string, description: 'id'
-
-    parameter(
-      name: :status,
-      in: :query,
-      schema: {
-        type: :string,
-        enum: %w[unpublished published]
-      },
-      description: 'Get comments with status: published/unpublished.'
-    )
+    parameter name: 'id', in: :path, type: :string, description: 'Get all comments from Article.'
 
     get('comments article') do
       tags 'Article comments'
@@ -112,17 +102,29 @@ RSpec.describe 'api/v1/articles', type: :request do
         description: 'Get comments with status: published/unpublished.'
       )
       parameter name: :search, in: :query, type: :string, description: 'Search articles by phrase in title and description.'
-      parameter name: :tags, in: :query, type: :array, description: 'Search articles by tags (array).'
+      # parameter name: :tags, in: :query, type: :array, description: 'Search articles by tags (array).'
+      parameter({
+        name: :tags,
+        in: :query,
+        required: false,
+        schema: {
+          type: :array,
+          items: {
+            type: :string,
+            description: 'Search articles by tags (array).'
+          }
+        }
+      })
       parameter name: :author, in: :query, type: :string, description: 'Search articles by author.'
       parameter name: :order, in: :query, type: :string, description: 'Sort articles by order asc/desc.'
 
       response(200, 'successful') do
         let(:search) { 'Title' }
-        let(:tags) { article.tags.first }
         let(:author) { 'Peter' }
         let(:order) { 'desc' }
 
         describe 'queries filters for api/v1/articles' do
+
           it 'Filter with phrase' do
             expect(article).to eq(Article.find_by(title: search))
           end

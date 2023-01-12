@@ -6,9 +6,10 @@
     <% @orders.each do |order| %>
       <%= link_to order, class: "list-group-item list-group-item-action active py-3 mb-3 rounded lh-sm" do %>
       <div class="d-flex w-100 align-items-center justify-content-between">
-        <strong class="mb-1">Order# <%= order.id %></strong>
+        <strong class="mb-1">Order #<%= order.id %></strong>
         <span class="badge <%= order.unpaid? ? 'text-bg-secondary' : 'text-bg-success' %>"><%= order.status %></span>
       </div>
+      <div class="mb-1">Date: <%= l(order.created_at, format: :short) %></div>
       <div class="col-10 mb-1 small">Name: <%= order.name %></div>
       <div class="col-10 mb-1 small">E-mail: <%= order.email %></div>
       <div class="col-10 mb-1 small">Address shiping: <%= order.address %></div>
