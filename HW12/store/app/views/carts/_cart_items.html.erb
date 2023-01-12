@@ -30,7 +30,7 @@
     </div>
   </div>
 <% end %>
-<% if !cart_total_quantity.zero? %>
+<% unless cart_total_quantity.zero? %>
   <div class="text-end">
     <strong>Cart total price: </strong>  <%= number_to_currency(current_cart.total_price) %>
   </div>
