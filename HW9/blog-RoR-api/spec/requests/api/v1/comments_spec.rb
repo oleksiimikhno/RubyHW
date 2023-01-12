@@ -2,10 +2,10 @@ require 'swagger_helper'
 require 'rails_helper'
 
 RSpec.describe 'api/v1/comments', type: :request do
-  let(:author) { Author.create(name: 'Author name') }
+  let(:author)  { Author.create(name: 'Author name') }
   let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
   let(:comment) { Comment.create(body: 'Body comment', article_id: article.id, author_id: author.id) }
-  let(:id) { comment.id }
+  let(:id)      { comment.id }
 
   path '/api/v1/comments/published' do
     get('published comment') do
@@ -49,7 +49,7 @@ RSpec.describe 'api/v1/comments', type: :request do
       in: :query,
       schema: {
         type: :string,
-        enum: ['unpublished', 'published'],
+        enum: %w[unpublished published]
       },
       description: 'Get comments with status: published/unpublished.'
     )
@@ -79,7 +79,7 @@ RSpec.describe 'api/v1/comments', type: :request do
         in: :query,
         schema: {
           type: :string,
-          enum: ['unpublished', 'published'],
+          enum: %w[unpublished published]
         },
         description: 'Get comments with status: published/unpublished.'
       )

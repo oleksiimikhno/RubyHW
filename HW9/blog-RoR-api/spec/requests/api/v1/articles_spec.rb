@@ -1,10 +1,10 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/articles', type: :request do
-  let(:author) { Author.create(name: 'Peter') }
+  let(:author)  { Author.create(name: 'Peter') }
   let(:article) { Article.create(title: 'Title', body: 'Body title', author_id: author.id) }
   let(:comment) { Comment.create(body: 'Body comment', article_id: article.id, author_id: author.id) }
-  let(:id) { article.id }
+  let(:id)      { article.id }
 
   path '/api/v1/articles/{id}/comments' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
@@ -14,7 +14,7 @@ RSpec.describe 'api/v1/articles', type: :request do
       in: :query,
       schema: {
         type: :string,
-        enum: ['unpublished', 'published'],
+        enum: %w[unpublished published]
       },
       description: 'Get comments with status: published/unpublished.'
     )
@@ -107,7 +107,7 @@ RSpec.describe 'api/v1/articles', type: :request do
         in: :query,
         schema: {
           type: :string,
-          enum: ['unpublished', 'published'],
+          enum: %w[unpublished published]
         },
         description: 'Get comments with status: published/unpublished.'
       )
@@ -191,7 +191,7 @@ RSpec.describe 'api/v1/articles', type: :request do
         in: :query,
         schema: {
           type: :string,
-          enum: ['unpublished', 'published'],
+          enum: %w[unpublished published]
         },
         description: 'Get comments with status: published/unpublished.'
       )
