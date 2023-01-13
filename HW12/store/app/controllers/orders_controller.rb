@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: %i[show switch_status]
+  before_action :set_order, only: %i[show update]
 
   def index
     @orders = current_user.orders
@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
-  def switch_status
+  def update
     @order.paid!
 
     redirect_back fallback_location: root_path

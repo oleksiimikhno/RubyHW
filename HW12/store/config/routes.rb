@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :products, only: %i[index show create update destroy]
   resources :categories, only: %i[show]
-  resources :orders, only: %i[create new index show]
+  resources :orders, only: %i[index show create new update]
   resources :line_items, only: %i[create update destroy]
 
   patch 'orders/:id/switch', to: 'orders#switch_status', as: 'switch'
