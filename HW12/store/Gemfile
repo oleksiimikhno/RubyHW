@@ -72,6 +72,8 @@ gem "importmap-rails", "~> 1.1"
 # Powerful, extensible, and feature-packed frontend toolkit
 gem "bootstrap", "~> 5.2"
 
+gem "bootstrap_form"
+
 gem "popper", "~> 0.5.3"
 
 group :development, :test do
