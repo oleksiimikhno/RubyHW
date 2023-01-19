@@ -1,0 +1,9 @@
+<h1 class="text-center">Cart</h1>
+<div>
+  <%= render partial: "cart_items" %>
+  <% if cart_total_quantity.zero? %>
+    Cart is empty
+  <% else %>
+    <%= link_to 'Checkout', new_order_path, class: 'btn btn-primary' %>
+  <% end %>
+</div>

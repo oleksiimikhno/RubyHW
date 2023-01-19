@@ -1,0 +1,36 @@
+<button class="navbar-toggler cart-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart">
+  <svg class="bi bi-cart3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+  </svg>
+  <span class="total"><%= cart_total_quantity %></span>
+</button>
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartLabel">Cart</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled table tab le-dark tab le-striped cart-list">
+      <% current_cart.line_items.map do | item | %>
+        <li>
+          <%= item.product.name %>
+          <div class="d-flex justify-content-between">
+            <img src="<%= item.product.image %>" width="50" alt="<%= item.product.name %>">
+            <div>x <%= item.quantity %></div>
+            <div><%= number_to_currency(item.total_price) %></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <div>
+      <% if cart_total_quantity.zero? %>
+        Cart is empty
+      <% else %>
+        <div class="text-end">
+          <strong>Cart total price:</strong> <%= number_to_currency(current_cart.total_price) %>
+        </div>
+        <%= link_to 'Cart page', current_cart, class: "btn btn-secondary mt-3" %>
+      <% end %>
+    </div>
+  </div>
+</div>
