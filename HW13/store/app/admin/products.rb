@@ -8,6 +8,16 @@ ActiveAdmin.register Product do
   permit_params :name, :description, :image, :price, :category_id
 
   includes :category
+
+  form do |f|
+    f.inputs do
+      f.input :name
+      f.input :description
+      f.input :price
+      f.input :image, as: :file
+    end
+    f.actions
+  end
   #
   # or
   #
