@@ -15,7 +15,9 @@
         <li>
           <%= item.product.name %>
           <div class="d-flex justify-content-between">
-            <%= image_tag (item.product.image), width: '50' alt: item.product.name %>
+            <% if item.product.image.attached? %>
+              <%= image_tag (item.product.image), width: '50', alt: item.product.name %>
+            <% end %>
             <div>x <%= item.quantity %></div>
             <div><%= number_to_currency(item.total_price) %></div>
           </div>
