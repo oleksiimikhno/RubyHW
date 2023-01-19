@@ -4,8 +4,7 @@
 <div class="row">
   <h1 class="text-center"><%= @product.name %></h1>
   <div class="col-sm-6">
-  <%= image_tag (@product.image)%>
-    <img src=<%= @product.image %> class="card-img-top" alt=<%= @product.name %>>
+  <%= image_tag (@product.image), alt: @product.name %>
   </div>
   <div class="col-sm-6">
       <p class="card-text"><%= @product.description %></p>
