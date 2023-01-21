@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[show update destroy]
 
   def index
-    @products = Product.all
+    @products = Product.all.with_attached_image
   end
 
   def show; end
