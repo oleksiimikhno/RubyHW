@@ -24,7 +24,6 @@ end
   Product.create(
     name: Faker::Commerce.product_name,
     description: Faker::Lorem.paragraph(sentence_count: 2),
-    image: "https://loremflickr.com/#{rand(150..200)}//#{rand(150..200)}/all",
     price: Faker::Commerce.price(range: 0..10.0, as_string: true),
     category_id: rand(Category.first.id..Category.last.id)
   )
