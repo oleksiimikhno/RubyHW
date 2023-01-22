@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  def order(order)
+  def order(user, order)
     @order = order
     @line_items = order.cart.line_items.includes(:product)
 
