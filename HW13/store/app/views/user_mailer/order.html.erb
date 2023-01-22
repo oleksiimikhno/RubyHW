@@ -1,1 +1,9 @@
-Welcome to the Store <%= @user.email %>
+<h1>Order #<%= @order.id %> <span class="badge text-bg-success"><%= @order.status %></span></h1>
+<p>Name: <%= @order.name %></p>
+<p>Enail: <%= @order.email %></p>
+<p>Address delivery: <%= @order.address %></p>
+<p>Payment: <%= @order.payment %></p>123
+<%= render partial: "products/line_items", locals: { line_items: @line_items } %>
+<div class="text-end">
+  <strong>Order total price: </strong>  <%= number_to_currency(@order.cart.total_price) %>
+</div>

@@ -1,8 +1,9 @@
 class UserMailer < ApplicationMailer
-  def order(user, order)
-    @user = user
+  def order(order)
+    @order = order
+    @line_items = order.cart.line_items.includes(:product)
 
-    mail(to: @user.email, subject: "StoreName: Order #{order.id}")
+    mail(to: user.email, subject: "StoreName: Order #{@order.id}")
   end
 
   def welcome_message(user)
