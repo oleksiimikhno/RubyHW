@@ -24,7 +24,11 @@ class Product < ApplicationRecord
 
   belongs_to :category
   has_many :line_items, dependent: :nullify
-  has_one_attached :image
+  has_one_attached :image do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+    attachable.variant :medium, resize_to_limit: [320, 320]
+    attachable.variant :main, resize_to_limit: [620, 620]
+  end
 
   validates :name, :description, :price, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
