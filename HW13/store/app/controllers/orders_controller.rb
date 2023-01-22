@@ -27,6 +27,7 @@ class OrdersController < ApplicationController
 
   def update
     @order.paid!
+    UserMailer.order(current_user, @order).deliver_later
 
     redirect_back fallback_location: root_path
   end
