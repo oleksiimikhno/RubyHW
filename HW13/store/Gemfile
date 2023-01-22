@@ -89,6 +89,9 @@ group :development, :test do
   # The Bullet gem is designed to help you increase your application's performance by reducing the number of queries it makes.
   gem "bullet"
 
+  # Preview email in the default browser instead of sending it. 
+  gem "letter_opener", group: :development
+
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter. 
   gem "rubocop", require: false
 end
