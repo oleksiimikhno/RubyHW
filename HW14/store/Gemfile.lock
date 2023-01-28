@@ -109,6 +109,7 @@ GEM
     case_transform (0.2)
       activesupport
     concurrent-ruby (1.1.10)
+    connection_pool (2.3.0)
     crass (1.0.6)
     cssbundling-rails (1.1.2)
       railties (>= 6.0.0)
@@ -274,6 +275,8 @@ GEM
       activesupport (>= 6.1.5)
       i18n
     redis (4.8.0)
+    redis-client (0.12.1)
+      connection_pool
     regexp_parser (2.6.1)
     reline (0.3.2)
       io-console (~> 0.5)
@@ -308,6 +311,11 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
+    sidekiq (7.0.3)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     slack-notifier (2.4.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -373,6 +381,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rubocop
   sassc-rails
+  sidekiq
   sprockets-rails
   stimulus-rails
   turbo-rails
