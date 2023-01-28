@@ -8,13 +8,6 @@ ActiveAdmin.register Product do
   permit_params :name, :description, :image, :price, :category_id
 
   includes :category
-  # includes image_attachment: :blob
-
-  controller do
-    def scoped_collection
-      Product.includes(:blob)
-    end
-  end
 
   form do |f|
     f.inputs do
