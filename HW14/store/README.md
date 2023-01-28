@@ -10,6 +10,8 @@
   - Link `loadlhost:3000/admin`
   - Default admin login/password `admin@example.com password`
 
+## Active storage 
+ - `brew install imagemagick` for active storage in macos
 ### Sidekiq configuration
   - `brew install redis` install if not have redis
   - `brew services start redis` add to services 
