@@ -1,0 +1,9 @@
+ 
+:scheduler:
+  :schedule:
+      set_random_winner:
+        cron: "* * * * *" # Runs once per month
+        class: "SetRandomWinnerScheduler"
+        queue: "default"
+        description: "Run service chosee two user winner once per month"
+      
