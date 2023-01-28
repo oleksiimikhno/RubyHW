@@ -21,11 +21,16 @@ AdminUser.destroy_all
 end
 
 12.times do
-  Product.create(
+  product = Product.create(
     name: Faker::Commerce.product_name,
     description: Faker::Lorem.paragraph(sentence_count: 2),
     price: Faker::Commerce.price(range: 0..10.0, as_string: true),
     category_id: rand(Category.first.id..Category.last.id)
+  )
+
+  product.image.attach(
+    io: File.open(Rails.root.join('app/assets/images/default_product.jpg')),
+    filename: 'default_product.jpg'
   )
 end
 
