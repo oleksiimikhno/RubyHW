@@ -15,5 +15,5 @@
 ### Sidekiq configuration
   - `brew install redis` install if not have redis
   - `brew services start redis` add to services 
-  - `bundle exec sidekiq` start sidekiq
+  - `bundle exec sidekiq -C config/sidekiq.yml` start sidekiq  yml with config
   - `http://localhost:3000/admin/sidekiq/` open local web dashboard
