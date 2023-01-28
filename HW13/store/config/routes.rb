@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   resources :orders, only: %i[index show create new update]
   resources :line_items, only: %i[create update destroy]
 
-  patch 'orders/:id/switch', to: 'orders#switch_status', as: 'switch'
   get '/carts/:id', to: 'carts#show', as: 'cart'
 
   root 'products#index'
