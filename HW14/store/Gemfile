@@ -76,6 +76,12 @@ gem "bootstrap_form"
 
 gem "popper", "~> 0.5.3"
 
+# Sidekiq uses threads to handle many jobs at the same time in the same process.
+gem "sidekiq"
+
+# sidekiq-scheduler is an extension to Sidekiq that pushes jobs in a scheduled way, mimicking cron utility.
+gem "sidekiq-scheduler" 
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -88,9 +94,6 @@ group :development, :test do
 
   # The Bullet gem is designed to help you increase your application's performance by reducing the number of queries it makes.
   gem "bullet"
-
-  # Sidekiq uses threads to handle many jobs at the same time in the same process.
-  gem "sidekiq"
 
   # Preview email in the default browser instead of sending it. 
   gem "letter_opener", group: :development
