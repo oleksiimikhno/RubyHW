@@ -1,4 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -12,7 +16,6 @@ Rails.application.routes.draw do
   resources :orders, only: %i[index show create new update]
   resources :line_items, only: %i[create update destroy]
 
-  patch 'orders/:id/switch', to: 'orders#switch_status', as: 'switch'
   get '/carts/:id', to: 'carts#show', as: 'cart'
 
   root 'products#index'
