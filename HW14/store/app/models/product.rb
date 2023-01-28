@@ -4,7 +4,6 @@
 #
 #  id          :bigint           not null, primary key
 #  description :text
-#  image       :string
 #  name        :string
 #  price       :decimal(8, 2)
 #  created_at  :datetime         not null
@@ -38,8 +37,8 @@ class Product < ApplicationRecord
   def add_default_image
     unless image.attached?
       image.attach(
-        io: File.open(Rails.root.join('app', 'assets', 'images', 'default_product.jpg')),
-        filename: '/default_product.jpg',
+        io: File.open(File.join(Rails.root,'app/assets/images/default_product.jpg')),
+        filename: 'default_product.jpg',
         content_type: 'image/jpg'
       )
     end
