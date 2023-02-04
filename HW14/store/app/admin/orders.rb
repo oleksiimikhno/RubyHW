@@ -14,5 +14,7 @@ ActiveAdmin.register Order do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
+  includes :user
+  includes :cart
 end
