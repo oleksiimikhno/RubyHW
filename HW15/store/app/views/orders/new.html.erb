@@ -1,20 +1,22 @@
-<h1>New Order</h1>
-<div class="form">
-<%= bootstrap_form_for(@order) do |f| %>
-  <p>
-    <%= f.text_field :name, required: true, autofocus: true %>
-  </p>
-  <p>
-    <%= f.email_field :email %>
-  </p>
-  <p>
-    <%= f.text_area :address %>
-  </p>
-  <p>
-    <%= f.text_area :payment %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
+<%= turbo_frame_tag 'Checkout' do %>
+  <h1>New Order</h1>
+  <div class="form">
+  <%= bootstrap_form_for(@order) do |f| %>
+    <p>
+      <%= f.text_field :name, required: true, autofocus: true %>
+    </p>
+    <p>
+      <%= f.email_field :email %>
+    </p>
+    <p>
+      <%= f.text_area :address %>
+    </p>
+    <p>
+      <%= f.text_area :payment %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+  <% end %>
+  </div>
 <% end %>
-</div>
