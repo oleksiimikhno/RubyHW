@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
     if @order.nil?
       render template: 'layouts/404'
     else
-      @line_items = @order.cart.line_items.includes(:product)
+      @line_items = @order.cart.line_items.includes(product: { image_attachment: :blob })
     end
   end
 
