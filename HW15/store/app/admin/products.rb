@@ -5,7 +5,7 @@ ActiveAdmin.register Product do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :description, :image, :price, :category_id
+  permit_params :name, :description, :price, :image, :category_id
 
   includes :category
 
@@ -15,6 +15,7 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :price
       f.input :image, as: :file
+      f.input :category_id
     end
     f.actions
   end
