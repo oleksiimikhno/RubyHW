@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   private
 
   def handle_cookies
-    cookies[:cart_id] = Cart.create.id unless cookies[:cart_id].present?
+    cookies[:cart_id] = Cart.exists?(id: cookies[:cart_id]) ? cookies[:cart_id] : Cart.create.id
   end
 
   def current_cart
