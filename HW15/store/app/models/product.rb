@@ -20,10 +20,12 @@
 #
 class Product < ApplicationRecord
   after_commit :add_default_image, on: %i[create update]
-  after_create_commit -> { broadcast_prepend_to 'products' }
+  after_commit -> { broadcast_prepend_to 'products' }
+  # after_commit -> { puts "Callback 2" }
+  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: self.line_items.includes(:product).sum(&:quantity) }, target: 'cart-total' }
 
   belongs_to :category
-  has_many :line_items, dependent: :nullify
+  has_many :line_items, dependent: :destroy
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
     attachable.variant :medium, resize_to_limit: [320, 320]

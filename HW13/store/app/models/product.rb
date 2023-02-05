@@ -23,7 +23,7 @@ class Product < ApplicationRecord
   after_commit :add_default_image, on: %i[create update]
 
   belongs_to :category
-  has_many :line_items, dependent: :nullify
+  has_many :line_items, dependent: :destroy
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
     attachable.variant :medium, resize_to_limit: [320, 320]
