@@ -22,7 +22,7 @@ class Product < ApplicationRecord
   after_commit :add_default_image, on: %i[create update]
   after_create_commit -> { broadcast_prepend_to 'products' }
   after_destroy_commit -> { broadcast_remove_to 'products' }
-  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: self.line_items.includes(:product).sum(&:quantity) }, target: 'cart-total' }
+  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: line_items_quantity }, target: 'cart-total' }
 
   belongs_to :category
   has_many :line_items, dependent: :destroy
@@ -44,5 +44,9 @@ class Product < ApplicationRecord
         filename: 'default_product.jpg'
       )
     end
+  end
+
+  def line_items_quantity
+    self.line_items.includes(:product).sum(&:quantity)
   end
 end

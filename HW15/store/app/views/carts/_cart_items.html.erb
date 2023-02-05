@@ -1,39 +1,43 @@
+<%= turbo_stream_from 'cart-total-price' %>
+
 <% @line_items.each do | item | %>
-<%= turbo_frame_tag dom_id(item) do %>
-  <div class="cart-product-list">
-    <div> 
-      <h4 class="text-center"><%= item.product.name %></h4>
-      <div class="d-flex">
-        <%= image_tag (item.product.image.variant(:medium)), width: '100', alt: item.product.name %>
+  <%= turbo_frame_tag dom_id(item) do %>
+    <div class="cart-product-list">
+      <div> 
+        <h4 class="text-center"><%= item.product.name %></h4>
         <div class="d-flex">
-          <%= button_to line_item_path(item), params: { action_item: 'decrease' }, method: :patch, class: 'btn btn-primary' do %>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
-              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-            </svg>
-          <% end %>
-          <p class="quantity"><%= item.quantity %></p>
-          <%= button_to line_item_path(item), params: { action_item: 'increase' }, method: :patch, class: 'btn btn-primary' do %>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          <%= image_tag (item.product.image.variant(:medium)), width: '100', alt: item.product.name %>
+          <div class="d-flex">
+            <%= button_to line_item_path(item), params: { action_item: 'decrease' }, method: :patch, class: 'btn btn-primary' do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+              </svg>
+            <% end %>
+            <p class="quantity"><%= item.quantity %></p>
+            <%= button_to line_item_path(item), params: { action_item: 'increase' }, method: :patch, class: 'btn btn-primary' do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+            <% end %>
+          </div>
+          <div>
+            <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
+            <p>Total: <%= number_to_currency(item.total_price) %></p>
+          </div>
+          <%= button_to line_item_path(item), method: :delete, class: 'btn btn-danger' do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
             </svg>
           <% end %>
         </div>
-        <div>
-          <p>Price: x1 <%= number_to_currency(item.product.price) %></p>
-          <p>Total: <%= number_to_currency(item.total_price) %></p>
-        </div>
-        <%= button_to line_item_path(item), method: :delete, class: 'btn btn-danger' do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-          </svg>
-        <% end %>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 <% end %>
 <% unless cart_total_quantity.zero? %>
   <div class="text-end">
-    <strong>Cart total price: </strong>  <%= number_to_currency(current_cart.total_price) %>
+    <strong>Cart total price: 
+      <%= render partial: 'carts/total_price', locals: { total_price: current_cart.total_price } %>
+    </strong>  
   </div>
 <% end %>

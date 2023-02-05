@@ -11,7 +11,8 @@
 #  product_id :integer
 #
 class LineItem < ApplicationRecord
-  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: self.cart.line_items.includes(:product).sum(&:quantity) }, target: 'cart-total' }
+  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: total_line_item_quantity }, target: 'cart-total' }
+  after_commit -> { broadcast_replace_to 'cart-total-price', partial: 'carts/total_price', locals: { total_price: cart_total_price }, target: 'cart-total-price' }
   belongs_to :cart
   belongs_to :product
 
@@ -19,5 +20,13 @@ class LineItem < ApplicationRecord
 
   def total_price
     quantity * product.price
+  end
+
+  def total_line_item_quantity
+    self.cart.line_items.includes(:product).sum(&:quantity)
+  end
+
+  def cart_total_price
+    self.cart.line_items.map(&:total_price).sum
   end
 end
