@@ -36,3 +36,12 @@ main {
 .form{
   max-width: 320px;
 }
+
+.qty-btns {
+  align-items: center;
+  .quantity {
+    padding: 0 1rem;
+    margin-bottom: 0;
+    align-self: center;
+  }
+}

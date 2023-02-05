@@ -18,6 +18,10 @@ class ProductsController < ApplicationController
 
     quantity = params[:action_item] == 'increase' ? @line_item.quantity + 1 : @line_item.quantity - 1
     @line_item.update(quantity: quantity)
+
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(@product) }
+    end
   end
 
   def destroy

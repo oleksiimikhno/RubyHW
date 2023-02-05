@@ -35,6 +35,10 @@ class Product < ApplicationRecord
   validates :name, :description, :price, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
+  def line_item_quantity
+    (line_items.exists?) ? self.line_items.last.quantity : 1 ;
+  end
+
   private
 
   def add_default_image
