@@ -2,5 +2,7 @@
   <%= render partial: 'layouts/template/breadcrumb', locals: { breadcrumb: @category } %>
 </div>
 <div class="row products">
-  <%= render partial: 'products/products' %>
+  <% @products.each do |product| %>
+      <%= render partial: 'products/product', locals: { product: product } %>
+  <% end %>
 </div>
