@@ -1,7 +1,10 @@
+<%= turbo_stream_from 'products' %>
+
 <div class="row">
   <h2 class="text-center">Latest products</h2>
 </div>
-<%= turbo_stream_from 'products' %>
-<div class="row products">
-  <%= render partial: 'products/products' %>
+<div id="products" class="row products">
+  <% @products.each do |product| %>
+      <%= render partial: 'products/product', locals: { product: product } %>
+  <% end %>
 </div>
