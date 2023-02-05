@@ -4,8 +4,8 @@
   <% if cart_total_quantity.zero? %>
     Cart is empty
   <% else %>
-<%= turbo_frame_tag 'Checkout' do %>
-    <%= link_to 'Checkout', new_order_path, class: 'btn btn-primary' %>
-<% end %>
+  <%= turbo_frame_tag 'order-form' do %>
+      <%= link_to 'Checkout', new_order_path, class: 'btn btn-primary' %>
+  <% end %>
   <% end %>
 </div>

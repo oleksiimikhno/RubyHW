@@ -20,6 +20,7 @@
 #
 class Product < ApplicationRecord
   after_commit :add_default_image, on: %i[create update]
+  after_create_commit -> { broadcast_prepend_to 'products' }
 
   belongs_to :category
   has_many :line_items, dependent: :nullify
