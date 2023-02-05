@@ -14,7 +14,7 @@
   </div>
   <div class="offcanvas-body">
     <ul class="list-unstyled table tab le-dark tab le-striped cart-list">
-      <% current_cart.line_items.map do | item | %>
+      <% current_cart.line_items.includes(product: { image_attachment: :blob }).map do | item | %>
         <li>
           <%= item.product.name %>
           <div class="d-flex justify-content-between">
