@@ -20,8 +20,8 @@
 #
 class Product < ApplicationRecord
   after_commit :add_default_image, on: %i[create update]
-  after_commit -> { broadcast_prepend_to 'products' }
-  # after_commit -> { puts "Callback 2" }
+  after_create_commit -> { broadcast_prepend_to 'products' }
+  after_destroy_commit -> { broadcast_remove_to 'products' }
   after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: self.line_items.includes(:product).sum(&:quantity) }, target: 'cart-total' }
 
   belongs_to :category

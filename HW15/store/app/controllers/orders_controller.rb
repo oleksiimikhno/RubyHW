@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
     @order.paid!
     UserMailer.order(current_user, @order).deliver_later
 
-    redirect_back fallback_location: root_path
+    redirect_back fallback_location: orders_path
   end
 
   private

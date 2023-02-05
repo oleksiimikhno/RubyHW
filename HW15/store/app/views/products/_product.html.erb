@@ -1,10 +1,12 @@
-<%= link_to product, class: "p-0 m t-3 col-12 col-sm-6 col-md-4 col-lg-3" do %>
+<%= turbo_frame_tag dom_id(product), class: 'p-0 m t-3 col-12 col-sm-6 col-md-4 col-lg-3' do %>
   <div class="card shadow-sm">
    <% if product.image.attached? %>
     <%= image_tag product.image.variant(:medium), class: 'card-img-top', width: '260', height: '260', alt: product.name %>
    <% end %>
     <div class="card-body px">
-      <h5 class="card-title text-center"><%= product.name %></h5>
+      <%= link_to product do %>
+        <h5 class="card-title text-center"><%= product.name %></h5>
+      <% end %>
       <p class="card-text"><%= product.description %></p>
       <div class="d-flex card-footer">
         <%= button_to "Add to cart", line_items_path(product_id: product.id), class: "btn btn-primary add-to-cart" %>
