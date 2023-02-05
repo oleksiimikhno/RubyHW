@@ -1,4 +1,5 @@
 <% @line_items.each do | item | %>
+<%= turbo_frame_tag dom_id(item) do %>
   <div class="cart-product-list">
     <div> 
       <h4 class="text-center"><%= item.product.name %></h4>
@@ -29,6 +30,7 @@
       </div>
     </div>
   </div>
+<% end %>
 <% end %>
 <% unless cart_total_quantity.zero? %>
   <div class="text-end">

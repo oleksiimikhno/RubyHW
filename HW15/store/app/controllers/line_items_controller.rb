@@ -24,7 +24,9 @@ class LineItemsController < ApplicationController
   def destroy
     @line_item.destroy
 
-    redirect_back fallback_location: root_path
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@line_item) }
+    end
   end
 
   private
