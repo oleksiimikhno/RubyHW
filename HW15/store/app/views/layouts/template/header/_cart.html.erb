@@ -1,4 +1,5 @@
 <%= turbo_stream_from 'cart-total' %>
+<%= turbo_stream_from 'cart-total-price' %>
 
 <button class="navbar-toggler cart-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart">
   <svg class="bi bi-cart3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
@@ -29,7 +30,8 @@
         Cart is empty
       <% else %>
         <div class="text-end">
-          <strong>Cart total price:</strong> <%= number_to_currency(current_cart.total_price) %>
+          <strong>Cart total price:</strong>
+          <%= render partial: 'carts/total_price', locals: { total_price: current_cart.total_price } %>
         </div>
         <%= link_to 'Cart page', current_cart, class: "btn btn-secondary mt-3" %>
       <% end %>
