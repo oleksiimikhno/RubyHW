@@ -11,6 +11,7 @@
 #  product_id :integer
 #
 class LineItem < ApplicationRecord
+  after_commit -> { broadcast_replace_to 'cart-total', partial: 'carts/total', locals: { total: self.cart.line_items.includes(:product).sum(&:quantity) }, target: 'cart-total' }
   belongs_to :cart
   belongs_to :product
 

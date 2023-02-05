@@ -10,6 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
+  <%= turbo_stream_from 'cart-total' %>
     <div class="row">
       <%= render partial: "layouts/template/header/navbar" %>
     </div>
