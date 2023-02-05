@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :handle_cookies
-  helper_method :current_cart, :cart_total_quantity, :categories
+  helper_method :current_cart, :cart_total_quantity, :categories, :current_product_quantity
 
   private
 
@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   def current_cart
     Cart.find(cookies[:cart_id])
+  end
+
+  def current_product_quantity(product_id)
+    current_cart.line_items.find_by(product_id: product_id)
   end
 
   def cart_total_quantity

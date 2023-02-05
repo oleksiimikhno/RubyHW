@@ -15,6 +15,10 @@ main {
   background-color: rgb(122, 122, 122);
 }
 
+.card-footer {
+  padding: 10px 0;
+}
+
 .cart-product-list > div {
   padding: 1rem;
   margin-bottom: 1rem;
@@ -44,4 +48,13 @@ main {
     margin-bottom: 0;
     align-self: center;
   }
+}
+.cart-button {
+  height: 42px;
+  width: 70px;
+}
+#cart-total {
+  display: inline-block;
+  width: 15px;
+  text-align: center;
 }
