@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_product_quantity(product_id)
-    current_cart.line_items.find_by(product_id: product_id)
+    current_cart.line_items.find_by(product_id: product_id) if cookies[:cart_id].present?
   end
 
   def cart_total_quantity
