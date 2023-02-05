@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show update destroy]
+  before_action :set_line_item, only: %i[update]
 
   def index
     @products = Product.all.with_attached_image
@@ -12,7 +13,12 @@ class ProductsController < ApplicationController
     @product.save
   end
 
-  def update; end
+  def update
+    @line_item = current_cart.line_items.create(product: @product) unless @line_item.present?
+
+    quantity = params[:action_item] == 'increase' ? @line_item.quantity + 1 : @line_item.quantity - 1
+    @line_item.update(quantity: quantity)
+  end
 
   def destroy
     @product.destroy
@@ -27,6 +33,10 @@ class ProductsController < ApplicationController
       flash.now[:alert] = 'Your product was not found'
       render 'index'
     end
+  end
+
+  def set_line_item
+    @line_item = current_cart.line_items.find_by(product: @product)
   end
 
   def product_params
