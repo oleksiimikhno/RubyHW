@@ -27,15 +27,15 @@
     </ul>
     <div>
     <%# TODO rework adter add in cart %>
-      <%# <% if cart_total_quantity.zero? %> %>
+      <%# <% if cart_total_quantity.zero? %>
         <%# Cart is empty %>
-      <%# <% else %> %>
+      <%# <% else %>
         <%# <div class="text-end"> %>
           <%# <strong>Cart total price:</strong> %>
-          <%# <%= render partial: 'carts/total_price', locals: { total_price: current_cart.total_price } %> %>
+          <%# <%= render partial: 'carts/total_price', locals: { total_price: current_cart.total_price } %>
         <%# </div> %>
         <%= link_to 'Cart page', current_cart, class: "btn btn-secondary mt-3" %>
-      <%# <% end %> %>
+      <%# <% end %>
     </div>
   </div>
 </div>
