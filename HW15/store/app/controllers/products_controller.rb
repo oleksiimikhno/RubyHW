@@ -27,6 +27,11 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
+
+    respond_to do |format|
+      format.html { redirect_back fallback_location: products_path }
+      format.turbo_stream { render turbo_stream: turbo_stream.destroy(@product) }
+    end
   end
 
   private
